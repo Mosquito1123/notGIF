@@ -330,9 +330,9 @@
 		C9F861991DBD0C2E006B1221 /* Toast */ = {
 			isa = PBXGroup;
 			children = (
-				C9F861861DBD0BD6006B1221 /* StatusBarLoadingLayer.swift */,
-				C9F861871DBD0BD6006B1221 /* StatusBarToast.swift */,
 				C9F861801DBD0BD6006B1221 /* FPSLabel.swift */,
+				C9F861871DBD0BD6006B1221 /* StatusBarToast.swift */,
+				C9F861861DBD0BD6006B1221 /* StatusBarLoadingLayer.swift */,
 			);
 			name = Toast;
 			sourceTree = "<group>";
@@ -414,12 +414,12 @@
 					C947E08B1DAA279900625B72 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = HBGHZ85ABK;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					C9F860851DBD027E006B1221 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = HBGHZ85ABK;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -648,6 +648,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = NO;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -697,6 +698,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -729,6 +731,7 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_SUSPICIOUS_MOVES = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: JinWei Shi (YN7EQ5FB5F)";
 				DEVELOPMENT_TEAM = HBGHZ85ABK;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -741,6 +744,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = atuo.notGIF;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "fae30d2c-3ea4-4bd7-bebe-b2ea907943e8";
+				PROVISIONING_PROFILE_SPECIFIER = notGIF_develop;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -752,6 +757,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: JinWei Shi (HBGHZ85ABK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JinWei Shi (HBGHZ85ABK)";
 				DEVELOPMENT_TEAM = HBGHZ85ABK;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -763,6 +770,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = atuo.notGIF;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "fe170567-c499-4cea-b9e7-63f258fdc73f";
+				PROVISIONING_PROFILE_SPECIFIER = notGIFNewDistribution;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -774,6 +783,8 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: JinWei Shi (YN7EQ5FB5F)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: JinWei Shi (YN7EQ5FB5F)";
 				DEVELOPMENT_TEAM = HBGHZ85ABK;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -784,8 +795,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = atuo.notGIF.notGIFMessage;
+				PRODUCT_BUNDLE_IDENTIFIER = atuo.notGIF.notGIFiMessage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8dbd7c50-49f5-4ad9-b214-bff78e6155f8";
+				PROVISIONING_PROFILE_SPECIFIER = notGIF_iMessage_develop;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
@@ -797,6 +810,8 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: JinWei Shi (HBGHZ85ABK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JinWei Shi (HBGHZ85ABK)";
 				DEVELOPMENT_TEAM = HBGHZ85ABK;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -806,8 +821,10 @@
 				INFOPLIST_FILE = notGIFMessage/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = atuo.notGIF.notGIFMessage;
+				PRODUCT_BUNDLE_IDENTIFIER = atuo.notGIF.notGIFiMessage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "318bbe77-e913-4068-b4ab-3e58f5627375";
+				PROVISIONING_PROFILE_SPECIFIER = notGIFiMessageProfile;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
