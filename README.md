@@ -1,6 +1,6 @@
 ## notGIF
 
-<a href="https://itunes.apple.com/cn/app/id1069688631" target="_blank"><img src="/images/appstore_badge.png" alt="IMAGE ALT TEXT HERE" width="155"/></a>    📢 _The latest version is under review_ 📢
+<a href="https://itunes.apple.com/cn/app/id1069688631" target="_blank"><img src="/images/appstore_badge.png" alt="IMAGE ALT TEXT HERE" width="155"/></a>
 
 <p align="center">
 <img src="/images/screenshots.jpg" alt="notGIF" title="sreenshots"/>
