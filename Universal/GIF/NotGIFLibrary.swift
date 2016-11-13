@@ -46,16 +46,21 @@ class NotGIFLibrary: NSObject {
     
     fileprivate var hasFetched = false
     fileprivate var gifPool = [String: NotGIFImage]()
-    fileprivate var fetchResult: PHFetchResult<PHAsset>!
+    
+    fileprivate lazy var fetchResult: PHFetchResult<PHAsset> = {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        return PHAsset.fetchAssets(with: .image, options: fetchOptions)
+    }()
     
     func prepare() {
 
         if !hasFetched {
             
             if authorizationStatus == .authorized {
-                let fetchOptions = PHFetchOptions()
-                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-                fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+//                let fetchOptions = PHFetchOptions()
+//                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+//                fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
                 
                 fetchResult.enumerateObjects({ [weak self] asset, index, shouldStop in
                     guard let sSelf = self else { return }
@@ -121,10 +126,8 @@ extension NotGIFLibrary: PHPhotoLibraryChangeObserver {
     
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         
-        guard fetchResult != nil else { return }
-
         guard let changes = changeInstance.changeDetails(for: fetchResult)
-            else { return }
+            else { observer?.gifLibraryDidChange(); return }
         
         if changes.hasIncrementalChanges {
             

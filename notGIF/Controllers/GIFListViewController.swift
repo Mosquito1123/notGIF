@@ -55,6 +55,7 @@ class GIFListViewController: UIViewController {
         navigationItem.rightBarButtonItem?.tintColor = .gray
         
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: GIFListLayout(delegate: self))
+        collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .bgColor
         collectionView.register(GIFListViewCell.self, forCellWithReuseIdentifier: cellID)
         collectionView.translatesAutoresizingMaskIntoConstraints = false

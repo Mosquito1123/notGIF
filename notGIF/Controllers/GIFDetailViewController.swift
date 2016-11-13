@@ -37,7 +37,6 @@ class GIFDetailViewController: UIViewController {
         return bar
     }()
     
-    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
