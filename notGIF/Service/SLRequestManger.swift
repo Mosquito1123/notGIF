@@ -30,7 +30,7 @@ final class SLRequestManager {
         
             if let gifData = data {
                 
-                switch account.accountType.identifier {
+                switch account.accountType.identifier! {
                     
                 case ACAccountTypeIdentifierTwitter: // 👉 https://dev.twitter.com/rest/reference/post/media/upload
                     // 先上传 media 获取 media_id

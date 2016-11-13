@@ -186,7 +186,7 @@ final class StatusBarToast {
 }
 
 private class ToastWindow: UIWindow {
-    private override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    fileprivate override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if UIApplication.shared.statusBarFrame.contains(point) {
             return super.hitTest(point, with: event)
         } else {
