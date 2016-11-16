@@ -31,8 +31,8 @@ class GIFDetailViewController: UIViewController {
     
     fileprivate lazy var shareBar: GIFShareBar = {
         let bar = GIFShareBar()
-        bar.shareHandler = { [weak self] shareType in
-            self?.shareGIF(to: shareType)
+        bar.shareHandler = { [unowned self] shareType in
+            self.shareGIF(to: shareType)
         }
         return bar
     }()

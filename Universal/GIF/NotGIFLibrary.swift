@@ -58,14 +58,10 @@ class NotGIFLibrary: NSObject {
         if !hasFetched {
             
             if authorizationStatus == .authorized {
-//                let fetchOptions = PHFetchOptions()
-//                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-//                fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-                
-                fetchResult.enumerateObjects({ [weak self] asset, index, shouldStop in
-                    guard let sSelf = self else { return }
+
+                fetchResult.enumerateObjects({ asset, index, shouldStop in
                     if asset.isGIF {
-                        sSelf.gifAssets.append(asset)
+                        self.gifAssets.append(asset)
                     }
                 })
             }

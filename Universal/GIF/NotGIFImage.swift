@@ -42,7 +42,7 @@ class NotGIFImage: UIImage {
                 let idx = i % frames.count
                 
                 if frames[idx] == nil {
-                    getFrameQueue.async {
+                    getFrameQueue.async { [unowned self] in
                         self.frames[idx] = CGImageSourceCreateImageAtIndex(self.imgSource, idx, nil)
                     }
                 }

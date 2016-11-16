@@ -37,7 +37,7 @@ public enum ToastInfoType {
 }
 
 private let statusHeight = UIApplication.shared.statusBarFrame.height
-private let delayTime = 5.0
+private let delayTime = 3.3
 
 final class StatusBarToast {
     static let shared = StatusBarToast()
@@ -47,10 +47,10 @@ final class StatusBarToast {
     fileprivate var messageView: UIView!
     fileprivate var statusView: UIView!
     fileprivate var loadingLayer: StatusBarLoadingLayer!
-    fileprivate var dismissWortItem: DispatchWorkItem?
-    
     fileprivate var showing = false
     fileprivate var dismissing = false
+    
+    fileprivate var dismissWortItem: DispatchWorkItem?
     
     func show(info: ToastInfoType) {
         switch info {
@@ -71,12 +71,8 @@ final class StatusBarToast {
             if !showing {
                 showing = true
                 makeToastUI(with: info)
+                setDismissWorkItem()
                 toastWindow.isHidden = false
-                
-                dismissWortItem = DispatchWorkItem(block: { [weak self] in
-                    self!.dismissing = true
-                    self?.dismissToast()
-                })
                 
                 UIView.animate(withDuration: 0.3, animations: {
                     self.statusView.frame = CGRect(x: 0, y: statusHeight, width: kScreenWidth, height: 0)
@@ -90,11 +86,7 @@ final class StatusBarToast {
             
         case .end:
             if showing && !dismissing {
-                dismissWortItem = DispatchWorkItem(block: { [weak self] in
-                    self!.dismissing = true
-                    self?.dismissToast()
-                })
-                
+                setDismissWorkItem()
                 loadingLayer.removeFromSuperlayer()
                 
                 DispatchQueue.main.async {
@@ -128,6 +120,7 @@ final class StatusBarToast {
             self.messageLabel.removeFromSuperview()
             self.statusView.removeFromSuperview()
             self.messageView.removeFromSuperview()
+            self.dismissWortItem = nil
             self.messageLabel = nil
             self.messageView = nil
             self.statusView = nil
@@ -136,6 +129,14 @@ final class StatusBarToast {
             self.showing = false
             self.dismissing = false
         }
+    }
+    
+    private func setDismissWorkItem() {
+        dismissWortItem = DispatchWorkItem(block: { [weak self] in
+            guard let sSelf = self else { return }
+            sSelf.dismissing = true
+            sSelf.dismissToast()
+        })
     }
     
     private func makeToastUI(with info: ToastInfoType) {

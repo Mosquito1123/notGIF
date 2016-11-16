@@ -49,9 +49,9 @@ class ComposeViewController: SLComposeServiceViewController {
         let item = SLComposeSheetConfigurationItem()!
         item.title = "Account"
         item.value = selectedAccount?.accountDescription
-        item.tapHandler = { [weak self] in
-            let accountTableVC = AccountTableViewController(in: self!)
-            self?.pushConfigurationViewController(accountTableVC)
+        item.tapHandler = { [unowned self] in
+            let accountTableVC = AccountTableViewController(in: self)
+            self.pushConfigurationViewController(accountTableVC)
         }
         return [item]
     }
@@ -95,32 +95,30 @@ class ComposeViewController: SLComposeServiceViewController {
         
         title = accountType.accountTypeDescription
         
-        accountStore.requestAccessToAccounts(with: accountType, options: nil) {[weak self] granted, error in
-            guard let sSelf = self else { return }
-            
+        accountStore.requestAccessToAccounts(with: accountType, options: nil) {granted, error in
             if granted {
                 
-                sSelf.accounts = accountStore.accounts(with: accountType) as! [ACAccount]
+                self.accounts = accountStore.accounts(with: accountType) as! [ACAccount]
                 
-                if sSelf.accounts.isEmpty {
+                if self.accounts.isEmpty {
                     
-                    ATAlert.alert(type: .noAccount(sSelf.title!), in: sSelf, withDismissAction: {
-                        sSelf.dismiss(animated: true, completion: nil)
+                    ATAlert.alert(type: .noAccount(self.title!), in: self, withDismissAction: {
+                        self.dismiss(animated: true, completion: nil)
                     })
                     
                 } else {
                     
-                    sSelf.selectedAccount = sSelf.accounts.first
+                    self.selectedAccount = self.accounts.first
                     
                     DispatchQueue.main.async {
-                        sSelf.reloadConfigurationItems()
+                        self.reloadConfigurationItems()
                     }
                 }
                 
             } else {
                 
-                ATAlert.alert(type: .acAccessRejected(sSelf.title!), in: sSelf, withDismissAction: {
-                    sSelf.dismiss(animated: true, completion: nil)
+                ATAlert.alert(type: .acAccessRejected(self.title!), in: self, withDismissAction: {
+                    self.dismiss(animated: true, completion: nil)
                 })
             }
         }
