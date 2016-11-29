@@ -22,7 +22,7 @@ class NotGIFImage: UIImage {
     lazy var frames = [CGImage?]()
     lazy var frameDurations = [TimeInterval]()
     
-    private lazy var getFrameQueue: DispatchQueue = DispatchQueue(label: "com.atuo.getgifframe", attributes: [])
+    private lazy var getFrameQueue: DispatchQueue = DispatchQueue(label: "com.atuo.getgifframe", qos: .userInteractive)
     
     func getFrame(at index: Int) -> CGImage? {
         if index >= frames.count {

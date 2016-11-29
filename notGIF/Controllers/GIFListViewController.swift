@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 import MBProgressHUD
 
 private let cellID = "GIFListViewCell"
@@ -55,9 +56,10 @@ class GIFListViewController: UIViewController {
         navigationItem.rightBarButtonItem?.tintColor = .gray
         
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: GIFListLayout(delegate: self))
+        collectionView.register(GIFListViewCell.self, forCellWithReuseIdentifier: cellID)
+
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .bgColor
-        collectionView.register(GIFListViewCell.self, forCellWithReuseIdentifier: cellID)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -68,13 +70,20 @@ class GIFListViewController: UIViewController {
         }
         
         gifLibrary.observer = self
-        MBProgressHUD.showAdded(to: navigationController!.view, with: "fetching GIFs...",  progressHandler: {
-            self.gifLibrary.prepare()
-        }, completion: {
-            DispatchQueue.main.async {
-                self.updateUI()
+
+        PHPhotoLibrary.requestAuthorization { status in
+            if status == .authorized {
+                MBProgressHUD.showAdded(to: self.navigationController!.view,
+                                      with: "fetching GIFs...",
+                           progressHandler: {
+                    self.gifLibrary.prepare()
+                }, completion: {
+                    DispatchQueue.main.async {
+                        self.updateUI()
+                    }
+                })
             }
-        })
+        }
         
         #if DEBUG
             view.addSubview(FPSLabel())

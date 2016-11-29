@@ -11,7 +11,6 @@ import ImageIO
 import Foundation
 import MobileCoreServices
 
-//typealias NotGIFLibraryChangeResult = (removed: IndexSet, inserted: IndexSet)
 typealias GIFDataInfo = (asset: PHAsset, thumbnail: UIImage)
 
 protocol NotGIFLibraryChangeObserver: NSObjectProtocol {
@@ -41,7 +40,7 @@ class NotGIFLibrary: NSObject {
             return nil
         } else {
             return gifPool[gifAssets[index].localIdentifier]
-        }
+        } 
     }
     
     fileprivate var hasFetched = false
@@ -54,20 +53,61 @@ class NotGIFLibrary: NSObject {
     }()
     
     func prepare() {
-
         if !hasFetched {
-            
-            if authorizationStatus == .authorized {
-
-                fetchResult.enumerateObjects({ asset, index, shouldStop in
-                    if asset.isGIF {
-                        self.gifAssets.append(asset)
-                    }
-                })
-            }
-            
             hasFetched = true
+
+            if let gifIDs = UserDefaults.standard.array(forKey: gifIDs_Key) as? [String] {
+                let fetchOptions = PHFetchOptions()
+                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+                let fetchedAssets = PHAsset.fetchAssets(withLocalIdentifiers: gifIDs, options: fetchOptions)
+                gifAssets = fetchedAssets.objects(at: IndexSet(integersIn: 0..<fetchedAssets.count))
+                
+                let queue = DispatchQueue(label: "com.atuo.notgif.backgroud_fetch", qos: .background)
+                queue.async { [weak self] in
+                    guard let sSelf = self else { return }
+                    let assets = sSelf.fetchGIFAssets()
+                    let newIDs = assets.map { $0.localIdentifier }
+                    if gifIDs != newIDs {
+                        sSelf.saveGIFIDsFrom(assets)
+                        sSelf.gifAssets = assets
+                        sSelf.observer?.gifLibraryDidChange()
+                    }
+                }
+                
+            } else {
+                
+                gifAssets = fetchGIFAssets()
+                saveGIFIDsFrom(gifAssets)
+            }
         }
+    }
+    
+    fileprivate func fetchGIFAssets() -> [PHAsset] {
+        var idIndexSet = IndexSet()
+        
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        
+        fetchResult.enumerateObjects(options: .concurrent,
+                                        using: {(asset, index, _) in
+            
+            PHImageManager.default().requestImageData(for: asset,
+                                                  options: requestOptions,
+                                            resultHandler: {(_, UTI, _, _) in
+                if let uti = UTI,
+                    UTTypeConformsTo(uti as CFString, kUTTypeGIF) {
+                    idIndexSet.insert(index)
+                }
+            })
+        })
+        
+        return fetchResult.objects(at: idIndexSet)
+    }
+    
+    fileprivate func saveGIFIDsFrom(_ assets: [PHAsset]) {
+        let gifIDs = assets.map { $0.localIdentifier }
+        UserDefaults.standard.set(gifIDs, forKey: gifIDs_Key)
+        UserDefaults.standard.synchronize()
     }
     
     func getDataInfo(at index: Int) -> GIFDataInfo? {
@@ -97,7 +137,11 @@ class NotGIFLibrary: NSObject {
             requestOptions.isSynchronous = false
             requestOptions.version = .original
             
-            PHImageManager.default().requestImageData(for: gifAssets[index], options: requestOptions) { (data, UTI, orientation, info) in
+            PHImageManager.default()
+                .requestImageData(for: gifAssets[index],
+                                  options: requestOptions)
+            { (data, UTI, orientation, info) in
+                
                 if let uti = UTI, UTTypeConformsTo(uti as CFString , kUTTypeGIF),
                     let gifData = data, let gif = NotGIFImage(data: gifData) {
                     
@@ -123,7 +167,7 @@ extension NotGIFLibrary: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         
         guard let changes = changeInstance.changeDetails(for: fetchResult)
-            else { observer?.gifLibraryDidChange(); return }
+            else { return }
         
         if changes.hasIncrementalChanges {
             
@@ -143,10 +187,11 @@ extension NotGIFLibrary: PHPhotoLibraryChangeObserver {
                 }
                 
                 gifAssets.sort { assetA, assetB in
-                    guard let dateA = assetA.creationDate, let dateB = assetB.creationDate else { return false }
+                    guard let dateA = assetA.creationDate,
+                        let dateB = assetB.creationDate else { return false }
                     return dateA > dateB
                 }
-                
+                saveGIFIDsFrom(gifAssets)
                 observer?.gifLibraryDidChange()
             }
         }
@@ -174,7 +219,11 @@ extension PHImageManager {
         requestOptions.isSynchronous = false
         requestOptions.version = .original
         
-        PHImageManager.default().requestImageData(for: asset, options: requestOptions) { (data, UTI, orientation, info) in
+        PHImageManager.default()
+            .requestImageData(for: asset,
+                          options: requestOptions)
+        { (data, UTI, orientation, info) in
+            
             if let gifData = data, let uti = UTI, UTTypeConformsTo(uti as CFString , kUTTypeGIF) {
                 resultHandler(gifData)
             } else {

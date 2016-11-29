@@ -10,9 +10,15 @@ import MBProgressHUD
 
 extension MBProgressHUD {
     
-    class func showAdded(to view: UIView, with text: String = "", progressHandler: @escaping () -> Void, completion: @escaping () -> Void) {
+    class func showAdded(to view: UIView,
+                       with text: String = "",
+                 progressHandler: @escaping () -> Void,
+                      completion: @escaping () -> Void)
+    {
         
-        let customHUD = MBProgressHUD(view: view)
+        let customHUD = MBProgressHUD()
+        customHUD.translatesAutoresizingMaskIntoConstraints = false
+        
         customHUD.removeFromSuperViewOnHide = true
         customHUD.mode = .indeterminate
         customHUD.animationType = .fade
@@ -25,17 +31,26 @@ extension MBProgressHUD {
         customHUD.label.text = text
         customHUD.label.font = UIFont(name: "Menlo", size: 12)
         
+        customHUD.translatesAutoresizingMaskIntoConstraints = false
+
         customHUD.completionBlock = {
             completion()
         }
         
-        view.addSubview(customHUD)
-        customHUD.show(animated: true)
-        
         DispatchQueue.main.async {
-            progressHandler()
-            DispatchQueue.main.async {
-                customHUD.hide(animated: true)
+            
+            view.addSubview(customHUD)
+            customHUD.snp.makeConstraints { make in
+                make.top.right.bottom.left.equalTo(view)
+            }
+            customHUD.show(animated: true)
+            
+            DispatchQueue.global(qos: .background).async {
+                progressHandler()
+                
+                DispatchQueue.main.async {
+                    customHUD.hide(animated: true)
+                }
             }
         }
     }

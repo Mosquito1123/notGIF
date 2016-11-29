@@ -8,6 +8,7 @@
 
 import UIKit
 
+public let gifIDs_Key = "atuo.notGIF.gifIDs"
 public let kScreenSize = ATScreenSize.shared.size
 public let kScreenWidth = ATScreenSize.shared.size.width
 public let kScreenHeight = ATScreenSize.shared.size.height

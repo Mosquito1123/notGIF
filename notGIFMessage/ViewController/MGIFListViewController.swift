@@ -45,13 +45,26 @@ class MGIFListViewController: UIViewController {
         
         gifLibrary.observer = self
         
-        MBProgressHUD.showAdded(to: view, with: "fetching GIFs...",  progressHandler: {
-            self.gifLibrary.prepare()
-        }, completion: {
-            DispatchQueue.main.async {
-                self.updateUI()
+        PHPhotoLibrary.requestAuthorization { status in
+            if status == .authorized {
+                MBProgressHUD.showAdded(to: self.view,
+                                        with: "fetching GIFs...",
+                                        progressHandler:
+                {
+                    self.gifLibrary.prepare()
+                }, completion: {
+                    DispatchQueue.main.async {
+                        self.updateUI()
+                    }
+                })
             }
-        })
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        print("appear \(view.frame)")
     }
     
     func updateUI() {
@@ -63,13 +76,10 @@ class MGIFListViewController: UIViewController {
             
             if gifLibrary.isEmpty {
                 indicatorView = IndicatorView(for: view, type: .noGIF, isHostApp: false)
-                
             } else {
                 indicatorView = nil
             }
-            
         } else {
-            
             indicatorView = IndicatorView(for: view, type: .denied, isHostApp: false)
         }
     }
@@ -116,8 +126,8 @@ extension MGIFListViewController: UICollectionViewDelegate, UICollectionViewData
 // MARK: - GIFLibraryChange Observer
 extension MGIFListViewController: NotGIFLibraryChangeObserver {
     func gifLibraryDidChange() {
-        DispatchQueue.main.async {
-            guard let collectionView = self.collectionView else { return }
+        DispatchQueue.main.async { [weak self] in
+            guard let collectionView = self?.collectionView else { return }
             collectionView.reloadData()
         }
     }
