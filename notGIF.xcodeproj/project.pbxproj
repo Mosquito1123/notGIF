@@ -782,7 +782,7 @@
 			baseConfigurationReference = 117F574B007756B6F4EC37EA /* Pods-notGIFMessage.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "Messages Icon";
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: JinWei Shi (YN7EQ5FB5F)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: JinWei Shi (YN7EQ5FB5F)";
@@ -810,7 +810,7 @@
 			baseConfigurationReference = 25FEBD5B3FC0320DFA349F80 /* Pods-notGIFMessage.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "Messages Icon";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: JinWei Shi (HBGHZ85ABK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JinWei Shi (HBGHZ85ABK)";
 				DEVELOPMENT_TEAM = HBGHZ85ABK;
