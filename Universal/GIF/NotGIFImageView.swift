@@ -11,9 +11,12 @@ import UIKit
 class NotGIFImageView: UIImageView {
     private lazy var displayLink: CADisplayLink = CADisplayLink(target: self, selector: #selector(NotGIFImageView.changeFrame(dpLink:)))
     
+    
+    var currentFrame: CGImage? = nil
+
+    
     private var accumulator: TimeInterval = 0.0
     private var currentFrameIndex: Int = 0
-    private var currentFrame: CGImage? = nil
     private var loopCountdown: Int = Int.max
     private var animatedImage: NotGIFImage? = nil
     

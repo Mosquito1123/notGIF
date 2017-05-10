@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		986F7F1A1EC01B460067CD26 /* DetailAnimators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986F7F191EC01B460067CD26 /* DetailAnimators.swift */; };
 		C947E0901DAA279900625B72 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947E08F1DAA279900625B72 /* AppDelegate.swift */; };
 		C947E0971DAA279900625B72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C947E0961DAA279900625B72 /* Assets.xcassets */; };
 		C947E09A1DAA279900625B72 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C947E0981DAA279900625B72 /* LaunchScreen.storyboard */; };
@@ -90,6 +91,7 @@
 		25FEBD5B3FC0320DFA349F80 /* Pods-notGIFMessage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notGIFMessage.release.xcconfig"; path = "Pods/Target Support Files/Pods-notGIFMessage/Pods-notGIFMessage.release.xcconfig"; sourceTree = "<group>"; };
 		5E83B6C1B2758C67408FBD2A /* Pods-notGIF.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notGIF.release.xcconfig"; path = "Pods/Target Support Files/Pods-notGIF/Pods-notGIF.release.xcconfig"; sourceTree = "<group>"; };
 		77787802832EB1AFAF109C0C /* Pods_notGIFMessage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notGIFMessage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		986F7F191EC01B460067CD26 /* DetailAnimators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAnimators.swift; sourceTree = "<group>"; };
 		99390F0FC548DA7E562C6B7B /* Pods-notGIF.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notGIF.debug.xcconfig"; path = "Pods/Target Support Files/Pods-notGIF/Pods-notGIF.debug.xcconfig"; sourceTree = "<group>"; };
 		B7989C9163A7614ED2EDFD44 /* Pods_notGIF.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notGIF.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C947E08C1DAA279900625B72 /* notGIF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notGIF.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,12 +166,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		986F7F121EC01AB70067CD26 /* Transition */ = {
+			isa = PBXGroup;
+			children = (
+				986F7F191EC01B460067CD26 /* DetailAnimators.swift */,
+			);
+			name = Transition;
+			sourceTree = "<group>";
+		};
 		C947E0831DAA279900625B72 = {
 			isa = PBXGroup;
 			children = (
-				C9F8614F1DBD0B1C006B1221 /* Universal */,
 				C947E08E1DAA279900625B72 /* notGIF */,
 				C9F860891DBD027E006B1221 /* notGIFMessage */,
+				C9F8614F1DBD0B1C006B1221 /* Universal */,
 				C947E08D1DAA279900625B72 /* Products */,
 				E3EA69F66433BE76AC6DA675 /* Pods */,
 				2C34D67C976F2BA279457C9E /* Frameworks */,
@@ -274,6 +284,7 @@
 		C9F861771DBD0BD6006B1221 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				986F7F121EC01AB70067CD26 /* Transition */,
 				C9F8617B1DBD0BD6006B1221 /* GIFListViewController.swift */,
 				C9F8617A1DBD0BD6006B1221 /* GIFDetailViewController.swift */,
 				C9F861961DBD0BE0006B1221 /* Compose */,
@@ -408,7 +419,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = xyz;
 				TargetAttributes = {
 					C947E08B1DAA279900625B72 = {
@@ -557,6 +568,7 @@
 				C9F861631DBD0B1C006B1221 /* NotGIFImage.swift in Sources */,
 				C9F861931DBD0BD6006B1221 /* GIFShareBar.swift in Sources */,
 				C9F8618A1DBD0BD6006B1221 /* GIFDetailViewController.swift in Sources */,
+				986F7F1A1EC01B460067CD26 /* DetailAnimators.swift in Sources */,
 				C947E0901DAA279900625B72 /* AppDelegate.swift in Sources */,
 				C9F8616D1DBD0B1C006B1221 /* DebugLog.swift in Sources */,
 				C9F8618E1DBD0BD6006B1221 /* FPSLabel.swift in Sources */,

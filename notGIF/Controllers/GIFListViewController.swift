@@ -45,6 +45,9 @@ class GIFListViewController: UIViewController {
         }
     }
     
+    var selectedFrame = CGRect.zero
+    var selectedImage: UIImage!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,6 +55,7 @@ class GIFListViewController: UIViewController {
         navigationItem.title = ""
         edgesForExtendedLayout = []
         navigationItem.titleView = titleLabel
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(autoplayItemClicked))
         navigationItem.rightBarButtonItem?.tintColor = .gray
         
@@ -123,6 +127,8 @@ class GIFListViewController: UIViewController {
         if !hasPaused {
             shouldPlay = true
         }
+        
+        navigationController?.delegate = self
     }
     
     deinit {
@@ -134,6 +140,23 @@ class GIFListViewController: UIViewController {
         navigationItem.rightBarButtonItem?.tintColor = .gray
         hasPaused = shouldPlay
         shouldPlay = !shouldPlay
+    }
+}
+
+extension GIFListViewController: UINavigationControllerDelegate {
+
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        if operation == .push, toVC is GIFDetailViewController {
+            let pushAnimator = PushDetailAnimator()
+            selectedFrame = collectionView.convert(selectedFrame, to: UIApplication.shared.keyWindow)
+            pushAnimator.fromRect = selectedFrame
+            pushAnimator.transitionImage = selectedImage
+            
+            return pushAnimator
+        }
+        
+        return nil
     }
 }
 
@@ -162,10 +185,17 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailVC = GIFDetailViewController()
-        detailVC.currentIndex = indexPath.item
-        shouldPlay = false
-        navigationController?.pushViewController(detailVC, animated: true)
+        if let cell = collectionView.cellForItem(at: indexPath) as? GIFListViewCell {
+            
+            selectedFrame = cell.frame
+            selectedImage = UIImage(cgImage: cell.imageView.currentFrame!)
+            
+            let detailVC = GIFDetailViewController()
+            detailVC.currentIndex = indexPath.item
+            shouldPlay = false
+            
+            navigationController?.pushViewController(detailVC, animated: true)
+        }
     }
 }
 

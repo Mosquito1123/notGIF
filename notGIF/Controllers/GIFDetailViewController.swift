@@ -22,6 +22,12 @@ class GIFDetailViewController: UIViewController {
     fileprivate var infoLabel: GIFInfoLabel!
     fileprivate var collectionView: UICollectionView!
 
+    fileprivate var percentDrivenTransition: UIPercentDrivenInteractiveTransition?
+    fileprivate var popAnimator: PopDetailAnimator?
+    
+    fileprivate var isStartFromEdgePan: Bool = true
+    fileprivate var canBePanToPop: Bool = false
+    
     fileprivate var isHideBar = false {
         didSet {
             shareBar.isHidden = isHideBar
@@ -42,11 +48,27 @@ class GIFDetailViewController: UIViewController {
         super.viewDidLoad()
         
         makeUI()
+        
+//        navigationController?.interactivePopGestureRecognizer?.delegate = self
+//        navigationController?.interactivePopGestureRecognizer?.addTarget(self, action: #selector(screenEdgePanHandler(ges:)))
+        
+        let screenEdgePanGes = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgePanHandler(ges:)))
+        screenEdgePanGes.delegate = self
+        screenEdgePanGes.edges = .left
+        view.addGestureRecognizer(screenEdgePanGes)
+        
+        collectionView.panGestureRecognizer.addTarget(self, action: #selector(panToDismissHandler(ges:)))
+        
+        collectionView.bounces = true
+        collectionView.alwaysBounceVertical = true
+        
+        collectionView.showsVerticalScrollIndicator = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        navigationController?.delegate = self
         view.addSubview(shareBar)
     }
     
@@ -101,9 +123,143 @@ class GIFDetailViewController: UIViewController {
         collectionView.reloadData()
         CATransaction.commit()
     }
+}
+
+extension GIFDetailViewController: UINavigationControllerDelegate {
     
-    // MARK: - Share GIF
-    private func shareGIF(to type: ShareType) {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        if let vc = toVC as? GIFListViewController, operation == .pop {
+            
+            if let cell = collectionView.cellForItem(at: IndexPath(item: currentIndex, section: 0)) as? GIFDetailViewCell {
+                
+                popAnimator = PopDetailAnimator()
+                popAnimator?.finalFrame = vc.selectedFrame
+                popAnimator?.beginFrame = collectionView.convert(cell.frame, to: UIApplication.shared.keyWindow)
+                popAnimator?.popImage = UIImage(cgImage: cell.imageView.currentFrame!)
+                popAnimator?.isStartFromEdgePan = isStartFromEdgePan
+                
+                return popAnimator
+            }
+        }
+        
+        return nil
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        
+        return percentDrivenTransition
+    }
+    
+    func screenEdgePanHandler(ges: UIScreenEdgePanGestureRecognizer) {
+        
+        let progress = ges.translation(in: view).x / view.bounds.width
+        
+        if ges.state == .began {
+            percentDrivenTransition = UIPercentDrivenInteractiveTransition()
+            isStartFromEdgePan = true
+            navigationController?.popViewController(animated: true)
+        } else if ges.state == .changed {
+            percentDrivenTransition?.update(progress)
+        } else if ges.state == .cancelled || ges.state == .ended {
+            if progress > 0.5 {
+                percentDrivenTransition?.finish()
+            } else {
+                percentDrivenTransition?.cancel()
+            }
+            
+            percentDrivenTransition = nil
+        }
+    }
+    
+    func panToDismissHandler(ges: UIPanGestureRecognizer) {
+        
+        let offsetY = ges.translation(in: view).y
+        let progress = fabs(offsetY / 200.0)
+        
+        switch ges.state {
+        case .began:
+            
+            let velocity = ges.velocity(in: view)
+            print("pan ges begin velocity: \(velocity)")
+            canBePanToPop = fabs(velocity.y) > fabs(velocity.x)
+            
+            if canBePanToPop {
+                collectionView.isHidden = true
+                percentDrivenTransition = UIPercentDrivenInteractiveTransition()
+                isStartFromEdgePan = false
+                navigationController?.popViewController(animated: true)
+                
+            } else {
+                collectionView.bounces = false
+            }
+        
+        case .changed:
+            
+            popAnimator?.updateFrame(with: offsetY)
+            percentDrivenTransition?.update(progress)
+            
+        case .cancelled, .ended:
+            
+            if progress > 0.5 {
+                percentDrivenTransition?.finish()
+            } else {
+                percentDrivenTransition?.cancel()
+                collectionView.isHidden = false
+            }
+            
+            isStartFromEdgePan = true
+            percentDrivenTransition = nil
+            collectionView.bounces = true
+        
+        case .failed, .possible:
+            break
+        }
+    }
+}
+
+extension GIFDetailViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        return true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        return gestureRecognizer is UIScreenEdgePanGestureRecognizer
+    }
+}
+
+// MARK: - UICollectionView Delegate
+extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return gifLibrary.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! GIFDetailViewCell
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard let cell = cell as? GIFDetailViewCell else { return }
+        
+        gifLibrary.getGIFImage(at: indexPath.item) { gif in
+            cell.configureWithImage(image: gif)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        isHideBar = !isHideBar
+    }
+}
+
+// MARK: - Share GIF
+extension GIFDetailViewController {
+    fileprivate func shareGIF(to type: ShareType) {
         switch type {
             
         case .twitter, .weibo:
@@ -134,7 +290,7 @@ class GIFDetailViewController: UIViewController {
         case .more:
             
             MBProgressHUD.showAdded(to: view, with: "Preparing")
-
+            
             NotGIFLibrary.shared.requestGIFData(at: currentIndex) { data in
                 if let gifData = data {
                     let activityVC = UIActivityViewController(activityItems: [gifData], applicationActivities: nil)
@@ -147,7 +303,7 @@ class GIFDetailViewController: UIViewController {
                     StatusBarToast.shared.show(info: .once(message: "unavailable data, try again", succeed: false))
                 }
             }
-
+            
         case .message:
             
             if MFMessageComposeViewController.canSendAttachments() &&
@@ -177,38 +333,9 @@ class GIFDetailViewController: UIViewController {
     }
 }
 
-// MARK: - UICollectionView Delegate
-extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gifLibrary.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! GIFDetailViewCell
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-        guard let cell = cell as? GIFDetailViewCell else { return }
-        
-        gifLibrary.getGIFImage(at: indexPath.item) { gif in
-            cell.configureWithImage(image: gif)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        isHideBar = !isHideBar
-    }
-}
-
 // MARK: - UIScrollView Delegate
 extension GIFDetailViewController: UIScrollViewDelegate {
-    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
 
-    }
-    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         currentIndex = Int(scrollView.contentOffset.x / kScreenWidth)
         infoLabel.info = gifLibrary[currentIndex]?.gifInfo ?? tmpInfo
