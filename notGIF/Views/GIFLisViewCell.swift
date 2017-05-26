@@ -27,7 +27,7 @@ class GIFListViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        imageView.stopAnimating()
+        imageView.animateImage = nil
     }
     
     required init?(coder aDecoder: NSCoder) {

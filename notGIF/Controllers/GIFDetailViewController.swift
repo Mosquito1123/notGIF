@@ -76,7 +76,7 @@ class GIFDetailViewController: UIViewController {
         
         automaticallyAdjustsScrollViewInsets = false
         
-        infoLabel = GIFInfoLabel(info: gifLibrary[currentIndex]?.gifInfo ?? tmpInfo)
+//        infoLabel = GIFInfoLabel(info: gifLibrary[currentIndex]?.gifInfo ?? tmpInfo)
         navigationItem.titleView = infoLabel
         
         let layout = UICollectionViewFlowLayout()
@@ -112,7 +112,7 @@ class GIFDetailViewController: UIViewController {
     func updateUI() {
         func updateInfoLabel() {
             currentIndex = Int(collectionView.contentOffset.x / kScreenWidth)
-            infoLabel.info = gifLibrary[currentIndex]?.gifInfo ?? tmpInfo
+//            infoLabel.info = gifLibrary[currentIndex]?.gifInfo ?? tmpInfo
         }
         
         CATransaction.begin()
@@ -136,7 +136,7 @@ extension GIFDetailViewController: UINavigationControllerDelegate {
                 popAnimator = PopDetailAnimator()
                 popAnimator?.finalFrame = vc.selectedFrame
                 popAnimator?.beginFrame = collectionView.convert(cell.frame, to: UIApplication.shared.keyWindow)
-                popAnimator?.popImage = UIImage(cgImage: cell.imageView.currentFrame!)
+                popAnimator?.popImage = cell.imageView.currentFrame
                 popAnimator?.isStartFromEdgePan = isStartFromEdgePan
                 
                 return popAnimator
@@ -247,9 +247,7 @@ extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDat
         
         guard let cell = cell as? GIFDetailViewCell else { return }
         
-        gifLibrary.getGIFImage(at: indexPath.item) { gif in
-            cell.configureWithImage(image: gif)
-        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -338,7 +336,7 @@ extension GIFDetailViewController: UIScrollViewDelegate {
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         currentIndex = Int(scrollView.contentOffset.x / kScreenWidth)
-        infoLabel.info = gifLibrary[currentIndex]?.gifInfo ?? tmpInfo
+//        infoLabel.info = gifLibrary[currentIndex]?.gifInfo ?? tmpInfo
     }
 }
 

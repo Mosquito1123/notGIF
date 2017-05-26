@@ -105,12 +105,12 @@ extension MGIFListViewController: UICollectionViewDelegate, UICollectionViewData
         
         guard let cell = cell as? MGIFListViewCell else { return }
 
-        gifLibrary.getGIFImage(at: indexPath.item) { gif in
-            DispatchQueue.main.async {
-                cell.imageView.image = gif
-                cell.imageView.startAnimating()
-            }
-        }
+//        gifLibrary.getGIFImage(at: indexPath.item) { (gif, _) in
+//            DispatchQueue.main.async {
+//                cell.imageView.animateImage = gif
+//                cell.imageView.startAnimating()
+//            }
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

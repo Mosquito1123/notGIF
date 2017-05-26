@@ -1,158 +1,265 @@
 //
-//  NotGIFImageView.swift
-//  GIFEnginTest
+//  NGIFImageView.swift
+//  notGIF
 //
-//  Created by Atuooo on 09/10/2016.
-//  Copyright © 2016 xyz. All rights reserved.
+//  Created by ooatuoo on 2017/5/13.
+//  Copyright © 2017年 xyz. All rights reserved.
 //
 
 import UIKit
 
 class NotGIFImageView: UIImageView {
-    private lazy var displayLink: CADisplayLink = CADisplayLink(target: self, selector: #selector(NotGIFImageView.changeFrame(dpLink:)))
     
-    
-    var currentFrame: CGImage? = nil
-
+    public var currentFrame: UIImage!
+    public var currentFrameIndex = 0
     
     private var accumulator: TimeInterval = 0.0
-    private var currentFrameIndex: Int = 0
-    private var loopCountdown: Int = Int.max
-    private var animatedImage: NotGIFImage? = nil
+    private var displayLink: CADisplayLink?
     
-    override var image: UIImage? {
-        get {
-            if let animatedImg = animatedImage {
-                return animatedImg
-            } else {
-                return super.image
-            }
-        }
-        
-        set {
-            if image === newValue {
-                return
-            } else {
-                stopAnimating()
+    private var shouldAnimate: Bool = false
+    private var needsDisplayWhenImageBecomesAvailable: Bool = true
+    
+    private var runLoopMode: RunLoopMode {
+        return ProcessInfo.processInfo.activeProcessorCount > 1 ? .commonModes : .defaultRunLoopMode
+    }
+    
+    public var animateImage: NotGIFImage! {
+        didSet {
+            guard animateImage != oldValue else { return }
+            
+            if animateImage != nil {
+                super.image = nil
+                super.isHighlighted = false
+                super.invalidateIntrinsicContentSize()
+                
+                currentFrame = animateImage.posterImage
                 currentFrameIndex = 0
+                
                 accumulator = 0.0
                 
-                if let animatedImg = newValue as? NotGIFImage {
-                    animatedImage = animatedImg
-                    if let frame = animatedImg.getFrame(at: 0) {
-                        super.image = UIImage(cgImage: frame)
-                        currentFrame = frame
-                    }
-                    
+                updateShouldAnimate()
+                
+                if shouldAnimate {
                     startAnimating()
-                } else {
-                    super.image = newValue
-                    animatedImage = nil
                 }
+                
+                layer.setNeedsDisplay()
+                
+            } else {
+                stopAnimating()
+                super.image = nil
+                layer.contents = nil
             }
-            
-            layer.setNeedsDisplay()
         }
     }
     
+    // MARK: - Life Cycle
+    deinit {
+        displayLink?.invalidate()
+        displayLink = nil
+    }
+    
+    // MARK: - Animating Image
+    
+    func displayDidRefresh(dpLink: CADisplayLink) {
+        
+        guard animateImage != nil, shouldAnimate else { return }
+        
+        if let deleyTimeNumber = animateImage.delayTimesForIndexes[currentFrameIndex] {
+            
+            if let frame = animateImage.imageLazilyCachedAt(index: currentFrameIndex) {
+                
+                currentFrame = frame
+                
+                if needsDisplayWhenImageBecomesAvailable {
+                    layer.setNeedsDisplay()
+                    needsDisplayWhenImageBecomesAvailable = false
+                }
+                
+                // 计算间隔时间
+                if #available(iOS 10.0, *) {
+                    accumulator += dpLink.duration * 60.0 / TimeInterval(dpLink.preferredFramesPerSecond)
+                } else {
+                    accumulator += dpLink.duration * TimeInterval(dpLink.frameInterval)
+                }
+                
+                while accumulator >= deleyTimeNumber {
+                    accumulator -= deleyTimeNumber
+                    currentFrameIndex += 1
+                    
+                    if currentFrameIndex >= animateImage.frameCount {
+                        currentFrameIndex = 0
+                    }
+                    
+                    needsDisplayWhenImageBecomesAvailable = true
+                }
+                
+            } else {
+                // 等待下一帧图片准备好
+            }
+            
+        } else {
+            // 如获取不到间隔时间，直接跳过
+            currentFrameIndex += 1
+        }
+    }
+    
+    override func display(_ layer: CALayer) {
+        layer.contents = currentFrame.cgImage
+    }
+    
     override func startAnimating() {
-        if let _ = animatedImage {
-            displayLink.isPaused = false
+        if animateImage != nil {
+            
+            if displayLink == nil {
+                // 使用 weakProxy 打破 dpLink 与 self 间的强引用，直接在 dealloc 中 invalidate dpLink
+                displayLink = CADisplayLink(target: NGWeakProxy(target: self), selector: #selector(displayDidRefresh(dpLink:)))
+                displayLink?.add(to: RunLoop.main, forMode: runLoopMode)
+            }
+            
+            let kDisplayRefreshRate = 60    // 60Hz
+            
+            let divisor = frameDelayGreatestCommonDivisor
+            let fps = Int(1 / divisor)
+            
+            if #available(iOS 10.0, *) {
+                displayLink?.preferredFramesPerSecond = min(kDisplayRefreshRate, fps)
+            } else {
+                displayLink?.frameInterval = max(Int(divisor * Double(kDisplayRefreshRate)), 1)
+            }
+
+            displayLink?.isPaused = false
+            
         } else {
             super.startAnimating()
         }
     }
     
-    override func stopAnimating()  {
-        displayLink.isPaused = true
-
-//        if let _ = animatedImage {
-//            displayLink.isPaused = true
-//        } else {
-//            super.stopAnimating()
-//        }
-    }
-    
-    override var isHighlighted: Bool {
-        get{
-            return super.isHighlighted
-        }
-        set {
-            if let _ = animatedImage {
-                return
-            } else {
-                return super.isHighlighted = newValue
-            }
+    override func stopAnimating() {
+        if animateImage != nil {
+            displayLink?.isPaused = true
+        } else {
+            super.stopAnimating()
         }
     }
     
-    override var isAnimating: Bool {
-        get {
-            if let _ = animatedImage {
-                return !displayLink.isPaused
-            } else {
-                return super.isAnimating
-            }
-        }
-    }
-
-    override func display(_ layer: CALayer) {
-        if let _ = animatedImage {
-            layer.contents = currentFrame
-        }
-    }
-    
-    func changeFrame(dpLink: CADisplayLink) {
-        if let animatedImg = animatedImage {
-            if currentFrameIndex < animatedImg.frames.count {
-                accumulator += dpLink.duration
-                var frameDuration = animatedImg.frameDurations[currentFrameIndex]
-                while accumulator >= frameDuration
-                {
-                    accumulator = 0
-                    currentFrameIndex += 1
-                    if currentFrameIndex >= animatedImg.frames.count {
-                        currentFrameIndex = 0
-                    }
-                    
-                    currentFrame = animatedImg.getFrame(at: currentFrameIndex)
-                    
-                    self.layer.setNeedsDisplay()
-                    frameDuration = animatedImg.frameDurations[currentFrameIndex]
-                }
-            }
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        updateShouldAnimate()
+        if shouldAnimate {
+            startAnimating()
         } else {
             stopAnimating()
         }
     }
     
-    func prepareToReuse() {
-        displayLink.isPaused = true
-        super.image = nil
-        currentFrameIndex = 0
-        accumulator = 0.0
+    override var isHighlighted: Bool {
+        set {
+            // 为了防止嵌入到 UICollectionViewCell 中影响动图的展示
+            if animateImage == nil {
+                super.isHighlighted = newValue
+            }
+        }
+        get {
+            return super.isHighlighted
+        }
     }
     
-    init() {
-        super.init(frame: CGRect.zero)
+    override var intrinsicContentSize: CGSize {
+        if animateImage != nil {
+            return animateImage.size
+        } else {
+            return super.intrinsicContentSize
+        }
+    }
+    
+    private func updateShouldAnimate() {
+        let isVisible = superview != nil && !isHidden && alpha > 0
+        shouldAnimate = animateImage != nil && isVisible
+    }
+    
+    // MARK: - Help Method
+    // 获取每帧间隔时间的最大公约数
+    private var frameDelayGreatestCommonDivisor: TimeInterval {
+        let kGreatestCommonDivisorPrecision = 2.0 / kGIFDelayTimeIntervalMinium
+        let delays = animateImage.delayTimesForIndexes.map {$0.value}
+        var scaleGCD = lrint(delays.first! * kGreatestCommonDivisorPrecision)
         
-        layer.masksToBounds = true
-        displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
-        displayLink.isPaused = true
+        for value in delays {
+            scaleGCD = gcd(lrint(value * kGreatestCommonDivisorPrecision), scaleGCD)
+        }
+        
+        return TimeInterval(scaleGCD) / kGreatestCommonDivisorPrecision
     }
     
-    deinit {
-        displayLink.invalidate()
+    private func gcd(_ a: Int, _ b: Int) -> Int {
+        if a < b {
+            return gcd(b, a)
+        } else if a == b {
+            return b
+        }
+        
+        var aV = a, bV = b
+        
+        while true {
+            let remainder = aV % bV
+            
+            if remainder == 0 {
+                return bV
+            }
+            
+            aV = bV
+            bV = remainder
+        }
+    }
+}
+
+// MARK: - Associated Object
+private var localIDKey: Void?
+private var indicatorKey: Void?
+private var imageTaskKey: Void?
+
+extension NotGIFImageView {
+    /// Get the image localIdentifier binded to this image view.
+    fileprivate var localID: String {
+        return objc_getAssociatedObject(self, &localIDKey) as! String
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        layer.masksToBounds = true
-        displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
-        displayLink.isPaused = true
+    fileprivate func setLocalID(_ localID: String) {
+        objc_setAssociatedObject(self, &localIDKey, localID, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    fileprivate var imageTask: DispatchWorkItem? {
+        return objc_getAssociatedObject(self, &imageTaskKey) as? DispatchWorkItem
+    }
+    
+    fileprivate func setImageTask(_ task: DispatchWorkItem?) {
+        objc_setAssociatedObject(self, &imageTaskKey, task, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+    
+    public func setGIFImage(with gifID: String, completionHandler: (() -> Void)? = nil) {
+        setLocalID(gifID)
+        
+        let task = NotGIFLibrary.shared.retrieveGIF(with: gifID) {[weak self] (gif, retrievedID, withTransition) in
+            guard let sSelf = self, retrievedID == sSelf.localID else { return }
+            
+            sSelf.setImageTask(nil)
+            DispatchQueue.main.safeAsync {
+                if withTransition {
+                    UIView.transition(with: sSelf, duration: 0.7, options: .transitionCrossDissolve, animations: { 
+                        sSelf.animateImage = gif
+                    }, completion: { _ in })
+                } else {
+                    sSelf.animateImage = gif
+                }
+            }
+        }
+        
+        setImageTask(task)
+    }
+    
+    public func cancelTask() {
+        imageTask?.cancel()
     }
 }

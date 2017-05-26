@@ -26,16 +26,17 @@ class GIFDetailViewCell: UICollectionViewCell {
     }
     
     func configureWithImage(image: NotGIFImage) {
-        let imageH = kScreenWidth / image.ratio
+        let ratio = image.size.width / image.size.height
+        let imageH = kScreenWidth / ratio
         
         if imageH > maxHeight {
-            imageView.frame.size = CGSize(width: imageH * image.ratio, height: maxHeight)
+            imageView.frame.size = CGSize(width: imageH * ratio, height: maxHeight)
         } else {
             imageView.frame.size = CGSize(width: kScreenWidth, height: imageH)
         }
         
         imageView.center = contentView.center
-        imageView.image = image
+        imageView.animateImage = image
     }
     
     required init?(coder aDecoder: NSCoder) {

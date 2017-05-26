@@ -8,7 +8,7 @@
 
 import Photos
 import ImageIO
-import Foundation
+import RealmSwift
 import MobileCoreServices
 
 typealias GIFDataInfo = (asset: PHAsset, thumbnail: UIImage)
@@ -17,7 +17,10 @@ protocol NotGIFLibraryChangeObserver: NSObjectProtocol {
     func gifLibraryDidChange()
 }
 
+public typealias CompletionHandler = (_ image: NotGIFImage, _ localID: String, _ withTransition: Bool) -> ()
+
 class NotGIFLibrary: NSObject {
+    
     static let shared = NotGIFLibrary()
     weak var observer: NotGIFLibraryChangeObserver?
 
@@ -44,7 +47,8 @@ class NotGIFLibrary: NSObject {
     }
     
     fileprivate var hasFetched = false
-    fileprivate var gifPool = [String: NotGIFImage]()
+    fileprivate lazy var gifPool: [String: NotGIFImage] = [:]
+    fileprivate lazy var assetPool: [String: PHAsset] = [:]
     
     fileprivate lazy var fetchResult: PHFetchResult<PHAsset> = {
         let fetchOptions = PHFetchOptions()
@@ -53,7 +57,9 @@ class NotGIFLibrary: NSObject {
     }()
     
     func prepare() {
+        
         if !hasFetched {
+            
             hasFetched = true
 
             if let gifIDs = UserDefaults.standard.array(forKey: gifIDs_Key) as? [String] {
@@ -61,6 +67,10 @@ class NotGIFLibrary: NSObject {
                 fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
                 let fetchedAssets = PHAsset.fetchAssets(withLocalIdentifiers: gifIDs, options: fetchOptions)
                 gifAssets = fetchedAssets.objects(at: IndexSet(integersIn: 0..<fetchedAssets.count))
+                
+                fetchedAssets.enumerateObjects({ (asset, _, _) in
+                    self.assetPool[asset.localIdentifier] = asset
+                })
                 
                 let queue = DispatchQueue(label: "com.atuo.notgif.backgroud_fetch", qos: .background)
                 queue.async { [weak self] in
@@ -74,11 +84,42 @@ class NotGIFLibrary: NSObject {
                     }
                 }
                 
+                let _ = OperationQueue()
+                
             } else {
                 
                 gifAssets = fetchGIFAssets()
                 saveGIFIDsFrom(gifAssets)
             }
+        }
+    }
+    
+    func tryPrepare() {
+        guard let realm = try? Realm() else { return }
+
+        if NGUserDefaults.haveFetched {
+            let notGIFs = realm.objects(NotGIF.self).sorted(byKeyPath: "creationDate", ascending: false)
+            let gifIDs: [String] = notGIFs.map { $0.id }
+            let fetchedAssets = PHAsset.fetchAssets(withLocalIdentifiers: gifIDs, options: nil)
+            
+        } else {
+            
+            let requestOptions = PHImageRequestOptions()
+            requestOptions.isSynchronous = true
+            
+            fetchResult.enumerateObjects(options: .concurrent,
+                                         using: {(asset, index, _) in
+                                            
+//                PHImageManager.default().requestImageData(for: asset,
+//                                                          options: requestOptions,
+//                                                          resultHandler: {(_, UTI, _, _) in
+//                    if let uti = UTI,
+//                        UTTypeConformsTo(uti as CFString, kUTTypeGIF) {
+//                        idIndexSet.insert(index)
+//                    }
+//                })
+            })
+
         }
     }
     
@@ -114,7 +155,7 @@ class NotGIFLibrary: NSObject {
         let asset = gifAssets[index]
         
         if let gif = gifPool[asset.localIdentifier] {
-            return (asset, gif.thumbnail)
+            return (asset, gif.posterImage)
         } else {
             return nil
         }
@@ -127,28 +168,38 @@ class NotGIFLibrary: NSObject {
         }
     }
     
-    func getGIFImage(at index: Int, doneHandler: @escaping (NotGIFImage) -> Void) {
-        let gifKey = gifAssets[index].localIdentifier
-        
-        if let gif = gifPool[gifKey] {
-            doneHandler(gif)
-        } else {
-            let requestOptions = PHImageRequestOptions()
-            requestOptions.isSynchronous = false
-            requestOptions.version = .original
+    fileprivate lazy var queuePool: DispatchQueuePool = {
+        return DispatchQueuePool(name: "com.notGIF.getGIF", qos: .utility, queueCount: 6)
+    }()
+    
+    public func retrieveGIF(with id: String, completionHandler: @escaping CompletionHandler) -> DispatchWorkItem? {
+        if let gif = gifPool[id] {
+            completionHandler(gif, id, false)
+            return nil
             
-            PHImageManager.default()
-                .requestImageData(for: gifAssets[index],
-                                  options: requestOptions)
-            { (data, UTI, orientation, info) in
-                
-                if let uti = UTI, UTTypeConformsTo(uti as CFString , kUTTypeGIF),
-                    let gifData = data, let gif = NotGIFImage(data: gifData) {
-                    
-                    self.gifPool[gifKey] = gif
-                    doneHandler(gif)
-                }
-            }
+        } else {
+            guard let gifAsset = assetPool[id] else { return nil }
+            
+            let requestOptions = PHImageRequestOptions()
+            requestOptions.isSynchronous = true
+            requestOptions.version = .unadjusted
+            
+            let workItem = DispatchWorkItem(flags: [.inheritQoS, .detached], block: { 
+                PHImageManager.default().requestImageData(for: gifAsset,
+                                                          options: requestOptions,
+                                                          resultHandler: { [unowned self] (data, UTI, _, _) in
+                                                            
+                    if let uti = UTI, UTTypeConformsTo(uti as CFString, kUTTypeGIF),
+                        let gifData = data, let gif = NotGIFImage(gifData: gifData) {
+                        
+                        self.gifPool[id] = gif
+                        completionHandler(gif, id, true)
+                    }
+                })
+            })
+            
+            queuePool.queue.async(execute: workItem)
+            return workItem 
         }
     }
     

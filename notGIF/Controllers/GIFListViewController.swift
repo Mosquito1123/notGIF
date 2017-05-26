@@ -168,27 +168,26 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! GIFListViewCell
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         guard let cell = cell as? GIFListViewCell else { return }
-
-        gifLibrary.getGIFImage(at: indexPath.item) { gif in
-            DispatchQueue.main.async {
-                cell.imageView.image = gif
-                self.shouldPlay ? cell.imageView.startAnimating() : cell.imageView.stopAnimating()
-            }
-        }
+        
+        cell.imageView.setGIFImage(with: NotGIFLibrary.shared.gifAssets[indexPath.item].localIdentifier)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? GIFListViewCell else { return }
+        cell.imageView.cancelTask()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? GIFListViewCell {
             
             selectedFrame = cell.frame
-            selectedImage = UIImage(cgImage: cell.imageView.currentFrame!)
+            selectedImage = cell.imageView.currentFrame
             
             let detailVC = GIFDetailViewController()
             detailVC.currentIndex = indexPath.item
