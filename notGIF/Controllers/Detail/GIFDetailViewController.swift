@@ -17,11 +17,11 @@ private let tmpInfo = "xx Frames\nxx s / xxx"
 
 class GIFDetailViewController: UIViewController {
     var currentIndex: Int!
-
+    
     fileprivate var gifLibrary = NotGIFLibrary.shared
     fileprivate var infoLabel: GIFInfoLabel!
     fileprivate var collectionView: UICollectionView!
-
+    
     fileprivate var percentDrivenTransition: UIPercentDrivenInteractiveTransition?
     fileprivate var popAnimator: PopDetailAnimator?
     
@@ -49,8 +49,8 @@ class GIFDetailViewController: UIViewController {
         
         makeUI()
         
-//        navigationController?.interactivePopGestureRecognizer?.delegate = self
-//        navigationController?.interactivePopGestureRecognizer?.addTarget(self, action: #selector(screenEdgePanHandler(ges:)))
+        //        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        //        navigationController?.interactivePopGestureRecognizer?.addTarget(self, action: #selector(screenEdgePanHandler(ges:)))
         
         let screenEdgePanGes = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgePanHandler(ges:)))
         screenEdgePanGes.delegate = self
@@ -76,7 +76,7 @@ class GIFDetailViewController: UIViewController {
         
         automaticallyAdjustsScrollViewInsets = false
         
-//        infoLabel = GIFInfoLabel(info: gifLibrary[currentIndex]?.gifInfo ?? tmpInfo)
+        //        infoLabel = GIFInfoLabel(info: gifLibrary[currentIndex]?.gifInfo ?? tmpInfo)
         navigationItem.titleView = infoLabel
         
         let layout = UICollectionViewFlowLayout()
@@ -112,7 +112,7 @@ class GIFDetailViewController: UIViewController {
     func updateUI() {
         func updateInfoLabel() {
             currentIndex = Int(collectionView.contentOffset.x / kScreenWidth)
-//            infoLabel.info = gifLibrary[currentIndex]?.gifInfo ?? tmpInfo
+            //            infoLabel.info = gifLibrary[currentIndex]?.gifInfo ?? tmpInfo
         }
         
         CATransaction.begin()
@@ -193,7 +193,7 @@ extension GIFDetailViewController: UINavigationControllerDelegate {
             } else {
                 collectionView.bounces = false
             }
-        
+            
         case .changed:
             
             popAnimator?.updateFrame(with: offsetY)
@@ -211,7 +211,7 @@ extension GIFDetailViewController: UINavigationControllerDelegate {
             isStartFromEdgePan = true
             percentDrivenTransition = nil
             collectionView.bounces = true
-        
+            
         case .failed, .possible:
             break
         }
@@ -234,7 +234,8 @@ extension GIFDetailViewController: UIGestureRecognizerDelegate {
 // MARK: - UICollectionView Delegate
 extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gifLibrary.count
+        //        return gifLibrary.count
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -287,7 +288,7 @@ extension GIFDetailViewController {
             
         case .more:
             
-            MBProgressHUD.showAdded(to: view, with: "Preparing")
+//            MBProgressHUD.showAdded(to: view, with: "Preparing")
             
             NotGIFLibrary.shared.requestGIFData(at: currentIndex) { data in
                 if let gifData = data {
@@ -297,7 +298,7 @@ extension GIFDetailViewController {
                         MBProgressHUD.hide(for: self.view, animated: true)
                     }
                 } else {
-                    MBProgressHUD.hide(for: self.view, animated: true)
+//                    MBProgressHUD.hide(for: self.view, animated: true)
                     StatusBarToast.shared.show(info: .once(message: "unavailable data, try again", succeed: false))
                 }
             }
@@ -307,7 +308,7 @@ extension GIFDetailViewController {
             if MFMessageComposeViewController.canSendAttachments() &&
                 MFMessageComposeViewController.isSupportedAttachmentUTI(kUTTypeGIF as String) {
                 
-                MBProgressHUD.showAdded(to: view, with: "Prepareing")
+//                MBProgressHUD.showAdded(to: view, with: "Prepareing")
                 
                 NotGIFLibrary.shared.requestGIFData(at: currentIndex) { data in
                     
@@ -322,7 +323,7 @@ extension GIFDetailViewController {
                         }
                         
                     } else {
-                        MBProgressHUD.hide(for: self.view, animated: true)
+//                        MBProgressHUD.hide(for: self.view, animated: true)
                         StatusBarToast.shared.show(info: .once(message: "unavailable data, try again", succeed: false))
                     }
                 }
@@ -333,10 +334,10 @@ extension GIFDetailViewController {
 
 // MARK: - UIScrollView Delegate
 extension GIFDetailViewController: UIScrollViewDelegate {
-
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         currentIndex = Int(scrollView.contentOffset.x / kScreenWidth)
-//        infoLabel.info = gifLibrary[currentIndex]?.gifInfo ?? tmpInfo
+        //        infoLabel.info = gifLibrary[currentIndex]?.gifInfo ?? tmpInfo
     }
 }
 

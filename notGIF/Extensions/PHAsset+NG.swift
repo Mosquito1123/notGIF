@@ -7,9 +7,16 @@
 //
 
 import Photos
+import MobileCoreServices
 
-//extension PHAsset: Hashable {
-//    open override var hashValue: Int {
-//        return 1
-//    }
-//}
+extension PHAsset {
+    var isGIF: Bool {
+        guard let assetSource = PHAssetResource.assetResources(for: self).first else {
+            return false
+        }
+        
+        let uti = assetSource.uniformTypeIdentifier as CFString
+        return UTTypeConformsTo(uti, kUTTypeGIF) || assetSource.originalFilename.hasSuffix("GIF")
+    }
+}
+

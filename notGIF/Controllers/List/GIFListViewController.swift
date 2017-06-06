@@ -14,7 +14,6 @@ import MBProgressHUD
 private let cellID = "GIFListCell"
 
 class GIFListViewController: UIViewController {
-    fileprivate let gifLibrary = NotGIFLibrary.shared
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -39,7 +38,7 @@ class GIFListViewController: UIViewController {
         }
     }
     
-    fileprivate var gifList: List<NotGIF>!
+    fileprivate var gifList: Results<NotGIF>!
     fileprivate var notifiToken: NotificationToken?
     
     fileprivate var currentTag: Tag!
@@ -67,13 +66,14 @@ class GIFListViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(autoplayItemClicked))
         navigationItem.rightBarButtonItem?.tintColor = .gray
-
-
+        
         PHPhotoLibrary.requestAuthorization { status in
             guard status == .authorized else { return }
             
-            DispatchQueue.main.async {
+            DispatchQueue.main.safeAsync {
+                
                 HUD.show(text: "fetching GIFs...")
+                
                 NotGIFLibrary.shared.prepare { lastSelectTag in
                     self.showGIFList(of: lastSelectTag)
                     HUD.hide()
@@ -84,33 +84,6 @@ class GIFListViewController: UIViewController {
         #if DEBUG
             view.addSubview(FPSLabel())
         #endif
-    }
-
-    func updateUI() {
-        defer {
-            collectionView.reloadData()
-        }
-                
-        if gifLibrary.authorizationStatus == .authorized {
-            
-            if gifLibrary.isEmpty {
-                indicatorView = IndicatorView(for: view, type: .noGIF)
-                
-            } else {
-                indicatorView = nil
-            }
-            
-        } else {
-            indicatorView = IndicatorView(for: view, type: .denied)
-        }
-        
-        if let detailVC = self.navigationController?.topViewController as? GIFDetailViewController {
-            if gifLibrary.isEmpty {
-                detailVC.dismiss(animated: true, completion: nil)
-            } else {
-                detailVC.updateUI()
-            }
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -130,7 +103,7 @@ class GIFListViewController: UIViewController {
         notifiToken = nil
         
         currentTag = tag
-        gifList = tag.gifs
+        gifList = tag.gifs.sorted(byKeyPath: "creationDate", ascending: true)
         
         notifiToken = gifList.addNotificationBlock { [weak self] changes in
             guard let collectionView = self?.collectionView else { return }
@@ -167,7 +140,7 @@ class GIFListViewController: UIViewController {
 }
 
 extension GIFListViewController: UINavigationControllerDelegate {
-
+    
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         if operation == .push, toVC is GIFDetailViewController {
@@ -221,17 +194,9 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 
-// MARK: - GIFLibraryChange Observer
-extension GIFListViewController: NotGIFLibraryChangeObserver {
-    func gifLibraryDidChange() {
-        DispatchQueue.main.async {
-            self.updateUI()
-        }
-    }
-}
-
 // MARK: - GIFListLayout Delegate
 extension GIFListViewController: GIFListLayoutDelegate {
+    
     func ratioForImageAtIndexPath(indexPath: IndexPath) -> CGFloat {
         return gifList[indexPath.item].ratio
     }
