@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 import RealmSwift
 
 @UIApplicationMain
@@ -18,14 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         Realm.Configuration.defaultConfiguration = realmConfig()
-
-        let naviationVC = UINavigationController(rootViewController: GIFListViewController())
-        naviationVC.navigationBar.barTintColor = .tintBar
-        naviationVC.navigationBar.tintColor = .tintColor
-        
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = naviationVC
-        window?.makeKeyAndVisible()
+        prepareRealm()
         
         return true
     }
@@ -51,7 +45,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 

@@ -12,4 +12,7 @@ final public class Config {
 
     static let appGroupID = "group.atuo-xyz.notGIF"
     
+    static let defaultTagID = "not.all.gif.tagId"
+    
+    static let sideBarWidth = 0.72 * kScreenWidth    // -> Main.storybord
 }

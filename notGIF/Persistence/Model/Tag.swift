@@ -20,4 +20,19 @@ class Tag: Object {
     override static func primaryKey() -> String? {
         return "id"
     }
+    
+    convenience init(id: String = UUID().uuidString, name: String) {
+        self.init()
+        
+        self.id = id
+        self.name = name
+        createDate = Date()
+    }
+}
+
+extension Tag {
+    
+    func remove(notGIF: NotGIF) {
+        
+    }
 }

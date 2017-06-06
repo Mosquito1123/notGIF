@@ -13,25 +13,15 @@ protocol GIFListLayoutDelegate: NSObjectProtocol {
 }
 
 class GIFListLayout: UICollectionViewLayout {
+
+    @IBOutlet weak var layoutDelegate: NSObject?
     
-    weak var delegate: GIFListLayoutDelegate!
-    private let cellPadding = CGFloat(1.0)
-    private var contentSize = CGSize.zero
-    private var cachedAttributes = [UICollectionViewLayoutAttributes]()
-    
-    init(delegate: GIFListLayoutDelegate) {
-        super.init()
-        
-        self.delegate = delegate 
-    }
-        
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    fileprivate let cellPadding = CGFloat(1.0)
+    fileprivate var contentSize = CGSize.zero
+    fileprivate var cachedAttributes = [UICollectionViewLayoutAttributes]()
     
     override func prepare() {
         super.prepare()
-        
         cacheAttributes()
     }
     
@@ -52,7 +42,8 @@ class GIFListLayout: UICollectionViewLayout {
     }
     
     fileprivate func cacheAttributes() {
-        guard let collectionView = collectionView else { return }
+        guard let collectionView = collectionView,
+                let delegate = layoutDelegate as? GIFListLayoutDelegate else { return }
         
         cachedAttributes.removeAll()
         

@@ -8,7 +8,8 @@
 
 import Foundation
 
-private let haveFetchedKey = "notGIF_have_fetched"
+private let haveFetchedKey      = "notGIF_have_fetched"
+private let lastSelectTagIDKey  = "notGIF_last_select_tag_id"
 
 final public class NGUserDefaults {
     
@@ -20,6 +21,15 @@ final public class NGUserDefaults {
         }
         get {
             return defaults.bool(forKey: haveFetchedKey)
+        }
+    }
+    
+    static var lastSelectTadID: String {
+        set {
+            defaults.set(newValue, forKey: lastSelectTagIDKey)
+        }
+        get {
+            return defaults.string(forKey: lastSelectTagIDKey) ?? Config.defaultTagID
         }
     }
 }

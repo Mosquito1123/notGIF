@@ -31,13 +31,13 @@ class MGIFListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: GIFListLayout(delegate: self))
-        collectionView.backgroundColor = .bgColor
-        collectionView.register(MGIFListViewCell.self, forCellWithReuseIdentifier: cellID)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        view.addSubview(collectionView)
+//        collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: GIFListLayout(delegate: self))
+//        collectionView.backgroundColor = .bgColor
+//        collectionView.register(MGIFListViewCell.self, forCellWithReuseIdentifier: cellID)
+//        collectionView.translatesAutoresizingMaskIntoConstraints = false
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
+//        view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints { make in
             make.edges.equalTo(view)
@@ -51,7 +51,7 @@ class MGIFListViewController: UIViewController {
                                         with: "fetching GIFs...",
                                         progressHandler:
                 {
-                    self.gifLibrary.prepare()
+//                    self.gifLibrary.prepare()
                 }, completion: {
                     DispatchQueue.main.async {
                         self.updateUI()

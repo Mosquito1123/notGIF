@@ -7,10 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		986F7F1A1EC01B460067CD26 /* DetailAnimators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986F7F191EC01B460067CD26 /* DetailAnimators.swift */; };
+		981134131EDE766600D4097D /* AccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9811340B1EDE766600D4097D /* AccountTableViewController.swift */; };
+		981134141EDE766600D4097D /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9811340C1EDE766600D4097D /* ComposeViewController.swift */; };
+		981134151EDE766600D4097D /* GIFDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9811340E1EDE766600D4097D /* GIFDetailViewController.swift */; };
+		981134161EDE766600D4097D /* GIFListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981134101EDE766600D4097D /* GIFListViewController.swift */; };
+		981134171EDE766600D4097D /* DetailAnimators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981134121EDE766600D4097D /* DetailAnimators.swift */; };
+		9811341B1EDE76FF00D4097D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9811341A1EDE76FF00D4097D /* Main.storyboard */; };
+		98159B3E1EE6945500341ACC /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98159B3D1EE6945500341ACC /* HUD.swift */; };
+		98557AF71EDE77EF007C7E22 /* GIFInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AEE1EDE77EF007C7E22 /* GIFInfoLabel.swift */; };
+		98557AF81EDE77EF007C7E22 /* GIFShareBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AEF1EDE77EF007C7E22 /* GIFShareBar.swift */; };
+		98557AF91EDE77EF007C7E22 /* FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AF11EDE77EF007C7E22 /* FPSLabel.swift */; };
+		98557AFA1EDE77EF007C7E22 /* StatusBarLoadingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AF21EDE77EF007C7E22 /* StatusBarLoadingLayer.swift */; };
+		98557AFB1EDE77EF007C7E22 /* StatusBarToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AF41EDE77EF007C7E22 /* StatusBarToast.swift */; };
+		98557B211EE002C9007C7E22 /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557B201EE002C9007C7E22 /* DrawerViewController.swift */; };
+		98557B241EE003CD007C7E22 /* SideBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557B231EE003CD007C7E22 /* SideBarViewController.swift */; };
+		98A9FD661EE68C2A001A761D /* NotGIFImageView+Load.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD621EE68C2A001A761D /* NotGIFImageView+Load.swift */; };
+		98A9FD671EE68C2A001A761D /* NotGIFLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD631EE68C2A001A761D /* NotGIFLibrary.swift */; };
+		98A9FD681EE68C2A001A761D /* OpenShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD641EE68C2A001A761D /* OpenShare.swift */; };
+		98A9FD691EE68C2A001A761D /* SLRequestManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD651EE68C2A001A761D /* SLRequestManger.swift */; };
+		98A9FD6C1EE68CFD001A761D /* GIFListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD6B1EE68CFD001A761D /* GIFListLayout.swift */; };
+		98A9FD6D1EE68CFD001A761D /* GIFListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD6B1EE68CFD001A761D /* GIFListLayout.swift */; };
+		98A9FD6E1EE68DF1001A761D /* NotGIFLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD631EE68C2A001A761D /* NotGIFLibrary.swift */; };
+		98A9FD6F1EE68DF4001A761D /* NotGIFImageView+Load.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD621EE68C2A001A761D /* NotGIFImageView+Load.swift */; };
 		98AFCB541ED928EB00D64FBE /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AFCB531ED928EB00D64FBE /* UserDefaults.swift */; };
 		98AFCB551ED928F500D64FBE /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98AFCB531ED928EB00D64FBE /* UserDefaults.swift */; };
 		98AFCB561ED92A5000D64FBE /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9AD671ED8544700C34DF4 /* Config.swift */; };
+		C91E0FA41EE4697700F56737 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E0FA31EE4697700F56737 /* RealmConfig.swift */; };
 		C947E0901DAA279900625B72 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947E08F1DAA279900625B72 /* AppDelegate.swift */; };
 		C947E0971DAA279900625B72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C947E0961DAA279900625B72 /* Assets.xcassets */; };
 		C947E09A1DAA279900625B72 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C947E0981DAA279900625B72 /* LaunchScreen.storyboard */; };
@@ -18,12 +40,28 @@
 		C963F77F1ED85044004405EB /* NotGIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963F77D1ED85044004405EB /* NotGIF.swift */; };
 		C963F7811ED8504E004405EB /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963F7801ED8504E004405EB /* Tag.swift */; };
 		C963F7821ED8504E004405EB /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963F7801ED8504E004405EB /* Tag.swift */; };
-		C994D9A01EDBB19400A0D6A8 /* NotGIFImageLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994D99F1EDBB19400A0D6A8 /* NotGIFImageLayer.swift */; };
 		C994D9A61EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */; };
 		C994D9A71EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */; };
-		C9BACB431ED5BA84007088CB /* NGWeakProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BACB421ED5BA84007088CB /* NGWeakProxy.swift */; };
-		C9BACB441ED5BA8A007088CB /* NGWeakProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BACB421ED5BA84007088CB /* NGWeakProxy.swift */; };
-		C9E9AD661ED8537500C34DF4 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9AD651ED8537500C34DF4 /* RealmConfig.swift */; };
+		C9AA996E1EE3B062000CBFB5 /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = C9AA996D1EE3B062000CBFB5 /* tag.png */; };
+		C9BDEC6D1EE2A01500EF99A8 /* GIFDetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC691EE2A01500EF99A8 /* GIFDetailViewCell.swift */; };
+		C9BDEC6E1EE2A01500EF99A8 /* GIFLisViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC6B1EE2A01500EF99A8 /* GIFLisViewCell.swift */; };
+		C9BDEC791EE2A0CE00EF99A8 /* NotGIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC741EE2A0CE00EF99A8 /* NotGIFImage.swift */; };
+		C9BDEC7A1EE2A0CE00EF99A8 /* NotGIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC741EE2A0CE00EF99A8 /* NotGIFImage.swift */; };
+		C9BDEC7D1EE2A0CE00EF99A8 /* NotGIFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC761EE2A0CE00EF99A8 /* NotGIFImageView.swift */; };
+		C9BDEC7E1EE2A0CE00EF99A8 /* NotGIFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC761EE2A0CE00EF99A8 /* NotGIFImageView.swift */; };
+		C9BDEC801EE2A0FC00EF99A8 /* NGWeakProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC7F1EE2A0FC00EF99A8 /* NGWeakProxy.swift */; };
+		C9BDEC811EE2A0FC00EF99A8 /* NGWeakProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC7F1EE2A0FC00EF99A8 /* NGWeakProxy.swift */; };
+		C9BDEC841EE2A17D00EF99A8 /* UIFont+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC831EE2A17D00EF99A8 /* UIFont+NG.swift */; };
+		C9BDEC851EE2A17D00EF99A8 /* UIFont+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC831EE2A17D00EF99A8 /* UIFont+NG.swift */; };
+		C9BDEC871EE2A4E200EF99A8 /* UIColor+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC861EE2A4E200EF99A8 /* UIColor+NG.swift */; };
+		C9BDEC881EE2A4E200EF99A8 /* UIColor+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC861EE2A4E200EF99A8 /* UIColor+NG.swift */; };
+		C9BDEC8D1EE2D25A00EF99A8 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C9BDEC8C1EE2D25A00EF99A8 /* logo.png */; };
+		C9BDEC8F1EE2D83600EF99A8 /* TagListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC8E1EE2D83600EF99A8 /* TagListCell.swift */; };
+		C9BDEC911EE2FBC300EF99A8 /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC901EE2FBC300EF99A8 /* FontAwesome.swift */; };
+		C9BDEC921EE2FBC300EF99A8 /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC901EE2FBC300EF99A8 /* FontAwesome.swift */; };
+		C9C7DC2F1EE3FDBA002B26A0 /* PHAsset+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7DC2E1EE3FDBA002B26A0 /* PHAsset+NG.swift */; };
+		C9C7DC311EE3FDDE002B26A0 /* ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7DC301EE3FDDE002B26A0 /* ScreenSize.swift */; };
+		C9C7DC321EE3FDDE002B26A0 /* ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7DC301EE3FDDE002B26A0 /* ScreenSize.swift */; };
 		C9E9AD681ED8544700C34DF4 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E9AD671ED8544700C34DF4 /* Config.swift */; };
 		C9F860881DBD027E006B1221 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F860871DBD027E006B1221 /* Messages.framework */; };
 		C9F8608B1DBD027E006B1221 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8608A1DBD027E006B1221 /* MessagesViewController.swift */; };
@@ -36,39 +74,16 @@
 		C9F861601DBD0B1C006B1221 /* Kenia-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9F861521DBD0B1C006B1221 /* Kenia-Regular.ttf */; };
 		C9F861611DBD0B1C006B1221 /* Shojumaru-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9F861531DBD0B1C006B1221 /* Shojumaru-Regular.ttf */; };
 		C9F861621DBD0B1C006B1221 /* Shojumaru-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9F861531DBD0B1C006B1221 /* Shojumaru-Regular.ttf */; };
-		C9F861631DBD0B1C006B1221 /* NotGIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861551DBD0B1C006B1221 /* NotGIFImage.swift */; };
-		C9F861641DBD0B1C006B1221 /* NotGIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861551DBD0B1C006B1221 /* NotGIFImage.swift */; };
-		C9F861651DBD0B1C006B1221 /* NotGIFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861561DBD0B1C006B1221 /* NotGIFImageView.swift */; };
-		C9F861661DBD0B1C006B1221 /* NotGIFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861561DBD0B1C006B1221 /* NotGIFImageView.swift */; };
-		C9F861671DBD0B1C006B1221 /* NotGIFLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861571DBD0B1C006B1221 /* NotGIFLibrary.swift */; };
-		C9F861681DBD0B1C006B1221 /* NotGIFLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861571DBD0B1C006B1221 /* NotGIFLibrary.swift */; };
 		C9F8616B1DBD0B1C006B1221 /* ATUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8615A1DBD0B1C006B1221 /* ATUtility.swift */; };
 		C9F8616C1DBD0B1C006B1221 /* ATUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8615A1DBD0B1C006B1221 /* ATUtility.swift */; };
 		C9F8616D1DBD0B1C006B1221 /* DebugLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8615B1DBD0B1C006B1221 /* DebugLog.swift */; };
 		C9F8616E1DBD0B1C006B1221 /* DebugLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8615B1DBD0B1C006B1221 /* DebugLog.swift */; };
 		C9F861731DBD0BBA006B1221 /* ATAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861711DBD0BBA006B1221 /* ATAlert.swift */; };
 		C9F861741DBD0BBA006B1221 /* ATAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861711DBD0BBA006B1221 /* ATAlert.swift */; };
-		C9F861751DBD0BBA006B1221 /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861721DBD0BBA006B1221 /* FontAwesome.swift */; };
-		C9F861761DBD0BBA006B1221 /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861721DBD0BBA006B1221 /* FontAwesome.swift */; };
-		C9F861881DBD0BD6006B1221 /* AccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861781DBD0BD6006B1221 /* AccountTableViewController.swift */; };
-		C9F861891DBD0BD6006B1221 /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861791DBD0BD6006B1221 /* ComposeViewController.swift */; };
-		C9F8618A1DBD0BD6006B1221 /* GIFDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8617A1DBD0BD6006B1221 /* GIFDetailViewController.swift */; };
-		C9F8618B1DBD0BD6006B1221 /* GIFListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8617B1DBD0BD6006B1221 /* GIFListViewController.swift */; };
-		C9F8618C1DBD0BD6006B1221 /* OpenShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8617D1DBD0BD6006B1221 /* OpenShare.swift */; };
-		C9F8618D1DBD0BD6006B1221 /* SLRequestManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8617E1DBD0BD6006B1221 /* SLRequestManger.swift */; };
-		C9F8618E1DBD0BD6006B1221 /* FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861801DBD0BD6006B1221 /* FPSLabel.swift */; };
-		C9F8618F1DBD0BD6006B1221 /* GIFDetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861811DBD0BD6006B1221 /* GIFDetailViewCell.swift */; };
-		C9F861901DBD0BD6006B1221 /* GIFInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861821DBD0BD6006B1221 /* GIFInfoLabel.swift */; };
-		C9F861921DBD0BD6006B1221 /* GIFLisViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861841DBD0BD6006B1221 /* GIFLisViewCell.swift */; };
-		C9F861931DBD0BD6006B1221 /* GIFShareBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861851DBD0BD6006B1221 /* GIFShareBar.swift */; };
-		C9F861941DBD0BD6006B1221 /* StatusBarLoadingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861861DBD0BD6006B1221 /* StatusBarLoadingLayer.swift */; };
-		C9F861951DBD0BD6006B1221 /* StatusBarToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861871DBD0BD6006B1221 /* StatusBarToast.swift */; };
 		C9F861A91DBD1046006B1221 /* MGIFLisViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861A81DBD1046006B1221 /* MGIFLisViewCell.swift */; };
 		C9F861AB1DBD104F006B1221 /* MGIFListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861AA1DBD104F006B1221 /* MGIFListViewController.swift */; };
 		C9F861AF1DBF98F2006B1221 /* MBHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861AE1DBF98F2006B1221 /* MBHUD.swift */; };
 		C9F861B01DBF98F2006B1221 /* MBHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861AE1DBF98F2006B1221 /* MBHUD.swift */; };
-		C9F861B31DC09503006B1221 /* GIFListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861B21DC09503006B1221 /* GIFListLayout.swift */; };
-		C9F861B41DC09503006B1221 /* GIFListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861B21DC09503006B1221 /* GIFListLayout.swift */; };
 		C9F861B81DC0A0C9006B1221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C947E0961DAA279900625B72 /* Assets.xcassets */; };
 		C9F861BC1DC0C22B006B1221 /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861BB1DC0C22B006B1221 /* IndicatorView.swift */; };
 		C9F861BD1DC0C22B006B1221 /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861BB1DC0C22B006B1221 /* IndicatorView.swift */; };
@@ -105,10 +120,29 @@
 		25FEBD5B3FC0320DFA349F80 /* Pods-notGIFMessage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notGIFMessage.release.xcconfig"; path = "Pods/Target Support Files/Pods-notGIFMessage/Pods-notGIFMessage.release.xcconfig"; sourceTree = "<group>"; };
 		5E83B6C1B2758C67408FBD2A /* Pods-notGIF.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notGIF.release.xcconfig"; path = "Pods/Target Support Files/Pods-notGIF/Pods-notGIF.release.xcconfig"; sourceTree = "<group>"; };
 		77787802832EB1AFAF109C0C /* Pods_notGIFMessage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notGIFMessage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		986F7F191EC01B460067CD26 /* DetailAnimators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAnimators.swift; sourceTree = "<group>"; };
+		9811340B1EDE766600D4097D /* AccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTableViewController.swift; sourceTree = "<group>"; };
+		9811340C1EDE766600D4097D /* ComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
+		9811340E1EDE766600D4097D /* GIFDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFDetailViewController.swift; sourceTree = "<group>"; };
+		981134101EDE766600D4097D /* GIFListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFListViewController.swift; sourceTree = "<group>"; };
+		981134121EDE766600D4097D /* DetailAnimators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAnimators.swift; sourceTree = "<group>"; };
+		9811341A1EDE76FF00D4097D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		98159B3D1EE6945500341ACC /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		98557AEE1EDE77EF007C7E22 /* GIFInfoLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFInfoLabel.swift; sourceTree = "<group>"; };
+		98557AEF1EDE77EF007C7E22 /* GIFShareBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFShareBar.swift; sourceTree = "<group>"; };
+		98557AF11EDE77EF007C7E22 /* FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSLabel.swift; sourceTree = "<group>"; };
+		98557AF21EDE77EF007C7E22 /* StatusBarLoadingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarLoadingLayer.swift; sourceTree = "<group>"; };
+		98557AF41EDE77EF007C7E22 /* StatusBarToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarToast.swift; sourceTree = "<group>"; };
+		98557B201EE002C9007C7E22 /* DrawerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
+		98557B231EE003CD007C7E22 /* SideBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarViewController.swift; sourceTree = "<group>"; };
+		98A9FD621EE68C2A001A761D /* NotGIFImageView+Load.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotGIFImageView+Load.swift"; sourceTree = "<group>"; };
+		98A9FD631EE68C2A001A761D /* NotGIFLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIFLibrary.swift; sourceTree = "<group>"; };
+		98A9FD641EE68C2A001A761D /* OpenShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenShare.swift; sourceTree = "<group>"; };
+		98A9FD651EE68C2A001A761D /* SLRequestManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLRequestManger.swift; sourceTree = "<group>"; };
+		98A9FD6B1EE68CFD001A761D /* GIFListLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFListLayout.swift; sourceTree = "<group>"; };
 		98AFCB531ED928EB00D64FBE /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		99390F0FC548DA7E562C6B7B /* Pods-notGIF.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notGIF.debug.xcconfig"; path = "Pods/Target Support Files/Pods-notGIF/Pods-notGIF.debug.xcconfig"; sourceTree = "<group>"; };
 		B7989C9163A7614ED2EDFD44 /* Pods_notGIF.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notGIF.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C91E0FA31EE4697700F56737 /* RealmConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmConfig.swift; sourceTree = "<group>"; };
 		C947E08C1DAA279900625B72 /* notGIF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notGIF.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C947E08F1DAA279900625B72 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C947E0961DAA279900625B72 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -116,11 +150,21 @@
 		C947E09B1DAA279900625B72 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C963F77D1ED85044004405EB /* NotGIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIF.swift; sourceTree = "<group>"; };
 		C963F7801ED8504E004405EB /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
-		C994D99F1EDBB19400A0D6A8 /* NotGIFImageLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIFImageLayer.swift; sourceTree = "<group>"; };
 		C994D9A11EDBBFCA00A0D6A8 /* NotGIF_Bridging_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotGIF_Bridging_Header.h; sourceTree = "<group>"; };
 		C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadHelper.swift; sourceTree = "<group>"; };
-		C9BACB421ED5BA84007088CB /* NGWeakProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGWeakProxy.swift; sourceTree = "<group>"; };
-		C9E9AD651ED8537500C34DF4 /* RealmConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmConfig.swift; sourceTree = "<group>"; };
+		C9AA996D1EE3B062000CBFB5 /* tag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag.png; sourceTree = "<group>"; };
+		C9BDEC691EE2A01500EF99A8 /* GIFDetailViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFDetailViewCell.swift; sourceTree = "<group>"; };
+		C9BDEC6B1EE2A01500EF99A8 /* GIFLisViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFLisViewCell.swift; sourceTree = "<group>"; };
+		C9BDEC741EE2A0CE00EF99A8 /* NotGIFImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIFImage.swift; sourceTree = "<group>"; };
+		C9BDEC761EE2A0CE00EF99A8 /* NotGIFImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIFImageView.swift; sourceTree = "<group>"; };
+		C9BDEC7F1EE2A0FC00EF99A8 /* NGWeakProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGWeakProxy.swift; sourceTree = "<group>"; };
+		C9BDEC831EE2A17D00EF99A8 /* UIFont+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+NG.swift"; sourceTree = "<group>"; };
+		C9BDEC861EE2A4E200EF99A8 /* UIColor+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+NG.swift"; sourceTree = "<group>"; };
+		C9BDEC8C1EE2D25A00EF99A8 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		C9BDEC8E1EE2D83600EF99A8 /* TagListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListCell.swift; sourceTree = "<group>"; };
+		C9BDEC901EE2FBC300EF99A8 /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
+		C9C7DC2E1EE3FDBA002B26A0 /* PHAsset+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PHAsset+NG.swift"; sourceTree = "<group>"; };
+		C9C7DC301EE3FDDE002B26A0 /* ScreenSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenSize.swift; sourceTree = "<group>"; };
 		C9E9AD671ED8544700C34DF4 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		C9E9AD691ED854A300C34DF4 /* notGIF.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = notGIF.entitlements; sourceTree = "<group>"; };
 		C9F860861DBD027E006B1221 /* notGIFMessage.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = notGIFMessage.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,30 +176,12 @@
 		C9F861511DBD0B1C006B1221 /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
 		C9F861521DBD0B1C006B1221 /* Kenia-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kenia-Regular.ttf"; sourceTree = "<group>"; };
 		C9F861531DBD0B1C006B1221 /* Shojumaru-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Shojumaru-Regular.ttf"; sourceTree = "<group>"; };
-		C9F861551DBD0B1C006B1221 /* NotGIFImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIFImage.swift; sourceTree = "<group>"; };
-		C9F861561DBD0B1C006B1221 /* NotGIFImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIFImageView.swift; sourceTree = "<group>"; };
-		C9F861571DBD0B1C006B1221 /* NotGIFLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIFLibrary.swift; sourceTree = "<group>"; };
 		C9F8615A1DBD0B1C006B1221 /* ATUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATUtility.swift; sourceTree = "<group>"; };
 		C9F8615B1DBD0B1C006B1221 /* DebugLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugLog.swift; sourceTree = "<group>"; };
 		C9F861711DBD0BBA006B1221 /* ATAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATAlert.swift; sourceTree = "<group>"; };
-		C9F861721DBD0BBA006B1221 /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
-		C9F861781DBD0BD6006B1221 /* AccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTableViewController.swift; sourceTree = "<group>"; };
-		C9F861791DBD0BD6006B1221 /* ComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
-		C9F8617A1DBD0BD6006B1221 /* GIFDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFDetailViewController.swift; sourceTree = "<group>"; };
-		C9F8617B1DBD0BD6006B1221 /* GIFListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFListViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		C9F8617D1DBD0BD6006B1221 /* OpenShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenShare.swift; sourceTree = "<group>"; };
-		C9F8617E1DBD0BD6006B1221 /* SLRequestManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLRequestManger.swift; sourceTree = "<group>"; };
-		C9F861801DBD0BD6006B1221 /* FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FPSLabel.swift; sourceTree = "<group>"; };
-		C9F861811DBD0BD6006B1221 /* GIFDetailViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFDetailViewCell.swift; sourceTree = "<group>"; };
-		C9F861821DBD0BD6006B1221 /* GIFInfoLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFInfoLabel.swift; sourceTree = "<group>"; };
-		C9F861841DBD0BD6006B1221 /* GIFLisViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFLisViewCell.swift; sourceTree = "<group>"; };
-		C9F861851DBD0BD6006B1221 /* GIFShareBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFShareBar.swift; sourceTree = "<group>"; };
-		C9F861861DBD0BD6006B1221 /* StatusBarLoadingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarLoadingLayer.swift; sourceTree = "<group>"; };
-		C9F861871DBD0BD6006B1221 /* StatusBarToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarToast.swift; sourceTree = "<group>"; };
 		C9F861A81DBD1046006B1221 /* MGIFLisViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MGIFLisViewCell.swift; path = View/MGIFLisViewCell.swift; sourceTree = "<group>"; };
 		C9F861AA1DBD104F006B1221 /* MGIFListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MGIFListViewController.swift; path = ViewController/MGIFListViewController.swift; sourceTree = "<group>"; };
 		C9F861AE1DBF98F2006B1221 /* MBHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBHUD.swift; sourceTree = "<group>"; };
-		C9F861B21DC09503006B1221 /* GIFListLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFListLayout.swift; sourceTree = "<group>"; };
 		C9F861BB1DC0C22B006B1221 /* IndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -190,12 +216,136 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		986F7F121EC01AB70067CD26 /* Transition */ = {
+		981134091EDE766600D4097D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				986F7F191EC01B460067CD26 /* DetailAnimators.swift */,
+				9811340F1EDE766600D4097D /* List */,
+				9811340D1EDE766600D4097D /* Detail */,
+				98557B1F1EE00180007C7E22 /* Drawer */,
+				98557B221EE003C0007C7E22 /* SideBar */,
+				9811340A1EDE766600D4097D /* Compose */,
+				981134111EDE766600D4097D /* Transition */,
 			);
-			name = Transition;
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		9811340A1EDE766600D4097D /* Compose */ = {
+			isa = PBXGroup;
+			children = (
+				9811340B1EDE766600D4097D /* AccountTableViewController.swift */,
+				9811340C1EDE766600D4097D /* ComposeViewController.swift */,
+			);
+			path = Compose;
+			sourceTree = "<group>";
+		};
+		9811340D1EDE766600D4097D /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				9811340E1EDE766600D4097D /* GIFDetailViewController.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		9811340F1EDE766600D4097D /* List */ = {
+			isa = PBXGroup;
+			children = (
+				981134101EDE766600D4097D /* GIFListViewController.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		981134111EDE766600D4097D /* Transition */ = {
+			isa = PBXGroup;
+			children = (
+				981134121EDE766600D4097D /* DetailAnimators.swift */,
+			);
+			path = Transition;
+			sourceTree = "<group>";
+		};
+		98159B3C1EE693E400341ACC /* Hud */ = {
+			isa = PBXGroup;
+			children = (
+				98159B3D1EE6945500341ACC /* HUD.swift */,
+			);
+			path = Hud;
+			sourceTree = "<group>";
+		};
+		98557AEA1EDE77EF007C7E22 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				98557AEE1EDE77EF007C7E22 /* GIFInfoLabel.swift */,
+				98557AEF1EDE77EF007C7E22 /* GIFShareBar.swift */,
+				98557AF21EDE77EF007C7E22 /* StatusBarLoadingLayer.swift */,
+				98A9FD6A1EE68CFD001A761D /* Layout */,
+				C9BDEC721EE2A0CE00EF99A8 /* GIF */,
+				C9BDEC671EE2A01500EF99A8 /* Cell */,
+				98159B3C1EE693E400341ACC /* Hud */,
+				98557AF31EDE77EF007C7E22 /* Toast */,
+				C9BDEC6F1EE2A02E00EF99A8 /* SideBar */,
+				98557AF01EDE77EF007C7E22 /* Helper */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		98557AF01EDE77EF007C7E22 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				98557AF11EDE77EF007C7E22 /* FPSLabel.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		98557AF31EDE77EF007C7E22 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				98557AF41EDE77EF007C7E22 /* StatusBarToast.swift */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
+		98557B1F1EE00180007C7E22 /* Drawer */ = {
+			isa = PBXGroup;
+			children = (
+				98557B201EE002C9007C7E22 /* DrawerViewController.swift */,
+			);
+			path = Drawer;
+			sourceTree = "<group>";
+		};
+		98557B221EE003C0007C7E22 /* SideBar */ = {
+			isa = PBXGroup;
+			children = (
+				C9BDEC8C1EE2D25A00EF99A8 /* logo.png */,
+				C9AA996D1EE3B062000CBFB5 /* tag.png */,
+				98557B231EE003CD007C7E22 /* SideBarViewController.swift */,
+			);
+			path = SideBar;
+			sourceTree = "<group>";
+		};
+		98A9FD601EE68C2A001A761D /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				98A9FD611EE68C2A001A761D /* FetchGIF */,
+				98A9FD641EE68C2A001A761D /* OpenShare.swift */,
+				98A9FD651EE68C2A001A761D /* SLRequestManger.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		98A9FD611EE68C2A001A761D /* FetchGIF */ = {
+			isa = PBXGroup;
+			children = (
+				98A9FD631EE68C2A001A761D /* NotGIFLibrary.swift */,
+				98A9FD621EE68C2A001A761D /* NotGIFImageView+Load.swift */,
+			);
+			path = FetchGIF;
+			sourceTree = "<group>";
+		};
+		98A9FD6A1EE68CFD001A761D /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				98A9FD6B1EE68CFD001A761D /* GIFListLayout.swift */,
+			);
+			path = Layout;
 			sourceTree = "<group>";
 		};
 		C947E0831DAA279900625B72 = {
@@ -222,15 +372,15 @@
 		C947E08E1DAA279900625B72 /* notGIF */ = {
 			isa = PBXGroup;
 			children = (
-				C994D9A11EDBBFCA00A0D6A8 /* NotGIF_Bridging_Header.h */,
-				C9E9AD691ED854A300C34DF4 /* notGIF.entitlements */,
 				C947E08F1DAA279900625B72 /* AppDelegate.swift */,
 				C9E9AD671ED8544700C34DF4 /* Config.swift */,
-				C994D9A41EDD7F9A00A0D6A8 /* Helpers */,
+				98A9FD601EE68C2A001A761D /* Service */,
 				C963F77B1ED85008004405EB /* Persistence */,
-				C9F861771DBD0BD6006B1221 /* Controllers */,
-				C9F8617C1DBD0BD6006B1221 /* Service */,
-				C9F8617F1DBD0BD6006B1221 /* Views */,
+				981134091EDE766600D4097D /* Controllers */,
+				98557AEA1EDE77EF007C7E22 /* Views */,
+				9811341A1EDE76FF00D4097D /* Main.storyboard */,
+				C994D9A41EDD7F9A00A0D6A8 /* Helpers */,
+				C9BDEC821EE2A16E00EF99A8 /* Extensions */,
 				C947E0A11DAA27B000625B72 /* Supporthings */,
 			);
 			path = notGIF;
@@ -239,7 +389,9 @@
 		C947E0A11DAA27B000625B72 /* Supporthings */ = {
 			isa = PBXGroup;
 			children = (
+				C994D9A11EDBBFCA00A0D6A8 /* NotGIF_Bridging_Header.h */,
 				C947E0981DAA279900625B72 /* LaunchScreen.storyboard */,
+				C9E9AD691ED854A300C34DF4 /* notGIF.entitlements */,
 				C947E0961DAA279900625B72 /* Assets.xcassets */,
 				C947E09B1DAA279900625B72 /* Info.plist */,
 			);
@@ -250,7 +402,7 @@
 			isa = PBXGroup;
 			children = (
 				98AFCB531ED928EB00D64FBE /* UserDefaults.swift */,
-				C9E9AD651ED8537500C34DF4 /* RealmConfig.swift */,
+				C91E0FA31EE4697700F56737 /* RealmConfig.swift */,
 				C963F77C1ED85008004405EB /* Model */,
 			);
 			path = Persistence;
@@ -269,8 +421,71 @@
 			isa = PBXGroup;
 			children = (
 				C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */,
+				C9BDEC7F1EE2A0FC00EF99A8 /* NGWeakProxy.swift */,
+				C9BDEC901EE2FBC300EF99A8 /* FontAwesome.swift */,
+				C9C7DC301EE3FDDE002B26A0 /* ScreenSize.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C9BDEC671EE2A01500EF99A8 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C9BDEC6C1EE2A01500EF99A8 /* Tag */,
+				C9BDEC6A1EE2A01500EF99A8 /* List */,
+				C9BDEC681EE2A01500EF99A8 /* Detail */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		C9BDEC681EE2A01500EF99A8 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				C9BDEC691EE2A01500EF99A8 /* GIFDetailViewCell.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		C9BDEC6A1EE2A01500EF99A8 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				C9BDEC6B1EE2A01500EF99A8 /* GIFLisViewCell.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		C9BDEC6C1EE2A01500EF99A8 /* Tag */ = {
+			isa = PBXGroup;
+			children = (
+				C9BDEC8E1EE2D83600EF99A8 /* TagListCell.swift */,
+			);
+			path = Tag;
+			sourceTree = "<group>";
+		};
+		C9BDEC6F1EE2A02E00EF99A8 /* SideBar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SideBar;
+			sourceTree = "<group>";
+		};
+		C9BDEC721EE2A0CE00EF99A8 /* GIF */ = {
+			isa = PBXGroup;
+			children = (
+				C9BDEC741EE2A0CE00EF99A8 /* NotGIFImage.swift */,
+				C9BDEC761EE2A0CE00EF99A8 /* NotGIFImageView.swift */,
+			);
+			path = GIF;
+			sourceTree = "<group>";
+		};
+		C9BDEC821EE2A16E00EF99A8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C9BDEC831EE2A17D00EF99A8 /* UIFont+NG.swift */,
+				C9BDEC861EE2A4E200EF99A8 /* UIColor+NG.swift */,
+				C9C7DC2E1EE3FDBA002B26A0 /* PHAsset+NG.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		C9F860891DBD027E006B1221 /* notGIFMessage */ = {
@@ -318,11 +533,6 @@
 		C9F861541DBD0B1C006B1221 /* GIF */ = {
 			isa = PBXGroup;
 			children = (
-				C9F861571DBD0B1C006B1221 /* NotGIFLibrary.swift */,
-				C9BACB421ED5BA84007088CB /* NGWeakProxy.swift */,
-				C9F861551DBD0B1C006B1221 /* NotGIFImage.swift */,
-				C9F861561DBD0B1C006B1221 /* NotGIFImageView.swift */,
-				C994D99F1EDBB19400A0D6A8 /* NotGIFImageLayer.swift */,
 			);
 			path = GIF;
 			sourceTree = "<group>";
@@ -334,82 +544,13 @@
 				C9F861711DBD0BBA006B1221 /* ATAlert.swift */,
 				C9F8615A1DBD0B1C006B1221 /* ATUtility.swift */,
 				C9F8615B1DBD0B1C006B1221 /* DebugLog.swift */,
-				C9F861721DBD0BBA006B1221 /* FontAwesome.swift */,
 			);
 			path = Util;
-			sourceTree = "<group>";
-		};
-		C9F861771DBD0BD6006B1221 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				986F7F121EC01AB70067CD26 /* Transition */,
-				C9F8617B1DBD0BD6006B1221 /* GIFListViewController.swift */,
-				C9F8617A1DBD0BD6006B1221 /* GIFDetailViewController.swift */,
-				C9F861961DBD0BE0006B1221 /* Compose */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		C9F8617C1DBD0BD6006B1221 /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				C9F8617D1DBD0BD6006B1221 /* OpenShare.swift */,
-				C9F8617E1DBD0BD6006B1221 /* SLRequestManger.swift */,
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
-		C9F8617F1DBD0BD6006B1221 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				C9F861981DBD0C13006B1221 /* List */,
-				C9F861971DBD0BFA006B1221 /* Detail */,
-				C9F861991DBD0C2E006B1221 /* Toast */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		C9F861961DBD0BE0006B1221 /* Compose */ = {
-			isa = PBXGroup;
-			children = (
-				C9F861781DBD0BD6006B1221 /* AccountTableViewController.swift */,
-				C9F861791DBD0BD6006B1221 /* ComposeViewController.swift */,
-			);
-			name = Compose;
-			sourceTree = "<group>";
-		};
-		C9F861971DBD0BFA006B1221 /* Detail */ = {
-			isa = PBXGroup;
-			children = (
-				C9F861811DBD0BD6006B1221 /* GIFDetailViewCell.swift */,
-				C9F861821DBD0BD6006B1221 /* GIFInfoLabel.swift */,
-				C9F861851DBD0BD6006B1221 /* GIFShareBar.swift */,
-			);
-			name = Detail;
-			sourceTree = "<group>";
-		};
-		C9F861981DBD0C13006B1221 /* List */ = {
-			isa = PBXGroup;
-			children = (
-				C9F861841DBD0BD6006B1221 /* GIFLisViewCell.swift */,
-			);
-			name = List;
-			sourceTree = "<group>";
-		};
-		C9F861991DBD0C2E006B1221 /* Toast */ = {
-			isa = PBXGroup;
-			children = (
-				C9F861801DBD0BD6006B1221 /* FPSLabel.swift */,
-				C9F861871DBD0BD6006B1221 /* StatusBarToast.swift */,
-				C9F861861DBD0BD6006B1221 /* StatusBarLoadingLayer.swift */,
-			);
-			name = Toast;
 			sourceTree = "<group>";
 		};
 		C9F861B11DC09503006B1221 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C9F861B21DC09503006B1221 /* GIFListLayout.swift */,
 				C9F861BB1DC0C22B006B1221 /* IndicatorView.swift */,
 			);
 			path = View;
@@ -524,6 +665,9 @@
 				C9F8615F1DBD0B1C006B1221 /* Kenia-Regular.ttf in Resources */,
 				C947E09A1DAA279900625B72 /* LaunchScreen.storyboard in Resources */,
 				C947E0971DAA279900625B72 /* Assets.xcassets in Resources */,
+				9811341B1EDE76FF00D4097D /* Main.storyboard in Resources */,
+				C9AA996E1EE3B062000CBFB5 /* tag.png in Resources */,
+				C9BDEC8D1EE2D25A00EF99A8 /* logo.png in Resources */,
 				C9F8615D1DBD0B1C006B1221 /* FontAwesome.otf in Resources */,
 				C9F861611DBD0B1C006B1221 /* Shojumaru-Regular.ttf in Resources */,
 			);
@@ -627,39 +771,47 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9BDEC871EE2A4E200EF99A8 /* UIColor+NG.swift in Sources */,
 				C9F861731DBD0BBA006B1221 /* ATAlert.swift in Sources */,
-				C9F861631DBD0B1C006B1221 /* NotGIFImage.swift in Sources */,
-				C9F861931DBD0BD6006B1221 /* GIFShareBar.swift in Sources */,
-				C9F8618A1DBD0BD6006B1221 /* GIFDetailViewController.swift in Sources */,
-				986F7F1A1EC01B460067CD26 /* DetailAnimators.swift in Sources */,
-				C9BACB431ED5BA84007088CB /* NGWeakProxy.swift in Sources */,
+				98A9FD671EE68C2A001A761D /* NotGIFLibrary.swift in Sources */,
+				98A9FD661EE68C2A001A761D /* NotGIFImageView+Load.swift in Sources */,
+				C9C7DC2F1EE3FDBA002B26A0 /* PHAsset+NG.swift in Sources */,
+				98557B241EE003CD007C7E22 /* SideBarViewController.swift in Sources */,
+				981134131EDE766600D4097D /* AccountTableViewController.swift in Sources */,
 				C947E0901DAA279900625B72 /* AppDelegate.swift in Sources */,
 				C9F8616D1DBD0B1C006B1221 /* DebugLog.swift in Sources */,
-				C9F8618E1DBD0BD6006B1221 /* FPSLabel.swift in Sources */,
+				981134161EDE766600D4097D /* GIFListViewController.swift in Sources */,
 				C963F7811ED8504E004405EB /* Tag.swift in Sources */,
-				C9F861941DBD0BD6006B1221 /* StatusBarLoadingLayer.swift in Sources */,
+				98557AF71EDE77EF007C7E22 /* GIFInfoLabel.swift in Sources */,
+				C9BDEC6E1EE2A01500EF99A8 /* GIFLisViewCell.swift in Sources */,
+				98557AFA1EDE77EF007C7E22 /* StatusBarLoadingLayer.swift in Sources */,
+				98A9FD6C1EE68CFD001A761D /* GIFListLayout.swift in Sources */,
 				C994D9A61EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */,
-				C9E9AD661ED8537500C34DF4 /* RealmConfig.swift in Sources */,
-				C9F8618F1DBD0BD6006B1221 /* GIFDetailViewCell.swift in Sources */,
-				C9F861751DBD0BBA006B1221 /* FontAwesome.swift in Sources */,
+				98557B211EE002C9007C7E22 /* DrawerViewController.swift in Sources */,
 				C9F861AF1DBF98F2006B1221 /* MBHUD.swift in Sources */,
-				C9F8618D1DBD0BD6006B1221 /* SLRequestManger.swift in Sources */,
-				C9F861891DBD0BD6006B1221 /* ComposeViewController.swift in Sources */,
+				981134141EDE766600D4097D /* ComposeViewController.swift in Sources */,
 				C9E9AD681ED8544700C34DF4 /* Config.swift in Sources */,
-				C9F8618B1DBD0BD6006B1221 /* GIFListViewController.swift in Sources */,
-				C9F861921DBD0BD6006B1221 /* GIFLisViewCell.swift in Sources */,
-				C9F861901DBD0BD6006B1221 /* GIFInfoLabel.swift in Sources */,
 				98AFCB541ED928EB00D64FBE /* UserDefaults.swift in Sources */,
-				C9F861671DBD0B1C006B1221 /* NotGIFLibrary.swift in Sources */,
-				C9F861651DBD0B1C006B1221 /* NotGIFImageView.swift in Sources */,
-				C994D9A01EDBB19400A0D6A8 /* NotGIFImageLayer.swift in Sources */,
-				C9F8618C1DBD0BD6006B1221 /* OpenShare.swift in Sources */,
+				98557AFB1EDE77EF007C7E22 /* StatusBarToast.swift in Sources */,
+				C9BDEC801EE2A0FC00EF99A8 /* NGWeakProxy.swift in Sources */,
+				98159B3E1EE6945500341ACC /* HUD.swift in Sources */,
+				C9BDEC7D1EE2A0CE00EF99A8 /* NotGIFImageView.swift in Sources */,
+				C9BDEC911EE2FBC300EF99A8 /* FontAwesome.swift in Sources */,
+				98557AF91EDE77EF007C7E22 /* FPSLabel.swift in Sources */,
+				C91E0FA41EE4697700F56737 /* RealmConfig.swift in Sources */,
+				98557AF81EDE77EF007C7E22 /* GIFShareBar.swift in Sources */,
 				C9F8616B1DBD0B1C006B1221 /* ATUtility.swift in Sources */,
-				C9F861881DBD0BD6006B1221 /* AccountTableViewController.swift in Sources */,
+				C9C7DC311EE3FDDE002B26A0 /* ScreenSize.swift in Sources */,
+				C9BDEC791EE2A0CE00EF99A8 /* NotGIFImage.swift in Sources */,
+				C9BDEC6D1EE2A01500EF99A8 /* GIFDetailViewCell.swift in Sources */,
+				C9BDEC8F1EE2D83600EF99A8 /* TagListCell.swift in Sources */,
+				98A9FD691EE68C2A001A761D /* SLRequestManger.swift in Sources */,
 				C963F77E1ED85044004405EB /* NotGIF.swift in Sources */,
-				C9F861B31DC09503006B1221 /* GIFListLayout.swift in Sources */,
+				981134171EDE766600D4097D /* DetailAnimators.swift in Sources */,
 				C9F861BC1DC0C22B006B1221 /* IndicatorView.swift in Sources */,
-				C9F861951DBD0BD6006B1221 /* StatusBarToast.swift in Sources */,
+				981134151EDE766600D4097D /* GIFDetailViewController.swift in Sources */,
+				98A9FD681EE68C2A001A761D /* OpenShare.swift in Sources */,
+				C9BDEC841EE2A17D00EF99A8 /* UIFont+NG.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,22 +821,26 @@
 			files = (
 				C994D9A71EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */,
 				C9F861A91DBD1046006B1221 /* MGIFLisViewCell.swift in Sources */,
-				C9BACB441ED5BA8A007088CB /* NGWeakProxy.swift in Sources */,
+				98A9FD6E1EE68DF1001A761D /* NotGIFLibrary.swift in Sources */,
 				C9F861741DBD0BBA006B1221 /* ATAlert.swift in Sources */,
-				C9F861641DBD0B1C006B1221 /* NotGIFImage.swift in Sources */,
+				C9C7DC321EE3FDDE002B26A0 /* ScreenSize.swift in Sources */,
 				C9F861BD1DC0C22B006B1221 /* IndicatorView.swift in Sources */,
 				98AFCB551ED928F500D64FBE /* UserDefaults.swift in Sources */,
 				C9F8608B1DBD027E006B1221 /* MessagesViewController.swift in Sources */,
 				C9F8616E1DBD0B1C006B1221 /* DebugLog.swift in Sources */,
+				C9BDEC811EE2A0FC00EF99A8 /* NGWeakProxy.swift in Sources */,
 				C9F861B01DBF98F2006B1221 /* MBHUD.swift in Sources */,
+				98A9FD6D1EE68CFD001A761D /* GIFListLayout.swift in Sources */,
 				C963F77F1ED85044004405EB /* NotGIF.swift in Sources */,
-				C9F861761DBD0BBA006B1221 /* FontAwesome.swift in Sources */,
+				C9BDEC851EE2A17D00EF99A8 /* UIFont+NG.swift in Sources */,
 				98AFCB561ED92A5000D64FBE /* Config.swift in Sources */,
-				C9F861681DBD0B1C006B1221 /* NotGIFLibrary.swift in Sources */,
-				C9F861B41DC09503006B1221 /* GIFListLayout.swift in Sources */,
-				C9F861661DBD0B1C006B1221 /* NotGIFImageView.swift in Sources */,
+				C9BDEC7E1EE2A0CE00EF99A8 /* NotGIFImageView.swift in Sources */,
+				98A9FD6F1EE68DF4001A761D /* NotGIFImageView+Load.swift in Sources */,
+				C9BDEC7A1EE2A0CE00EF99A8 /* NotGIFImage.swift in Sources */,
 				C963F7821ED8504E004405EB /* Tag.swift in Sources */,
+				C9BDEC921EE2FBC300EF99A8 /* FontAwesome.swift in Sources */,
 				C9F861AB1DBD104F006B1221 /* MGIFListViewController.swift in Sources */,
+				C9BDEC881EE2A4E200EF99A8 /* UIColor+NG.swift in Sources */,
 				C9F8616C1DBD0B1C006B1221 /* ATUtility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -722,6 +878,7 @@
 		C947E09C1DAA279900625B72 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -744,6 +901,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -772,6 +930,7 @@
 		C947E09D1DAA279900625B72 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -794,6 +953,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -825,6 +985,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = Q9PYPYJJT9;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					TARGET_IS_HOSTAPP,
@@ -854,6 +1015,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: JinWei Shi (HBGHZ85ABK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = Q9PYPYJJT9;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					TARGET_IS_HOSTAPP,
@@ -875,6 +1037,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 117F574B007756B6F4EC37EA /* Pods-notGIFMessage.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "Messages Icon";
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
@@ -903,6 +1066,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 25FEBD5B3FC0320DFA349F80 /* Pods-notGIFMessage.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "Messages Icon";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: JinWei Shi (HBGHZ85ABK)";

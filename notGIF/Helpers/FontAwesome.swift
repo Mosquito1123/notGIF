@@ -17,6 +17,7 @@ public enum FontUnicode: String {
     case message = "\u{f086}"   // f0e6 f27a
     case copy    = "\u{f0c5}"
     case share   = "\u{f1e0}"
+    case tag     = "\u{f02c}"
     
     var string: String {
         return rawValue.substring(to: rawValue.characters.index(rawValue.startIndex, offsetBy: 1))

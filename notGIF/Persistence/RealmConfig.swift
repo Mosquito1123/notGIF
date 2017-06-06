@@ -2,7 +2,7 @@
 //  RealmConfig.swift
 //  notGIF
 //
-//  Created by Atuooo on 26/05/2017.
+//  Created by Atuooo on 05/06/2017.
 //  Copyright © 2017 xyz. All rights reserved.
 //
 
@@ -17,10 +17,24 @@ public func realmConfig(readOnly: Bool = false) -> Realm.Configuration {
     var config = Realm.Configuration()
     config.fileURL = realmFileURL
     config.readOnly = readOnly
-    config.schemaVersion = 1
+    config.schemaVersion = 2
     config.migrationBlock = { migration, oldSchemaVersion in
         
     }
     
     return config
+}
+
+public func prepareRealm() {
+    guard let realm = try? Realm() else { return }
+    
+    if let _ = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID) {
+        
+    } else {
+        
+        let defaultTag = Tag(id: Config.defaultTagID, name: "所有")
+        try? realm.write {
+            realm.add(defaultTag, update: true)
+        }
+    }
 }

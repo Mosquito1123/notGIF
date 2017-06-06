@@ -8,13 +8,15 @@
 
 import UIKit
 import Photos
+import RealmSwift
 import MBProgressHUD
 
-private let cellID = "GIFListViewCell"
+private let cellID = "GIFListCell"
 
 class GIFListViewController: UIViewController {
     fileprivate let gifLibrary = NotGIFLibrary.shared
-    fileprivate var collectionView: UICollectionView!
+    
+    @IBOutlet weak var collectionView: UICollectionView!
     
     fileprivate var indicatorView: IndicatorView? {
         willSet {
@@ -22,15 +24,25 @@ class GIFListViewController: UIViewController {
         }
     }
     
-    fileprivate var titleLabel: UILabel = {
+    fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
         label.text = "/jif/"
-        label.textColor = .tintColor
+        label.font = UIFont.kenia(ofSize: 26)
+        label.textColor = .textTint
         label.textAlignment = .center
-        label.font = UIFont(name: "Kenia-Regular", size: 26)
         return label
     }()
     
+    @IBAction func sideBarItemClicked(_ sender: UIBarButtonItem) {
+        if let drawer = navigationController?.parent as? DrawerViewController {
+            drawer.showOrDissmissSideBar()
+        }
+    }
+    
+    fileprivate var gifList: List<NotGIF>!
+    fileprivate var notifiToken: NotificationToken?
+    
+    fileprivate var currentTag: Tag!
     fileprivate var hasPaused = false
     
     fileprivate var shouldPlay = true {
@@ -51,41 +63,21 @@ class GIFListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .bgColor
-        navigationItem.title = ""
-        edgesForExtendedLayout = []
         navigationItem.titleView = titleLabel
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(autoplayItemClicked))
         navigationItem.rightBarButtonItem?.tintColor = .gray
-        
-        collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: GIFListLayout(delegate: self))
-        collectionView.register(GIFListViewCell.self, forCellWithReuseIdentifier: cellID)
 
-        collectionView.alwaysBounceVertical = true
-        collectionView.backgroundColor = .bgColor
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        view.addSubview(collectionView)
-        
-        collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(view)
-        }
-        
-        gifLibrary.observer = self
 
         PHPhotoLibrary.requestAuthorization { status in
-            if status == .authorized {
-                MBProgressHUD.showAdded(to: self.navigationController!.view,
-                                      with: "fetching GIFs...",
-                           progressHandler: {
-                    self.gifLibrary.prepare()
-                }, completion: {
-                    DispatchQueue.main.async {
-                        self.updateUI()
-                    }
-                })
+            guard status == .authorized else { return }
+            
+            DispatchQueue.main.async {
+                HUD.show(text: "fetching GIFs...")
+                NotGIFLibrary.shared.prepare { lastSelectTag in
+                    self.showGIFList(of: lastSelectTag)
+                    HUD.hide()
+                }
             }
         }
         
@@ -93,7 +85,7 @@ class GIFListViewController: UIViewController {
             view.addSubview(FPSLabel())
         #endif
     }
-    
+
     func updateUI() {
         defer {
             collectionView.reloadData()
@@ -131,8 +123,39 @@ class GIFListViewController: UIViewController {
         navigationController?.delegate = self
     }
     
+    public func showGIFList(of tag: Tag?) {
+        guard let tag = tag else { return }
+        
+        notifiToken?.stop()
+        notifiToken = nil
+        
+        currentTag = tag
+        gifList = tag.gifs
+        
+        notifiToken = gifList.addNotificationBlock { [weak self] changes in
+            guard let collectionView = self?.collectionView else { return }
+            switch changes {
+                
+            case .initial:
+                collectionView.reloadData()
+                
+            case .update(_, let deletions, let insertions, let modifications):
+                
+                collectionView.performBatchUpdates({
+                    collectionView.insertItems(at: insertions.map{ IndexPath(item: $0, section: 0) })
+                    collectionView.deleteItems(at: deletions.map{ IndexPath(item: $0, section: 0) })
+                    collectionView.reloadItems(at: modifications.map{ IndexPath(item: $0, section: 0) })
+                }, completion: nil)
+                
+            case .error(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
     deinit {
-        gifLibrary.observer = nil
+        notifiToken?.stop()
+        notifiToken = nil
     }
     
     func autoplayItemClicked() {
@@ -163,7 +186,7 @@ extension GIFListViewController: UINavigationControllerDelegate {
 // MARK: - Collection Delegate
 extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gifLibrary.count
+        return gifList != nil ? gifList.count : 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -174,8 +197,8 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         guard let cell = cell as? GIFListViewCell else { return }
+        cell.imageView.setGIFImage(with: gifList[indexPath.item].id, shouldPlay: shouldPlay)
         
-        cell.imageView.setGIFImage(with: NotGIFLibrary.shared.gifAssets[indexPath.item].localIdentifier)
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -210,6 +233,6 @@ extension GIFListViewController: NotGIFLibraryChangeObserver {
 // MARK: - GIFListLayout Delegate
 extension GIFListViewController: GIFListLayoutDelegate {
     func ratioForImageAtIndexPath(indexPath: IndexPath) -> CGFloat {
-        return gifLibrary.gifAssets[indexPath.item].ratio
+        return gifList[indexPath.item].ratio
     }
 }

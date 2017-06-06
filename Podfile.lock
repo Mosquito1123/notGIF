@@ -1,4 +1,5 @@
 PODS:
+  - LTMorphingLabel (0.5.0)
   - MBProgressHUD (1.0.0)
   - ReachabilitySwift (3)
   - Realm (2.6.2):
@@ -9,18 +10,20 @@ PODS:
   - SnapKit (3.0.2)
 
 DEPENDENCIES:
+  - LTMorphingLabel
   - MBProgressHUD
   - ReachabilitySwift
   - RealmSwift
   - SnapKit
 
 SPEC CHECKSUMS:
+  LTMorphingLabel: bc170be74b219b7dae0e5543a44676d16da70ff7
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
   Realm: 29222766425b9f831228f81b63f0e38a97a4d700
   RealmSwift: d161a80f96cb91ae88391a7d5a9cf08024a7bc8e
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
 
-PODFILE CHECKSUM: c27741733064c51cfb077e442334a3d35be0c46e
+PODFILE CHECKSUM: dda11728988cb581ea1939cd9eed0b58d133fde4
 
 COCOAPODS: 1.2.0.beta.1
