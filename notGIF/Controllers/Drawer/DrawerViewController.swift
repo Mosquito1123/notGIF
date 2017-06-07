@@ -30,7 +30,6 @@ class DrawerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
     }
     
     @IBAction func sidePanGesHandler(_ sender: UIPanGestureRecognizer) {

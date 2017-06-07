@@ -2,23 +2,31 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 use_frameworks!
 
-def pods
+def groupPods
+    
     pod 'SnapKit'
     pod 'ReachabilitySwift'
     pod 'MBProgressHUD'
     pod 'RealmSwift'
-    pod 'LTMorphingLabel'
+    
+end
+
+def mainPods
+    
+    pod 'IQKeyboardManagerSwift', '~> 4.0.8'
+    
 end
 
 target ‘notGIF’ do
     
-    pods
+    groupPods
+    mainPods
 
 end
 
 target 'notGIFMessage' do
     
-    pods
+    groupPods
     
 end
 

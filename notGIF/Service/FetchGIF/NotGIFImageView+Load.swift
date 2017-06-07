@@ -50,7 +50,7 @@ extension NotGIFImageView {
         }
     }
     
-    public func setGIFImage(with gifID: String, shouldPlay: Bool, completionHandler: (() -> Void)? = nil) {
+    public func setGIFImage(with gifID: String, shouldPlay: Bool, completionHandler: ((NotGIFImage) -> Void)? = nil) {
         let activityIndicator = indicator
         activityIndicator?.startAnimating()
         
@@ -75,12 +75,15 @@ extension NotGIFImageView {
                     }, completion: { _ in
                         UIView.transition(with: sSelf, duration: 0.5, options: .transitionCrossDissolve, animations: {
                             setImage()
-                        }, completion: { _ in })
+                        }, completion: { _ in
+                            completionHandler?(gif)
+                        })
                     })
                     
                 } else {
                     activityIndicator?.stopAnimating()
                     setImage()
+                    completionHandler?(gif)
                 }
             }
         }

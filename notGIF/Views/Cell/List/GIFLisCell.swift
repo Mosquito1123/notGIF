@@ -9,11 +9,14 @@
 import UIKit
 import SnapKit
 
-class GIFListViewCell: UICollectionViewCell {
+class GIFListCell: UICollectionViewCell {
+    
     @IBOutlet weak var imageView: NotGIFImageView!
+    @IBOutlet weak var timeLabel: UILabel!
     
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.animateImage = nil
+        timeLabel.text = nil
     }
 }

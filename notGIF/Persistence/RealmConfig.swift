@@ -13,6 +13,7 @@ public func realmConfig(readOnly: Bool = false) -> Realm.Configuration {
     
     let directory: URL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Config.appGroupID)!
     let realmFileURL = directory.appendingPathComponent("notGIF.realm")
+    print(realmFileURL)
     
     var config = Realm.Configuration()
     config.fileURL = realmFileURL
@@ -32,7 +33,10 @@ public func prepareRealm() {
         
     } else {
         
-        let defaultTag = Tag(id: Config.defaultTagID, name: "所有")
+        // 创建于 100 年后
+        let date = Date(timeIntervalSinceNow: 3153600000) 
+        let defaultTag = Tag(id: Config.defaultTagID, name: "所有", date: date)
+
         try? realm.write {
             realm.add(defaultTag, update: true)
         }

@@ -59,7 +59,7 @@ class NotGIFLibrary: NSObject {
         
         if NGUserDefaults.haveFetched { // 直接从 Realm 中获取 GIF 信息
             
-            let notGIFs = realm.objects(NotGIF.self).sorted(byKeyPath: "creationDate", ascending: false)
+            let notGIFs = realm.objects(NotGIF.self)
             let gifIDs: [String] = notGIFs.map { $0.id }
             let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: gifIDs, options: nil)
             let tempAllGIFAessts = fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count))
@@ -91,17 +91,15 @@ class NotGIFLibrary: NSObject {
             
             // TODO: - multithread
             let allGIFAssets = fetchAllGIFAssetsFromPhotos()
-            let defaultTag = Tag(id: Config.defaultTagID, name: "所有")
+            let defaultTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID)
             
             realm.beginWrite()
-            
-            realm.add(defaultTag, update: true)
-            
+                        
             allGIFAssets.forEach {
                 gifAssetPool[$0.localIdentifier] = $0
                 let notGIF = NotGIF(asset: $0)
                 realm.add(notGIF)
-                defaultTag.gifs.append(notGIF)
+                defaultTag?.gifs.append(notGIF)
             }
             
             try? realm.commitWrite()

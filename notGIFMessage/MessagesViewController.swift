@@ -11,8 +11,6 @@ import Photos
 import Messages
 import RealmSwift
 
-private let cellID = "MGIFListViewCell"
-
 class MessagesViewController: MSMessagesAppViewController {
     
     @IBOutlet weak var collectionView: UICollectionView! {
@@ -81,15 +79,14 @@ extension MessagesViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! MGIFListViewCell
+        let cell: MGIFListViewCell = collectionView.dequeueReusableCell(for: indexPath)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         guard let cell = cell as? MGIFListViewCell else { return }
-        cell.imageView.setGIFImage(with: gifList[indexPath.item].id, shouldPlay: true)
-        
+        cell.imageView.setGIFImage(with: gifList[indexPath.item].id, shouldPlay: true) 
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

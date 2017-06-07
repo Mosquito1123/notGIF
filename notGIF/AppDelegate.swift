@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import RealmSwift
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,10 +19,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        setIQKeyboardManager()
+        
         Realm.Configuration.defaultConfiguration = realmConfig()
         prepareRealm()
         
         return true
+    }
+    
+    fileprivate func setIQKeyboardManager() {
+        IQKeyboardManager.sharedManager().enable = true
+        IQKeyboardManager.sharedManager().enableAutoToolbar = false
+        IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = false
+        IQKeyboardManager.sharedManager().keyboardDistanceFromTextField = 20
+        IQKeyboardManager.sharedManager().toolbarDoneBarButtonItemText = "完成"
+        IQKeyboardManager.sharedManager().shouldShowTextFieldPlaceholder = false
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

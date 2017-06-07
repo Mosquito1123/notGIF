@@ -11,8 +11,6 @@ import Photos
 import RealmSwift
 import MBProgressHUD
 
-private let cellID = "GIFListCell"
-
 class GIFListViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -48,7 +46,7 @@ class GIFListViewController: UIViewController {
         didSet {
             if shouldPlay != oldValue {
                 for cell in collectionView.visibleCells {
-                    if let cell = cell as? GIFListViewCell {
+                    if let cell = cell as? GIFListCell {
                         shouldPlay ? cell.imageView.startAnimating() : cell.imageView.stopAnimating()
                     }
                 }
@@ -64,7 +62,9 @@ class GIFListViewController: UIViewController {
         
         navigationItem.titleView = titleLabel
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(autoplayItemClicked))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .pause,
+                                                            target: self,
+                                                            action: #selector(autoplayItemClicked))
         navigationItem.rightBarButtonItem?.tintColor = .gray
         
         PHPhotoLibrary.requestAuthorization { status in
@@ -103,7 +103,7 @@ class GIFListViewController: UIViewController {
         notifiToken = nil
         
         currentTag = tag
-        gifList = tag.gifs.sorted(byKeyPath: "creationDate", ascending: true)
+        gifList = tag.gifs.sorted(byKeyPath: "creationDate", ascending: false)
         
         notifiToken = gifList.addNotificationBlock { [weak self] changes in
             guard let collectionView = self?.collectionView else { return }
@@ -124,11 +124,17 @@ class GIFListViewController: UIViewController {
                 print(err.localizedDescription)
             }
         }
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(GIFListViewController.checkToUpdateGIFList(with:)),
+                                               name: .didSelectTag,
+                                               object: nil)
     }
     
     deinit {
         notifiToken?.stop()
         notifiToken = nil
+        NotificationCenter.default.removeObserver(self)
     }
     
     func autoplayItemClicked() {
@@ -136,6 +142,12 @@ class GIFListViewController: UIViewController {
         navigationItem.rightBarButtonItem?.tintColor = .gray
         hasPaused = shouldPlay
         shouldPlay = !shouldPlay
+    }
+    
+    func checkToUpdateGIFList(with noti: Notification) {
+        guard let selectTag = noti.object as? Tag, selectTag.id != currentTag.id else { return }
+        NGUserDefaults.lastSelectTadID = selectTag.id
+        showGIFList(of: selectTag)
     }
 }
 
@@ -163,24 +175,25 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! GIFListViewCell
+        let cell: GIFListCell = collectionView.dequeueReusableCell(for: indexPath)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? GIFListCell else { return }
         
-        guard let cell = cell as? GIFListViewCell else { return }
-        cell.imageView.setGIFImage(with: gifList[indexPath.item].id, shouldPlay: shouldPlay)
-        
+        cell.imageView.setGIFImage(with: gifList[indexPath.item].id, shouldPlay: shouldPlay) { gif in
+            cell.timeLabel.text = gif.totalDelayTime.timeStr
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? GIFListViewCell else { return }
+        guard let cell = cell as? GIFListCell else { return }
         cell.imageView.cancelTask()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? GIFListViewCell {
+        if let cell = collectionView.cellForItem(at: indexPath) as? GIFListCell {
             
             selectedFrame = cell.frame
             selectedImage = cell.imageView.currentFrame
