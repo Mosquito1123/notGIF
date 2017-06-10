@@ -116,13 +116,18 @@ class NotGIFImageView: UIImageView {
         layer.contents = currentFrame.cgImage
     }
     
-    func startAnimating(updateImmediately: Bool = false) {
+    override func startAnimating() {
         guard animateImage != nil else { super.startAnimating(); return }
         
         currentFrameIndex = animateImage.currentIndexForContinue
         
+        if let frame = animateImage.imageLazilyCachedAt(index: currentFrameIndex) {
+            currentFrame = frame
+            layer.setNeedsDisplay()
+        }
+
         if displayLink == nil {
-            // 使用 weakProxy 打破 dpLink 与 self 间的强引用，直接在 dealloc 中 invalidate dpLink
+            // 用 weakProxy 打破 dpLink 与 self 间的强引用
             displayLink = CADisplayLink(target: NGWeakProxy(target: self), selector: #selector(displayDidRefresh(dpLink:)))
             displayLink?.add(to: RunLoop.main, forMode: runLoopMode)
         }
@@ -142,24 +147,24 @@ class NotGIFImageView: UIImageView {
     }
     
     override func stopAnimating() {
-        if animateImage != nil {
-            displayLink?.isPaused = true
-        } else {
+        guard animateImage != nil, let dpLink = displayLink else {
             super.stopAnimating()
+            return
+        }
+        
+        if dpLink.isPaused {    // 更新到最新的帧
+            currentFrameIndex = animateImage.currentIndexForContinue
+            
+            if let frame = animateImage.imageLazilyCachedAt(index: currentFrameIndex) {
+                currentFrame = frame
+                layer.setNeedsDisplay()
+            }
+            
+        } else {
+            dpLink.isPaused = true
         }
     }
-    
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        
-//        updateShouldAnimate()
-//        if shouldAnimate {
-//            startAnimating()
-//        } else {
-//            stopAnimating()
-//        }
-    }
-    
+
     override var isAnimating: Bool {
         if animateImage != nil {
             return displayLink?.isPaused ?? false

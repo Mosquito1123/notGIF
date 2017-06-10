@@ -53,7 +53,7 @@ class PopDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             listCell.isInTransition = true
             listVC.shouldPlay = true
             listCell.isHidden = true
-//            listCell.imageView.stopAnimating()
+            listCell.imageView.stopAnimating()
             
             container.addSubview(maskImageView)
         
@@ -76,22 +76,21 @@ class PopDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 let completionHandler = {
                     listCell.isHidden = false
                     
-                    self.maskImageView.removeFromSuperview()
-                    
                     if !isSuccess {
                         listCell.isInTransition = false
                         listVC.shouldPlay = false
                         
                         detailView.alpha = 1
                         detailVC.collectionView.alpha = 1
-                        
+
+                        self.maskImageView.removeFromSuperview()
                         self.maskImageView.frame = imageOriginFrame
                         detailCell.contentView.insertSubview(self.maskImageView, at: 0)
                         
                     } else {
                         
                         listCell.isInTransition = false
-                        listCell.animating(enable: listVC.shouldPlay)
+                        self.maskImageView.removeFromSuperview()
                     }
                     
                     transitionContext.completeTransition(isSuccess)
@@ -100,11 +99,16 @@ class PopDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 if self.isTriggeredByPan {
   
                     UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1.2, options: [], animations: {
+                        
                         if isSuccess {
                             detailView.alpha = 0
                             detailVC.collectionView.alpha = 0
                             self.maskImageView.frame = imageFinalFrame
                             
+                            self.maskImageView.stopAnimating()
+                            listCell.isInTransition = false
+                            listCell.animating(enable: listVC.shouldPlay)
+                        
                         } else {
                             
                             self.maskImageView.frame = self.imageBeginFrame

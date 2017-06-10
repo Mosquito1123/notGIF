@@ -196,7 +196,6 @@ extension GIFListViewController: UINavigationControllerDelegate {
     }
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-//        shouldPlay = false
         setDrawerPanGes(enable: false)
     }
 }

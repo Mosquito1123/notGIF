@@ -244,17 +244,7 @@ extension GIFDetailViewController: UINavigationControllerDelegate {
         
         return percentDrivenTransition
     }
-    
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        printLog("")
-//        guard let toVC = viewController as? GIFListViewController else { return }
-//        toVC.shouldPlay = true
-    }
-    
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-        printLog("")
-    }
-    
+        
     func panToDismissHandler(ges: UIPanGestureRecognizer) {
         
         let velocity = ges.velocity(in: view)
