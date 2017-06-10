@@ -10,19 +10,24 @@ import UIKit
 
 extension TimeInterval {
     var timeStr: String {
-        if self >= 60 {
-            let time = Int(floor(self))
-            let minute = time / 60
-            let second = time % 60
-            return minute.str + ":" + second.str
-        } else {
-            return String(format: "%.2f", self)
-        }
+//        if self >= 60 {
+//            let time = Int(floor(self))
+//            let minute = time / 60
+//            let second = time % 60
+//            return minute.str + ":" + second.str
+//        }
+        
+        return String(format: "%.2f", self)
     }
 }
 
 extension Int {
     var str: String {
         return self < 10 ? "0\(self)" : "\(self)"
+    }
+    
+    var byteStr: String {
+        let kb = self / 1024
+        return kb >= 1024 ? String(format: "%.1f MB", Float(kb) / 1024) : "\(kb) kB"
     }
 }

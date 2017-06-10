@@ -120,5 +120,4 @@ extension DrawerViewController: UIGestureRecognizerDelegate {
         
         return true
     }
-    
 }

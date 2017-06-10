@@ -50,65 +50,70 @@ class NotGIFLibrary: NSObject {
     }()
     
     func prepare(completion: @escaping ((Tag?) -> Void)) {
-        guard let realm = try? Realm() else { return }
-        
-        let completionHandler = {
-            let selectTag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTadID)
-            completion(selectTag)
-        }
-        
-        if NGUserDefaults.haveFetched { // 直接从 Realm 中获取 GIF 信息
+        do {
+            let realm = try Realm()
             
-            let notGIFs = realm.objects(NotGIF.self)
-            let gifIDs: [String] = notGIFs.map { $0.id }
-            let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: gifIDs, options: nil)
-            let tempAllGIFAessts = fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count))
-            
-            tempAllGIFAessts.forEach {
-                gifAssetPool[$0.localIdentifier] = $0
+            let completionHandler = {
+                let selectTag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTagID)
+                completion(selectTag)
             }
             
-            let tmpAllGIFIDs = tempAllGIFAessts.map { $0.localIdentifier }
-            
-            // 移除 已经从相册中删除的 GIF 的对象
-            try? realm.write {
-                realm.delete( notGIFs.filter { !tmpAllGIFIDs.contains($0.id) } )
+            if NGUserDefaults.haveFetched { // 直接从 Realm 中获取 GIF 信息
+                
+                let notGIFs = realm.objects(NotGIF.self)
+                let gifIDs: [String] = notGIFs.map { $0.id }
+                let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: gifIDs, options: nil)
+                let tempAllGIFAessts = fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count))
+                
+                tempAllGIFAessts.forEach {
+                    gifAssetPool[$0.localIdentifier] = $0
+                }
+                
+                let tmpAllGIFIDs = tempAllGIFAessts.map { $0.localIdentifier }
+                
+                // 移除 已经从相册中删除的 GIF 的对象
+                try? realm.write {
+                    realm.delete( notGIFs.filter { !tmpAllGIFIDs.contains($0.id) } )
+                }
+                
+                completionHandler()
+                
+                // 后台更新 GIF Library
+                bgFetchQueue.async { [unowned self] in
+                    self.updateGIFLibrary(with: Set<PHAsset>(tempAllGIFAessts))
+                }
+                
+            } else {    // 从 Photos 中获取 GIF
+                
+                let fetchOptions = PHFetchOptions()
+                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+                
+                allImageFetchResult = PHAsset.fetchAssets(with: fetchOptions)
+                
+                // TODO: - multithread
+                let allGIFAssets = fetchAllGIFAssetsFromPhotos()
+                let defaultTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID)
+                
+                realm.beginWrite()
+                
+                allGIFAssets.forEach {
+                    gifAssetPool[$0.localIdentifier] = $0
+                    let notGIF = NotGIF(asset: $0)
+                    realm.add(notGIF)
+                    defaultTag?.gifs.append(notGIF)
+                }
+                
+                try? realm.commitWrite()
+                
+                if authorizationStatus == .authorized {
+                    NGUserDefaults.haveFetched = true
+                }
+                
+                completionHandler()
             }
             
-            completionHandler()
-            
-            // 后台更新 GIF Library
-            bgFetchQueue.async { [unowned self] in
-                self.updateGIFLibrary(with: Set<PHAsset>(tempAllGIFAessts))
-            }
-            
-        } else {    // 从 Photos 中获取 GIF
-            
-            let fetchOptions = PHFetchOptions()
-            fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-            
-            allImageFetchResult = PHAsset.fetchAssets(with: fetchOptions)
-            
-            // TODO: - multithread
-            let allGIFAssets = fetchAllGIFAssetsFromPhotos()
-            let defaultTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID)
-            
-            realm.beginWrite()
-                        
-            allGIFAssets.forEach {
-                gifAssetPool[$0.localIdentifier] = $0
-                let notGIF = NotGIF(asset: $0)
-                realm.add(notGIF)
-                defaultTag?.gifs.append(notGIF)
-            }
-            
-            try? realm.commitWrite()
-            
-            if authorizationStatus == .authorized {
-                NGUserDefaults.haveFetched = true
-            }
-            
-            completionHandler()
+        } catch let err {
+            println("\n----------- init Realm failed:\n\(err.localizedDescription) -----------\n")
         }
     }
     
@@ -199,12 +204,12 @@ class NotGIFLibrary: NSObject {
                                                           options: requestOptions,
                                                           resultHandler: { [unowned self] (data, UTI, _, _) in
                                                             
-                                                            if let uti = UTI, UTTypeConformsTo(uti as CFString, kUTTypeGIF),
-                                                                let gifData = data, let gif = NotGIFImage(gifData: gifData) {
-                                                                
-                                                                self.gifPool[id] = gif
-                                                                completionHandler(gif, id, true)
-                                                            }
+                    if let uti = UTI, UTTypeConformsTo(uti as CFString, kUTTypeGIF),
+                        let gifData = data, let gif = NotGIFImage(gifData: gifData) {
+                        
+                        self.gifPool[id] = gif
+                        completionHandler(gif, id, true)
+                    }
                 })
             })
             

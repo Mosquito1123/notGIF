@@ -9,10 +9,12 @@
 import UIKit
 
 class GIFInfoLabel: UILabel {
-    var info: String! {
+    var info: String = "" {
         didSet {
-            let attString = NSMutableAttributedString(string: info)
             let components = info.components(separatedBy: "\n")
+            guard !components.isEmpty else { return }
+            
+            let attString = NSMutableAttributedString(string: info)
             let aRange = (info as NSString).range(of: components[0])
             let bRange = (info as NSString).range(of: components[1])
             attString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 16), range: aRange)
@@ -22,14 +24,12 @@ class GIFInfoLabel: UILabel {
         }
     }
 
-    init(info: String) {
+    init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
         
-        textColor = .tintColor
+        textColor = .textTint
         textAlignment = .center
         numberOfLines = 2
-        
-        ({ self.info = info })()
     }
     
     required init?(coder aDecoder: NSCoder) {

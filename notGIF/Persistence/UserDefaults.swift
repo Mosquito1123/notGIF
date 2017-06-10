@@ -24,7 +24,7 @@ final public class NGUserDefaults {
         }
     }
     
-    static var lastSelectTadID: String {
+    static var lastSelectTagID: String {
         set {
             defaults.set(newValue, forKey: lastSelectTagIDKey)
         }

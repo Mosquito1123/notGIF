@@ -1,5 +1,5 @@
 //
-//  NGIFImage.swift
+//  NotGIFImage.swift
 //  notGIF
 //
 //  Created by ooatuoo on 2017/5/13.
@@ -34,6 +34,8 @@ private enum CacheSizeOption: Int {
 }
 
 public class NotGIFImage: NSObject {
+    // 最近的 ImageView 展示停止后的 index
+    public var currentIndexForContinue: Int = 0
     
     // gif info
     public var frameCount = 0
@@ -42,8 +44,14 @@ public class NotGIFImage: NSObject {
     public var size: CGSize!
     
     public var totalDelayTime: TimeInterval = 0
-    public var gifSize = 0
+    public var fileSize = 0
     
+    public var info: String {
+        return "\(frameCount) Frames\n"
+                + totalDelayTime.timeStr + "s" + " / "
+                + fileSize.byteStr
+    }
+
     // cache option
     private var frameCacheSizeMax: Int = 0
     
@@ -77,7 +85,6 @@ public class NotGIFImage: NSObject {
         
         guard let imgSource = CGImageSourceCreateWithData(gifData as CFData, [kCGImageSourceShouldCache as String : false as NSNumber] as CFDictionary),
             let imgType = CGImageSourceGetType(imgSource), UTTypeConformsTo(imgType, kUTTypeGIF) else {
-                
                 print("Failed to `CGImageSourceCreateWithData` for animated GIF data")
                 return nil
         }
@@ -104,7 +111,7 @@ public class NotGIFImage: NSObject {
         if let gifProperties = CGImageSourceCopyProperties(imageSource, nil) as? Dictionary<String, Any>,
             let fileSize = gifProperties[kCGImagePropertyFileSize as String] as? Int {
             
-            gifSize = fileSize
+            self.fileSize = fileSize
         }
         
         var delayTimesForIndexesMutable: [Int: TimeInterval] = Dictionary(minimumCapacity: imageCount)
@@ -190,10 +197,9 @@ public class NotGIFImage: NSObject {
     // MARK: - Get & Set Frame
     
     public func imageLazilyCachedAt(index: Int) -> UIImage? {
-        
-        requestedFrameIndex = index
         guard index < frameCount else { return nil }
-        
+        requestedFrameIndex = index
+
         if cachedFramesForIndexes.count < frameCount {
             
             var frameIndexesToAddToCache = frameIndexesToCache
@@ -248,66 +254,13 @@ public class NotGIFImage: NSObject {
     }
     
     private func imageAt(index: Int) -> UIImage? {
-        
-        if let cgimage = CGImageSourceCreateImageAtIndex(imageSource, index, nil) {
-            let image = UIImage(cgImage: cgimage)
-            if isPredrawingEnabled {
-                return predrawnImageFrom(imageToPredraw: image)
-            }
-        }
-        
-        return nil
-    }
-    
-    // MARK: - Image Decoding
-    
-    private func predrawnImageFrom(imageToPredraw: UIImage) -> UIImage {
-        
-        let colorSpaceDeviceRGB = CGColorSpaceCreateDeviceRGB()
-        
-        let width = Int(imageToPredraw.size.width)
-        let height = Int(imageToPredraw.size.height)
-        let bitsPerComponent = CHAR_BIT
-        
-        /* https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_context/dq_context.html#//apple_ref/doc/uid/TP30001066-CH203-BCIBHHBB
-         let numberOfComponents = colorSpaceDeviceRGB.numberOfComponents + 1 // 4: RGB + A
-         let bitsPerPixel = bitsPerComponent * Int32(numberOfComponents)
-         let bytesPerPixel = bitsPerPixel / BYTE_SIZE
-         let bytesPerRow = Int(bytesPerPixel) * width
-         */
-        let bytesPerRow = 0 // 系统自动计算 & cache line alignment 优化 https://stackoverflow.com/a/23791660/4696807
-        
-        // https://stackoverflow.com/a/24071985/4696807
-        var alphaInfo = imageToPredraw.cgImage!.alphaInfo
-        var bitmapInfo = CGBitmapInfo.byteOrder32Little
-        
-        if alphaInfo == .none || alphaInfo == .alphaOnly {
-            alphaInfo = .noneSkipFirst
-        } else if alphaInfo == .first {
-            alphaInfo = .premultipliedFirst
-        } else if alphaInfo == .last {
-            alphaInfo = .premultipliedLast
-        }
-        
-        bitmapInfo = CGBitmapInfo(rawValue: bitmapInfo.rawValue | alphaInfo.rawValue)
-        
-        let data: UnsafeMutableRawPointer? = nil    // 系统自动分配所需内存
-        
-        if let context = CGContext(data: data, width: width, height: height, bitsPerComponent: Int(bitsPerComponent), bytesPerRow: bytesPerRow, space: colorSpaceDeviceRGB, bitmapInfo: bitmapInfo.rawValue) {
-            
-            context.draw(imageToPredraw.cgImage!, in: CGRect(x: 0, y: 0, width: imageToPredraw.size.width, height: imageToPredraw.size.height))
-            
-            if let predrawnImage = context.makeImage() {
-                return UIImage(cgImage: predrawnImage, scale: imageToPredraw.scale, orientation: imageToPredraw.imageOrientation)
-                
-            } else {
-                return imageToPredraw
-            }
-            
+        guard let cgimage = CGImageSourceCreateImageAtIndex(imageSource, index, nil) else { return nil }
+        let image = UIImage(cgImage: cgimage)
+        if isPredrawingEnabled {
+            return predrawnImageFrom(imageToPredraw: image)
         } else {
-            return imageToPredraw
+            return image
         }
-        
     }
     
     // MARK: - Frame Caching
@@ -365,6 +318,57 @@ public class NotGIFImage: NSObject {
                 }
             })
         }
+    }
+    
+    // MARK: - Image Decoding
+    
+    private func predrawnImageFrom(imageToPredraw: UIImage) -> UIImage {
+        
+        let colorSpaceDeviceRGB = CGColorSpaceCreateDeviceRGB()
+        
+        let width = Int(imageToPredraw.size.width)
+        let height = Int(imageToPredraw.size.height)
+        let bitsPerComponent = CHAR_BIT
+        
+        /* https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_context/dq_context.html#//apple_ref/doc/uid/TP30001066-CH203-BCIBHHBB
+         let numberOfComponents = colorSpaceDeviceRGB.numberOfComponents + 1 // 4: RGB + A
+         let bitsPerPixel = bitsPerComponent * Int32(numberOfComponents)
+         let bytesPerPixel = bitsPerPixel / BYTE_SIZE
+         let bytesPerRow = Int(bytesPerPixel) * width
+         */
+        let bytesPerRow = 0 // 系统自动计算 & cache line alignment 优化 https://stackoverflow.com/a/23791660/4696807
+        
+        // https://stackoverflow.com/a/24071985/4696807
+        var alphaInfo = imageToPredraw.cgImage!.alphaInfo
+        var bitmapInfo = CGBitmapInfo.byteOrder32Little
+        
+        if alphaInfo == .none || alphaInfo == .alphaOnly {
+            alphaInfo = .noneSkipFirst
+        } else if alphaInfo == .first {
+            alphaInfo = .premultipliedFirst
+        } else if alphaInfo == .last {
+            alphaInfo = .premultipliedLast
+        }
+        
+        bitmapInfo = CGBitmapInfo(rawValue: bitmapInfo.rawValue | alphaInfo.rawValue)
+        
+        let data: UnsafeMutableRawPointer? = nil    // 系统自动分配所需内存
+        
+        if let context = CGContext(data: data, width: width, height: height, bitsPerComponent: Int(bitsPerComponent), bytesPerRow: bytesPerRow, space: colorSpaceDeviceRGB, bitmapInfo: bitmapInfo.rawValue) {
+            
+            context.draw(imageToPredraw.cgImage!, in: CGRect(x: 0, y: 0, width: imageToPredraw.size.width, height: imageToPredraw.size.height))
+            
+            if let predrawnImage = context.makeImage() {
+                return UIImage(cgImage: predrawnImage, scale: imageToPredraw.scale, orientation: imageToPredraw.imageOrientation)
+                
+            } else {
+                return imageToPredraw
+            }
+            
+        } else {
+            return imageToPredraw
+        }
+        
     }
     
     // MARK: - Memory Warning Handler

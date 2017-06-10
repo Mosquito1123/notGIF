@@ -24,23 +24,20 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4tq-kG-Zrg">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                                <color key="backgroundColor" red="0.094117647058823528" green="0.094117647058823528" blue="0.094117647058823528" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="gwu-2Z-6q5" customClass="GIFListLayout" customModule="notGIF" customModuleProvider="target">
                                     <connections>
                                         <outlet property="layoutDelegate" destination="edc-Gp-OY7" id="YFB-00-ZUn"/>
                                     </connections>
                                 </collectionViewLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" reuseIdentifier="GIFListCell" id="oex-Fn-HR0" customClass="GIFListCell" customModule="notGIF" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" reuseIdentifier="GIFListCell" id="oex-Fn-HR0" customClass="GIFListCell" customModule="notGIF" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="159" height="155"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="159" height="155"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tJr-Sv-WtW" customClass="NotGIFImageView" customModule="notGIF" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="159" height="155"/>
-                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01:23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHg-6n-mZy">
                                                     <rect key="frame" x="127" y="136" width="26" height="15"/>
                                                     <fontDescription key="fontDescription" name="Farah" family="Farah" pointSize="15"/>
@@ -51,16 +48,11 @@
                                         </view>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="tJr-Sv-WtW" secondAttribute="bottom" id="8ZR-Pr-n0f"/>
-                                            <constraint firstAttribute="trailing" secondItem="tJr-Sv-WtW" secondAttribute="trailing" id="Eti-IN-AER"/>
-                                            <constraint firstItem="tJr-Sv-WtW" firstAttribute="leading" secondItem="oex-Fn-HR0" secondAttribute="leading" id="V9F-Xm-Sw5"/>
                                             <constraint firstAttribute="trailing" secondItem="SHg-6n-mZy" secondAttribute="trailing" constant="6" id="ZWE-O4-QpY"/>
                                             <constraint firstAttribute="bottom" secondItem="SHg-6n-mZy" secondAttribute="bottom" constant="4" id="ev7-LS-vpA"/>
-                                            <constraint firstItem="tJr-Sv-WtW" firstAttribute="top" secondItem="oex-Fn-HR0" secondAttribute="top" id="lgt-G0-2X3"/>
                                         </constraints>
                                         <size key="customSize" width="159" height="155"/>
                                         <connections>
-                                            <outlet property="imageView" destination="tJr-Sv-WtW" id="Kqg-oa-4DA"/>
                                             <outlet property="timeLabel" destination="SHg-6n-mZy" id="EWq-S7-rQb"/>
                                         </connections>
                                     </collectionViewCell>
@@ -71,7 +63,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.094117647058823528" green="0.094117647058823528" blue="0.094117647058823528" alpha="1" colorSpace="deviceRGB"/>
                         <constraints>
                             <constraint firstItem="4tq-kG-Zrg" firstAttribute="leading" secondItem="rKr-ti-5DR" secondAttribute="leading" id="Zi6-M7-MyX"/>
                             <constraint firstItem="4tq-kG-Zrg" firstAttribute="top" secondItem="rKr-ti-5DR" secondAttribute="top" id="hfY-tk-DHU"/>
@@ -81,31 +73,90 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="jM6-ch-FJZ">
-                        <barButtonItem key="leftBarButtonItem" image="icon_side_bar" id="CFv-1V-Lxc">
+                        <barButtonItem key="backBarButtonItem" title=" " id="xaL-0U-v2o"/>
+                        <barButtonItem key="leftBarButtonItem" image="icon_side_bar" id="erF-V2-arX">
+                            <color key="tintColor" red="0.98431372549019602" green="0.98431372549019602" blue="0.98431372549019602" alpha="1" colorSpace="deviceRGB"/>
                             <connections>
-                                <action selector="sideBarItemClicked:" destination="edc-Gp-OY7" id="Tzv-cn-d4t"/>
+                                <action selector="sideBarItemClicked:" destination="edc-Gp-OY7" id="JNN-fJ-6cJ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="4tq-kG-Zrg" id="Nmk-Bz-wp1"/>
+                        <segue destination="8h7-vK-F5a" kind="show" identifier="showDetail" id="ecy-ya-KXb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9RG-hR-HZm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="885.60000000000002" y="-55.322338830584712"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Detail View Controller-->
+        <scene sceneID="uyD-wL-qHq">
+            <objects>
+                <viewController extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" id="8h7-vK-F5a" customClass="GIFDetailViewController" customModule="notGIF" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SDq-1u-O80"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ypc-Im-r6J"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2jg-nx-mwC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BGK-gc-eN4">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="FOA-zv-6jz">
+                                    <size key="itemSize" width="244" height="515"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" reuseIdentifier="GIFDetailCell" id="q3U-VY-S5l" customClass="GIFDetailCell" customModule="notGIF" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="76" width="244" height="515"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="244" height="515"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="8h7-vK-F5a" id="ldv-Xc-UyN"/>
+                                    <outlet property="delegate" destination="8h7-vK-F5a" id="uvZ-pi-qfr"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.094117647058823528" green="0.094117647058823528" blue="0.094117647058823528" alpha="1" colorSpace="deviceRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="BGK-gc-eN4" secondAttribute="bottom" id="2QK-rI-mws"/>
+                            <constraint firstItem="BGK-gc-eN4" firstAttribute="top" secondItem="2jg-nx-mwC" secondAttribute="top" id="coG-tZ-aoy"/>
+                            <constraint firstAttribute="trailing" secondItem="BGK-gc-eN4" secondAttribute="trailing" id="gxk-cT-cAG"/>
+                            <constraint firstItem="BGK-gc-eN4" firstAttribute="leading" secondItem="2jg-nx-mwC" secondAttribute="leading" id="uIA-nx-dOd"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="collectionView" destination="BGK-gc-eN4" id="kyc-co-CkC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nU8-E9-8ST" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1624.8" y="-55.322338830584712"/>
+        </scene>
+        <!--Base Navigation Controller-->
         <scene sceneID="wAT-8K-ijt">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FjS-29-PrS" sceneMemberID="viewController">
+                <navigationController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="FjS-29-PrS" customClass="BaseNavigationController" customModule="notGIF" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="umF-ix-sdO">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="umF-ix-sdO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.98431372549019602" green="0.98431372549019602" blue="0.98431372549019602" alpha="1" colorSpace="deviceRGB"/>
-                        <color key="barTintColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="tintColor" red="0.98431372549999996" green="0.98431372549999996" blue="0.98431372549999996" alpha="0.5" colorSpace="deviceRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" red="0.98431372549019602" green="0.98431372549019602" blue="0.98431372549019602" alpha="0.5" colorSpace="deviceRGB"/>
                         </textAttributes>

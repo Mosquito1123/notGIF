@@ -14,8 +14,7 @@ final public class Config {
     
     static let defaultTagID = "not.all.gif.tagId"
     
-    static let sideBarWidth = 0.72 * kScreenWidth    // -> Main.storybord
-    
+    static let sideBarWidth = 0.72 * kScreenWidth    // -> Main.storybord    
 }
 
 extension Notification.Name {

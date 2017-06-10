@@ -22,8 +22,6 @@ class SideBarViewController: UIViewController {
         }
     }
     
-    fileprivate var selectedTag: Tag!
-    
     fileprivate var tagList: [Tag] = []
     fileprivate var notifiToken: NotificationToken?
     
@@ -52,7 +50,6 @@ class SideBarViewController: UIViewController {
             case .update(_, let deletions, let insertions, let modifications):
                 tableView.beginUpdates()
 //                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .fade)
-//                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .fade)
                 tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .fade)
                 tableView.endUpdates()
                 
@@ -123,10 +120,7 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
         
         guard !isAddingTag, let drawer = parent as? DrawerViewController else { return }
         
-        let tag = tagList[indexPath.item]
-        selectedTag = tag
-
-        NotificationCenter.default.post(name: .didSelectTag, object: tag)
+        NotificationCenter.default.post(name: .didSelectTag, object: tagList[indexPath.item])
         drawer.dismissSideBar()
     }
     

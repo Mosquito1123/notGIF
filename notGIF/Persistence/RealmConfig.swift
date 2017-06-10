@@ -18,7 +18,7 @@ public func realmConfig(readOnly: Bool = false) -> Realm.Configuration {
     var config = Realm.Configuration()
     config.fileURL = realmFileURL
     config.readOnly = readOnly
-    config.schemaVersion = 2
+    config.schemaVersion = 3
     config.migrationBlock = { migration, oldSchemaVersion in
         
     }

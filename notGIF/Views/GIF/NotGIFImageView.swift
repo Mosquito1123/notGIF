@@ -1,5 +1,5 @@
 //
-//  NGIFImageView.swift
+//  NotGIFImageView.swift
 //  notGIF
 //
 //  Created by ooatuoo on 2017/5/13.
@@ -11,17 +11,17 @@ import UIKit
 class NotGIFImageView: UIImageView {
     
     public var currentFrame: UIImage!
-    public var currentFrameIndex = 0
     
-    private var accumulator: TimeInterval = 0.0
-    private var displayLink: CADisplayLink?
-    
-    private var shouldAnimate: Bool = false
-    private var needsDisplayWhenImageBecomesAvailable: Bool = true
-    
-    private var runLoopMode: RunLoopMode {
-        return ProcessInfo.processInfo.activeProcessorCount > 1 ? .commonModes : .defaultRunLoopMode
+    public var currentFrameIndex: Int {
+        set {
+            guard animateImage != nil else { return }
+            _currentFrameIndex = newValue >= animateImage.frameCount ? 0 : newValue
+        }
+        get {
+            return _currentFrameIndex
+        }
     }
+    private var _currentFrameIndex = 0
     
     public var animateImage: NotGIFImage! {
         didSet {
@@ -33,7 +33,7 @@ class NotGIFImageView: UIImageView {
                 super.invalidateIntrinsicContentSize()
                 
                 currentFrame = animateImage.posterImage
-                currentFrameIndex = 0
+                currentFrameIndex = animateImage.currentIndexForContinue
                 
                 accumulator = 0.0
                 
@@ -53,6 +53,16 @@ class NotGIFImageView: UIImageView {
         }
     }
     
+    private var accumulator: TimeInterval = 0.0
+    private var displayLink: CADisplayLink?
+    
+    private var shouldAnimate: Bool = false
+    private var needsDisplayWhenImageBecomesAvailable: Bool = true
+    
+    private var runLoopMode: RunLoopMode {
+        return ProcessInfo.processInfo.activeProcessorCount > 1 ? .commonModes : .defaultRunLoopMode
+    }
+    
     // MARK: - Life Cycle
     deinit {
         displayLink?.invalidate()
@@ -64,6 +74,8 @@ class NotGIFImageView: UIImageView {
     func displayDidRefresh(dpLink: CADisplayLink) {
         
         guard animateImage != nil, shouldAnimate else { return }
+        
+        defer { animateImage.currentIndexForContinue = currentFrameIndex }
         
         if let deleyTimeNumber = animateImage.delayTimesForIndexes[currentFrameIndex] {
             
@@ -86,11 +98,7 @@ class NotGIFImageView: UIImageView {
                 while accumulator >= deleyTimeNumber {
                     accumulator -= deleyTimeNumber
                     currentFrameIndex += 1
-                    
-                    if currentFrameIndex >= animateImage.frameCount {
-                        currentFrameIndex = 0
-                    }
-                    
+    
                     needsDisplayWhenImageBecomesAvailable = true
                 }
                 
@@ -108,31 +116,29 @@ class NotGIFImageView: UIImageView {
         layer.contents = currentFrame.cgImage
     }
     
-    override func startAnimating() {
-        if animateImage != nil {
-            
-            if displayLink == nil {
-                // 使用 weakProxy 打破 dpLink 与 self 间的强引用，直接在 dealloc 中 invalidate dpLink
-                displayLink = CADisplayLink(target: NGWeakProxy(target: self), selector: #selector(displayDidRefresh(dpLink:)))
-                displayLink?.add(to: RunLoop.main, forMode: runLoopMode)
-            }
-            
-            let kDisplayRefreshRate = 60    // 60Hz
-            
-            let divisor = frameDelayGreatestCommonDivisor
-            let fps = Int(1 / divisor)
-            
-            if #available(iOS 10.0, *) {
-                displayLink?.preferredFramesPerSecond = min(kDisplayRefreshRate, fps)
-            } else {
-                displayLink?.frameInterval = max(Int(divisor * Double(kDisplayRefreshRate)), 1)
-            }
-
-            displayLink?.isPaused = false
-            
-        } else {
-            super.startAnimating()
+    func startAnimating(updateImmediately: Bool = false) {
+        guard animateImage != nil else { super.startAnimating(); return }
+        
+        currentFrameIndex = animateImage.currentIndexForContinue
+        
+        if displayLink == nil {
+            // 使用 weakProxy 打破 dpLink 与 self 间的强引用，直接在 dealloc 中 invalidate dpLink
+            displayLink = CADisplayLink(target: NGWeakProxy(target: self), selector: #selector(displayDidRefresh(dpLink:)))
+            displayLink?.add(to: RunLoop.main, forMode: runLoopMode)
         }
+        
+        let kDisplayRefreshRate = 60    // 60Hz
+        
+        let divisor = frameDelayGreatestCommonDivisor
+        let fps = Int(1 / divisor)
+        
+        if #available(iOS 10.0, *) {
+            displayLink?.preferredFramesPerSecond = min(kDisplayRefreshRate, fps)
+        } else {
+            displayLink?.frameInterval = max(Int(divisor * Double(kDisplayRefreshRate)), 1)
+        }
+        
+        displayLink?.isPaused = false
     }
     
     override func stopAnimating() {
@@ -146,17 +152,25 @@ class NotGIFImageView: UIImageView {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         
-        updateShouldAnimate()
-        if shouldAnimate {
-            startAnimating()
+//        updateShouldAnimate()
+//        if shouldAnimate {
+//            startAnimating()
+//        } else {
+//            stopAnimating()
+//        }
+    }
+    
+    override var isAnimating: Bool {
+        if animateImage != nil {
+            return displayLink?.isPaused ?? false
         } else {
-            stopAnimating()
+            return super.isAnimating
         }
     }
     
     override var isHighlighted: Bool {
         set {
-            // 为了防止嵌入到 UICollectionViewCell 中影响动图的展示
+            // 防止嵌入到 UICollectionViewCell 引起的动图闪烁
             if animateImage == nil {
                 super.isHighlighted = newValue
             }

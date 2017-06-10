@@ -13,7 +13,6 @@ public let gifIDs_Key = "atuo.notGIF.gifIDs"
 extension Int {
     var byteString: String {
         let kb = self / 1024
-        let _ = Int.max
         return kb >= 1024 ? String(format: "%.1f MB", Float(kb) / 1024) : "\(kb) kB"
     }
 }

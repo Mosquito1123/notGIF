@@ -52,6 +52,7 @@ class TagListCell: UITableViewCell {
         nameField.inputAccessoryView = toolBar
         nameField.text = nil
         countLabel.text = nil
+        
     }
 
     override func prepareForReuse() {
@@ -62,6 +63,9 @@ class TagListCell: UITableViewCell {
     }
     
     public func configure(with tag: Tag) {
+//        let isSelect = tag.id == NGUserDefaults.lastSelectTagID
+//        nameField.font = isSelect ? UIFont.systemFont(ofSize: 30, weight: 24) : UIFont.systemFont(ofSize: 18)
+//        nameField.textColor = isSelect ? .red : .white
         tagName = tag.name
         nameField.text = tagName
         countLabel.text = "\(tag.gifs.count)"

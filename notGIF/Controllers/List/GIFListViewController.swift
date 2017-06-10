@@ -13,6 +13,24 @@ import MBProgressHUD
 
 class GIFListViewController: UIViewController {
     
+    public var gifList: Results<NotGIF>!
+    public var selectIndexPath: IndexPath?
+    
+    public var shouldPlay: Bool {
+        set { _shouldPlay = !manualPaused && newValue }
+        get { return _shouldPlay }
+    }
+    
+    fileprivate var _shouldPlay: Bool = true {
+        didSet {
+            guard _shouldPlay !=  oldValue else { return }
+            
+            collectionView.visibleCells
+            .flatMap { $0 as? GIFListCell }
+            .forEach { $0.animating(enable: _shouldPlay) }
+        }
+    }
+
     @IBOutlet weak var collectionView: UICollectionView!
     
     fileprivate var indicatorView: IndicatorView? {
@@ -36,23 +54,12 @@ class GIFListViewController: UIViewController {
         }
     }
     
-    fileprivate var gifList: Results<NotGIF>!
     fileprivate var notifiToken: NotificationToken?
     
     fileprivate var currentTag: Tag!
-    fileprivate var hasPaused = false
+    fileprivate var manualPaused = false
     
-    fileprivate var shouldPlay = true {
-        didSet {
-            if shouldPlay != oldValue {
-                for cell in collectionView.visibleCells {
-                    if let cell = cell as? GIFListCell {
-                        shouldPlay ? cell.imageView.startAnimating() : cell.imageView.stopAnimating()
-                    }
-                }
-            }
-        }
-    }
+
     
     var selectedFrame = CGRect.zero
     var selectedImage: UIImage!
@@ -81,6 +88,11 @@ class GIFListViewController: UIViewController {
             }
         }
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(GIFListViewController.checkToUpdateGIFList(with:)),
+                                               name: .didSelectTag,
+                                               object: nil)
+        
         #if DEBUG
             view.addSubview(FPSLabel())
         #endif
@@ -89,14 +101,124 @@ class GIFListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if !hasPaused {
-            shouldPlay = true
-        }
+        setDrawerPanGes(enable: true)
+
         
+        selectIndexPath = nil
+        // fix delegate
         navigationController?.delegate = self
     }
     
-    public func showGIFList(of tag: Tag?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let identifier = segue.identifier else { return }
+        
+        switch identifier {
+        case "showDetail":
+            guard let detailVC = segue.destination as? GIFDetailViewController,
+                    let selectIP = sender as? IndexPath else { return }
+            detailVC.currentIndex = selectIP.item
+            detailVC.gifList = gifList
+            
+        default:
+            break
+        }
+    }
+    
+    deinit {
+        notifiToken?.stop()
+        notifiToken = nil
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func autoplayItemClicked() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: shouldPlay ? .play : .pause, target: self, action: #selector(autoplayItemClicked))
+        navigationItem.rightBarButtonItem?.tintColor = .gray
+        manualPaused = shouldPlay
+        shouldPlay = !shouldPlay
+    }
+}
+
+// MARK: - Collection Delegate
+extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return gifList != nil ? gifList.count : 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell: GIFListCell = collectionView.dequeueReusableCell(for: indexPath)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? GIFListCell else { return }
+                
+        cell.imageView.setGIFImage(with: gifList[indexPath.item].id, shouldPlay: shouldPlay) { gif in
+            cell.timeLabel.text = gif.totalDelayTime.timeStr
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? GIFListCell else { return }
+        cell.imageView.cancelTask()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        defer {
+            collectionView.deselectItem(at: indexPath, animated: true)
+        }
+        
+        guard selectIndexPath == nil else { return }
+        selectIndexPath = indexPath
+        performSegue(withIdentifier: "showDetail", sender: indexPath)
+    }
+}
+
+// MARK: - CollectionLayout Delegate
+
+extension GIFListViewController: GIFListLayoutDelegate {
+    
+    func ratioForImageAtIndexPath(indexPath: IndexPath) -> CGFloat {
+        return gifList[indexPath.item].ratio
+    }
+}
+
+// MARK: - Navigation Delegate
+
+extension GIFListViewController: UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        if operation == .push, toVC is GIFDetailViewController {
+            return PushDetailAnimator()
+        }
+        
+        return nil
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+//        shouldPlay = false
+        setDrawerPanGes(enable: false)
+    }
+}
+
+// MARK: - Notification Handler 
+
+extension GIFListViewController {
+    
+    func checkToUpdateGIFList(with noti: Notification) {
+        guard let selectTag = noti.object as? Tag, selectTag.id != currentTag.id
+            else { return }
+        
+        NGUserDefaults.lastSelectTagID = selectTag.id
+        showGIFList(of: selectTag)
+    }
+}
+
+// MARK: - Helper Method
+
+extension GIFListViewController {
+    
+    fileprivate func showGIFList(of tag: Tag?) {
         guard let tag = tag else { return }
         
         notifiToken?.stop()
@@ -121,96 +243,29 @@ class GIFListViewController: UIViewController {
                 }, completion: nil)
                 
             case .error(let err):
-                print(err.localizedDescription)
+                println(err.localizedDescription)
             }
         }
+    }
+    
+    fileprivate func setDrawerPanGes(enable: Bool) {
+        guard let drawer = navigationController?.parent as? DrawerViewController else {
+            fatalError("----- can't get drawer to disable pan ges -----")
+        }
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(GIFListViewController.checkToUpdateGIFList(with:)),
-                                               name: .didSelectTag,
-                                               object: nil)
+        drawer.sidePanGes.isEnabled = enable
     }
     
-    deinit {
-        notifiToken?.stop()
-        notifiToken = nil
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    func autoplayItemClicked() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: shouldPlay ? .play : .pause, target: self, action: #selector(autoplayItemClicked))
-        navigationItem.rightBarButtonItem?.tintColor = .gray
-        hasPaused = shouldPlay
-        shouldPlay = !shouldPlay
-    }
-    
-    func checkToUpdateGIFList(with noti: Notification) {
-        guard let selectTag = noti.object as? Tag, selectTag.id != currentTag.id else { return }
-        NGUserDefaults.lastSelectTadID = selectTag.id
-        showGIFList(of: selectTag)
+    public func scrollToShowCell(at index: Int) {
+        if let lastSelectIP = selectIndexPath {
+            collectionView.cellForItem(at: lastSelectIP)?.isHidden = false
+        }
+        
+        let toShowIP = IndexPath(item: index, section: 0)
+        collectionView.scrollToItem(at: toShowIP, at: .centeredVertically, animated: false)
+        collectionView.reloadItems(at: [toShowIP])
     }
 }
 
-extension GIFListViewController: UINavigationControllerDelegate {
-    
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        if operation == .push, toVC is GIFDetailViewController {
-            let pushAnimator = PushDetailAnimator()
-            selectedFrame = collectionView.convert(selectedFrame, to: UIApplication.shared.keyWindow)
-            pushAnimator.fromRect = selectedFrame
-            pushAnimator.transitionImage = selectedImage
-            
-            return pushAnimator
-        }
-        
-        return nil
-    }
-}
 
-// MARK: - Collection Delegate
-extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gifList != nil ? gifList.count : 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: GIFListCell = collectionView.dequeueReusableCell(for: indexPath)
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? GIFListCell else { return }
-        
-        cell.imageView.setGIFImage(with: gifList[indexPath.item].id, shouldPlay: shouldPlay) { gif in
-            cell.timeLabel.text = gif.totalDelayTime.timeStr
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? GIFListCell else { return }
-        cell.imageView.cancelTask()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? GIFListCell {
-            
-            selectedFrame = cell.frame
-            selectedImage = cell.imageView.currentFrame
-            
-            let detailVC = GIFDetailViewController()
-            detailVC.currentIndex = indexPath.item
-            shouldPlay = false
-            
-            navigationController?.pushViewController(detailVC, animated: true)
-        }
-    }
-}
 
-// MARK: - GIFListLayout Delegate
-extension GIFListViewController: GIFListLayoutDelegate {
-    
-    func ratioForImageAtIndexPath(indexPath: IndexPath) -> CGFloat {
-        return gifList[indexPath.item].ratio
-    }
-}

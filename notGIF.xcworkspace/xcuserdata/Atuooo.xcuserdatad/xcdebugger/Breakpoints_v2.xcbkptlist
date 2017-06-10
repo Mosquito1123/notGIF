@@ -41,13 +41,13 @@
                   symbolName = "notGIF.prepareRealm () -&gt; ()"
                   moduleName = "notGIF"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Atuooo/Desktop/notGIF-editTag/notGIF/Persistence/RealmConfig.swift"
-                  timestampString = "518542686.671799"
+                  urlString = "file:///Users/Atuooo/Desktop/notGIF-tran2/notGIF/Persistence/RealmConfig.swift"
+                  timestampString = "518799748.13357"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "42"
                   endingLineNumber = "42"
-                  offsetFromSymbolStart = "507">
+                  offsetFromSymbolStart = "432">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -56,13 +56,13 @@
                   symbolName = "notGIF.(prepareRealm () -&gt; ()).(closure #1)"
                   moduleName = "notGIF"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Atuooo/Desktop/notGIF-editTag/notGIF/Persistence/RealmConfig.swift"
-                  timestampString = "518542686.676373"
+                  urlString = "file:///Users/Atuooo/Desktop/notGIF-tran2/notGIF/Persistence/RealmConfig.swift"
+                  timestampString = "518799748.137945"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "42"
                   endingLineNumber = "42"
-                  offsetFromSymbolStart = "54">
+                  offsetFromSymbolStart = "64">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -89,13 +89,13 @@
                   symbolName = "notGIF.prepareRealm () -&gt; ()"
                   moduleName = "notGIF"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Atuooo/Desktop/notGIF-editTag/notGIF/Persistence/RealmConfig.swift"
-                  timestampString = "518542686.68477"
+                  urlString = "file:///Users/Atuooo/Desktop/notGIF-tran2/notGIF/Persistence/RealmConfig.swift"
+                  timestampString = "518799748.143864"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "40"
                   endingLineNumber = "40"
-                  offsetFromSymbolStart = "413">
+                  offsetFromSymbolStart = "356">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -104,15 +104,47 @@
                   symbolName = "notGIF.(prepareRealm () -&gt; ()).(closure #1)"
                   moduleName = "notGIF"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Atuooo/Desktop/notGIF-editTag/notGIF/Persistence/RealmConfig.swift"
-                  timestampString = "518542686.688296"
+                  urlString = "file:///Users/Atuooo/Desktop/notGIF-tran2/notGIF/Persistence/RealmConfig.swift"
+                  timestampString = "518799748.145759"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "41"
                   endingLineNumber = "41"
-                  offsetFromSymbolStart = "16">
+                  offsetFromSymbolStart = "20">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "notGIF/Views/Cell/Tag/TagListCell.swift"
+            timestampString = "518557731.284489"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "configure(with:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "notGIF/Controllers/Transition/ShowDetailAnimator.swift"
+            timestampString = "518625535.819116"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "animateTransition(using:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
