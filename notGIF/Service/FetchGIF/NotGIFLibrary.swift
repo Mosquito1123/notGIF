@@ -11,7 +11,7 @@ import ImageIO
 import RealmSwift
 import MobileCoreServices
 
-typealias GIFDataInfo = (asset: PHAsset, thumbnail: UIImage)
+typealias GIFDataInfo = (data: Data, thumbnail: UIImage)
 
 public typealias CompletionHandler = (_ image: NotGIFImage, _ localID: String, _ withTransition: Bool) -> ()
 
@@ -184,6 +184,26 @@ class NotGIFLibrary: NSObject {
         //        PHImageManager.requestGIFData(for: gifAsset) { data in
         //            resultHandler(data)
         //        }
+    }
+    
+    public func requestGIFData(of gifID: String, completionHandler: @escaping (GIFDataInfo?) -> Void) {
+        guard let gifAsset = gifAssetPool[gifID], let gif = gifPool[gifID] else {
+            completionHandler(nil)
+            return
+        }
+        
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        requestOptions.version = .unadjusted
+        
+        PHImageManager.default().requestImageData(for: gifAsset, options: requestOptions) { (gifData, _, _, _) in
+            
+            if let gifData = gifData {
+                completionHandler((gifData, gif.posterImage))
+            } else {
+                completionHandler(nil)
+            }
+        }
     }
     
     public func retrieveGIF(with id: String, completionHandler: @escaping CompletionHandler) -> DispatchWorkItem? {

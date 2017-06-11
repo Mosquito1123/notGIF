@@ -27,7 +27,7 @@ public enum Platform: String {
 
 final class OpenShare {
     
-    class func canOpen(platform: Platform) -> Bool {
+    class func canOpen(_ platform: Platform) -> Bool {
         
         switch platform {
         case .wechat:
@@ -35,47 +35,45 @@ final class OpenShare {
         }
     }
     
-    class func shareGIF(to platform: Platform, with gifInfo: GIFDataInfo) {
-        
-        PHImageManager.requestGIFData(for: gifInfo.asset) { data in
+    class func shareGIF(with gifInfo: GIFDataInfo, to platform: Platform) {
+        guard let thumbData = gifInfo.thumbnail.monkeyking_compressedImageData else {
             
-            if let gifData = data, let thumbData = gifInfo.thumbnail.monkeyking_compressedImageData {
+            return
+        }
+        
+        switch platform {
+            
+        case .wechat:
+            
+            var wechatMessageInfo: [String: Any] = [
+                "result": "1",
+                "returnFromApp": "0",
+                "scene": "0",
+                "sdkver": "1.5",
+                "command": "1010",
+            ]
 
-                switch platform {
+            wechatMessageInfo["objectType"] = "8"   // emoticon
+            wechatMessageInfo["thumbData"] = thumbData
+            wechatMessageInfo["fileData"] = gifInfo.data
+            
+            let wechatMessage = [platform.appID: wechatMessageInfo]
+            
+            guard let messageData = try? PropertyListSerialization.data(fromPropertyList: wechatMessage, format: .binary, options: 0),
+                let openURL = URL(string: "weixin://app/\(platform.appID)/sendreq/?") else {
                     
-                case .wechat:
-                    var wechatMessageInfo: [String: Any] = [
-                        "result": "1",
-                        "returnFromApp": "0",
-                        "scene": "0",
-                        "sdkver": "1.5",
-                        "command": "1010",
-                    ]
-                    
-                    wechatMessageInfo["objectType"] = "8"   // emoticon
-                    wechatMessageInfo["thumbData"] = thumbData
-                    wechatMessageInfo["fileData"] = gifData
-                    
-                    let wechatMessage = [platform.appID: wechatMessageInfo]
-                    guard let messageData = try? PropertyListSerialization.data(fromPropertyList: wechatMessage, format: .binary, options: 0) else {
-                        StatusBarToast.shared.show(info: .once(message: "unavailable data", succeed: false))
-                        return
-                    }
-                    
-                    UIPasteboard.general.setData(messageData, forPasteboardType: "content")
-                    
-                    let openURL = URL(string: "weixin://app/\(platform.appID)/sendreq/?")!
-                    if #available(iOS 10.0, *) {
-                        UIApplication.shared.open(openURL, options: [:], completionHandler: nil)
-                    } else {
-                        UIApplication.shared.openURL(openURL)
-                    }
-                }
-                
-            } else {
-                
-                StatusBarToast.shared.show(info: .once(message: "unavailable data", succeed: false))
+//                 alert ?
+                return
             }
+            
+            UIPasteboard.general.setData(messageData, forPasteboardType: "content")
+            
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(openURL, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(openURL)
+            }
+
         }
     }
 }

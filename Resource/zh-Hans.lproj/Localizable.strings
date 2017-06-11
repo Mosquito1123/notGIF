@@ -1,0 +1,24 @@
+/* 
+  Localizable.strings
+  notGIF
+
+  Created by Atuooo on 11/06/2017.
+  Copyright © 2017 xyz. All rights reserved.
+*/
+
+"prompt.get_it" = "知道了";
+"prompt.account_access_rejected" = "无法获取您的账号";
+"prompt.message_h2_allow_weibo" = "You can set in \n 'Settings' -> 'Privacy' -> 'Weibo' \n to allow access to your account";
+"prompt.message_h2_allow_twitter" = "";
+
+"prompt.title_no_account_found" = "No \(accountType) Account Found";
+"prompt.message_no_weibo_found" = "There are no \(accountType) accounts configured. You can add or create a \(accountType) account in \n 'Settings' -> '\(accountType)";
+"prompt.message_no_twitter_found" = "";
+
+
+
+"title.account" = "账号";
+"title.cancel" = "取消";
+"title.post" = "发布";
+
+"prompt.error" = "出错了";

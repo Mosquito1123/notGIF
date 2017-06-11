@@ -1,6 +1,6 @@
 //
 //  StatusAlert.swift
-//  3DTest
+//  notGIF
 //
 //  Created by Atuooo on 14/10/2016.
 //  Copyright © 2016 xyz. All rights reserved.
@@ -8,185 +8,174 @@
 
 import UIKit
 
-public enum ToastInfoType {
-    case `continue`(message: String, shouldLoading: Bool)
-    case once(message: String, succeed: Bool)
-    case end(message: String, succeed: Bool)
-    
-    var bgColor: UIColor {
-        switch self {
-        case .continue:
-            return .hex(0x1C1C1C)
-        case .once(_, let succeed):
-            return succeed ? .tintBlue : .tintRed
-        case .end(_, let succeed):
-            return succeed ? .tintBlue : .tintRed
-        }
-    }
-    
-    var message: String {
-        switch self {
-        case .continue(let message, _):
-            return message
-        case .once(let message, _):
-            return message
-        case .end(let message, _):
-            return message
-        }
-    }
-}
-
-private let statusHeight = UIApplication.shared.statusBarFrame.height
-private let delayTime = 3.3
-
 final class StatusBarToast {
-    static let shared = StatusBarToast()
     
-    fileprivate var toastWindow: ToastWindow!
+    enum DisplayDirection: Int {
+        case top
+        case bottom
+        case right
+        case left
+    }
+    
+    enum DisplayType: Int {
+        case replace
+        case overlay
+    }
+    
+    static var shared = StatusBarToast()
+    
+    static var textFont:            UIFont          = UIFont.systemFont(ofSize: 12)
+    static var textColor:           UIColor         = UIColor.textTint
+    static var backgroundColor:     UIColor         = UIColor.bgColor
+    static var duration:            TimeInterval    = 3
+    static var animationDuration:   TimeInterval    = 0.4
+    
+    fileprivate var isShowing: Bool = false
+    fileprivate var message: String!
+    
+    fileprivate var window: ToastWindow!
     fileprivate var messageLabel: UILabel!
-    fileprivate var messageView: UIView!
-    fileprivate var statusView: UIView!
-    fileprivate var loadingLayer: StatusBarLoadingLayer!
-    fileprivate var showing = false
-    fileprivate var dismissing = false
+        fileprivate var statusBarView: UIView!
     
-    fileprivate var dismissWortItem: DispatchWorkItem?
+    fileprivate var dismissTimer: DispatchSourceTimer?
     
-    func show(info: ToastInfoType) {
-        switch info {
-        case .continue:
-            if !showing {
-                showing = true
-                makeToastUI(with: info)
-                toastWindow.isHidden = false
+    func show(_ message: String, duration: TimeInterval = StatusBarToast.duration, type: DisplayType = .overlay, direction: DisplayDirection = .top, textColor: UIColor = StatusBarToast.textColor) {
+        
+        guard duration != 0 else { return }
+        
+        dismissTimer?.cancel()
+        
+        self.message = message
+        
+        if isShowing {
+            
+            switch type {
                 
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.statusView.frame = CGRect(x: 0, y: statusHeight, width: kScreenWidth, height: 0)
-                    self.messageView.frame.origin = CGPoint(x: 0, y: 0)
-                })
+            case .replace:
+                messageLabel.textColor = textColor
+                messageLabel.text = message
+                
+            case .overlay:
+                
+                dismissToast(animated: false)
+                showToast(with: message, from: direction, textColor: textColor)
             }
             
-        case .once:
-            
-            if !showing {
-                showing = true
-                makeToastUI(with: info)
-                setDismissWorkItem()
-                toastWindow.isHidden = false
-                
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.statusView.frame = CGRect(x: 0, y: statusHeight, width: kScreenWidth, height: 0)
-                    self.messageView.frame.origin = CGPoint(x: 0, y: 0)
-                    
-                }) { done in
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + delayTime, execute: self.dismissWortItem!)
-                }
-            }
-            
-        case .end:
-            if showing && !dismissing {
-                setDismissWorkItem()
-                loadingLayer.removeFromSuperlayer()
-                
-                DispatchQueue.main.async {
-                    UIView.animate(withDuration: 0.3, animations: { 
-                        self.messageView.backgroundColor = info.bgColor
-                        self.messageLabel.frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: statusHeight)
-                        self.messageLabel.text = info.message
-                    }, completion: { done in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + delayTime, execute: self.dismissWortItem!)
-                    })
-                }
-            }
-        }
-    }
-
-    @objc private func didTap(sender: UITapGestureRecognizer) {
-        if !dismissing {
-            dismissWortItem?.cancel()
-            dismissToast()
-        }
-    }
-    
-    private func dismissToast() {
-        UIView.animate(withDuration: 0.3, animations: { 
-            self.statusView.frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: statusHeight)
-            self.messageView.frame.origin = CGPoint(x: 0, y: -statusHeight)
-            
-        }) { done in
-            
-            self.toastWindow.isHidden = true
-            self.messageLabel.removeFromSuperview()
-            self.statusView.removeFromSuperview()
-            self.messageView.removeFromSuperview()
-            self.dismissWortItem = nil
-            self.messageLabel = nil
-            self.messageView = nil
-            self.statusView = nil
-            self.toastWindow = nil
-            self.dismissWortItem = nil
-            self.showing = false
-            self.dismissing = false
-        }
-    }
-    
-    private func setDismissWorkItem() {
-        dismissWortItem = DispatchWorkItem(block: { [weak self] in
-            guard let sSelf = self else { return }
-            sSelf.dismissing = true
-            sSelf.dismissToast()
-        })
-    }
-    
-    private func makeToastUI(with info: ToastInfoType) {
-        toastWindow = ToastWindow(frame: UIScreen.main.bounds)
-        toastWindow.windowLevel = UIWindowLevelStatusBar
-        toastWindow.backgroundColor = .clear
-        toastWindow.isUserInteractionEnabled = true
-        toastWindow.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        toastWindow.rootViewController = UIViewController()
-        
-        messageView = UIView(frame: CGRect(x: 0, y: -statusHeight, width: kScreenWidth, height: statusHeight))
-        messageView.backgroundColor = info.bgColor
-        
-        messageLabel = UILabel()
-        messageLabel.isUserInteractionEnabled = true
-        messageLabel.font = .systemFont(ofSize: 12)
-        messageLabel.textAlignment = .center
-        messageLabel.textColor = .tintColor
-        messageLabel.backgroundColor = .clear
-        messageLabel.text = info.message
-        messageLabel.sizeToFit()
-        
-        if case .continue(_, let shouldLoading) = info, shouldLoading == true {
-            let textWidth = info.message.singleLineWidth(with: .systemFont(ofSize: 12))
-            let center = CGPoint(x: (kScreenWidth + textWidth) / 2 + 1, y: statusHeight / 2)
-            loadingLayer = StatusBarLoadingLayer(radius: 4, center: center, color: .tintColor)
-            messageView.layer.addSublayer(loadingLayer)
-            messageLabel.center = CGPoint(x: kScreenWidth / 2 - 9, y: statusHeight / 2)
-
         } else {
-            messageLabel.center = CGPoint(x: kScreenWidth / 2, y: statusHeight / 2)
+            
+            showToast(with: message, from: direction, textColor: textColor)
         }
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(StatusBarToast.didTap(sender:)))
-        messageView.addGestureRecognizer(tapGesture)
-        messageView.addSubview(messageLabel)
-        
-        let snapView = UIScreen.main.snapshotView(afterScreenUpdates: true)
-        statusView = UIView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: statusHeight))
-        statusView.layer.masksToBounds = true
-        statusView.addSubview(snapView)
-        
-        toastWindow.rootViewController?.view.addSubview(statusView)
-        toastWindow.rootViewController?.view.addSubview(messageView)
+        setDismissTimer(with: duration)
     }
     
-    private init() {}
+    fileprivate func showToast(with message: String, from direction: DisplayDirection, textColor: UIColor) {
+        
+        isShowing = true
+        makeToastUI()
+        
+        messageLabel.textColor = textColor
+        messageLabel.text = message
+        window.isHidden = false
+        
+        UIView.animate(withDuration: StatusBarToast.animationDuration,
+                       delay: 0,
+                       options: [.beginFromCurrentState],
+                       animations: {
+                        
+            self.messageLabel.frame.origin.y = 0
+            self.statusBarView.frame = CGRect(x: 0, y: kStatusHeight, width: kScreenWidth, height: 0)
+                        
+        }, completion: nil)
+    }
+    
+    fileprivate func dismissToast(animated: Bool) {
+        func deinitUI() {
+            messageLabel.isUserInteractionEnabled = false
+            window.isHidden = true
+            window = nil
+            messageLabel = nil
+            statusBarView = nil
+            isShowing = false
+            
+            dismissTimer = nil
+        }
+        
+        if animated {
+            
+            UIView.animate(withDuration: StatusBarToast.animationDuration,
+                           delay: 0,
+                           options: [.beginFromCurrentState],
+                           animations: {
+                            
+                self.messageLabel.frame.origin.y = -kStatusHeight
+                self.statusBarView.frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: kStatusHeight)
+                            
+            }, completion: { _ in
+                deinitUI()
+            })
+            
+        } else {
+            
+            deinitUI()
+        }
+    }
+    
+    fileprivate func setDismissTimer(with duration: TimeInterval) {
+        guard let timer = dismissTimer, !timer.isCancelled else {
+            
+            dismissTimer = DispatchSource.makeTimerSource(queue: .main)
+            dismissTimer?.setEventHandler(handler: { [weak self] in
+                self?.dismissToast(animated: true)
+            })
+            
+            dismissTimer?.scheduleOneshot(deadline: .now() + duration)
+            dismissTimer?.resume()
+            return
+        }
+        
+        dismissTimer?.scheduleOneshot(deadline: .now() + duration)
+        
+    }
+    
+    fileprivate func makeToastUI() {
+        window = ToastWindow()
+        
+        let statusBarRect = CGRect(x: 0, y: 0, width: kScreenWidth, height: kStatusHeight)
+        messageLabel = UILabel(frame: statusBarRect)
+        messageLabel.font = StatusBarToast.textFont
+        messageLabel.textAlignment = .center
+        messageLabel.textColor = StatusBarToast.textColor
+        messageLabel.backgroundColor = StatusBarToast.backgroundColor
+        
+        let tapToDismissGes = UITapGestureRecognizer(target: self, action: #selector(StatusBarToast.tapToDismissGesAction))
+        messageLabel.addGestureRecognizer(tapToDismissGes)
+        messageLabel.isUserInteractionEnabled = true
+        
+        let statusBarSnapView = UIScreen.main.snapshotView(afterScreenUpdates: true)
+        statusBarView = UIView(frame: statusBarRect)
+        for subview in statusBarView.subviews {
+            subview.removeFromSuperview()
+        }
+
+        statusBarView.clipsToBounds = true
+        statusBarView.addSubview(statusBarSnapView)
+        
+        messageLabel.frame.origin.y = -kStatusHeight
+        
+        window.rootViewController?.view.addSubview(statusBarView)
+        window.rootViewController?.view.addSubview(messageLabel)
+    }
+    
+    @objc fileprivate func tapToDismissGesAction() {
+        dismissTimer = nil
+        dismissToast(animated: true)
+    }
+    
+    init() { }
 }
 
-private class ToastWindow: UIWindow {
+fileprivate class ToastWindow: UIWindow {
     fileprivate override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if UIApplication.shared.statusBarFrame.contains(point) {
             return super.hitTest(point, with: event)
@@ -194,7 +183,27 @@ private class ToastWindow: UIWindow {
             return nil
         }
     }
+    
+    init() {
+        super.init(frame: UIScreen.main.bounds)
+        
+        backgroundColor = .clear
+        windowLevel = UIWindowLevelStatusBar
+        isUserInteractionEnabled = true
+        autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        rootViewController = ToastViewController()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
+fileprivate class ToastViewController: UIViewController {
+    fileprivate override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+}
 
 

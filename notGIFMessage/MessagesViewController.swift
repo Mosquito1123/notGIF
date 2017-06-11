@@ -36,7 +36,7 @@ class MessagesViewController: MSMessagesAppViewController {
             guard status == .authorized else { return }
             
             DispatchQueue.main.safeAsync {
-                HUD.show(to: self.view, text: "fetching GIFs...")
+                HUD.show(to: self.view, .fetchGIF)
                 NotGIFLibrary.shared.prepare { _ in
                     self.showAllGIF()
                     HUD.hide(in: self.view)

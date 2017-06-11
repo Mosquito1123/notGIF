@@ -26,6 +26,9 @@ extension UIColor {
     static let editYellow   = UIColor.hex(0xfe9402)
     static let deleteRed    = UIColor.hex(0xf8523a)
     
+    static let successBlue  = UIColor.blue
+    static let failRed      = UIColor.deleteRed
+    
     static let darkText     = UIColor.hex(0x666666)
     static let bgColor      = UIColor.hex(0x1d1d1d)
 }

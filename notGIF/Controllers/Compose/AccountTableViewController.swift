@@ -9,28 +9,20 @@
 import UIKit
 import Accounts
 
-private let cellID = "reuseIdentifier"
+private let cellID = "AccountTableViewCell"
 
 class AccountTableViewController: UITableViewController {
-    fileprivate var composeVC: ComposeViewController!
     
-    init(in viewController: ComposeViewController) {
-        super.init(style: .plain)
-        
-        self.composeVC = viewController
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    public var composeVC: ComposeViewController!
     
     deinit {
-        println(" deinit AccountTableViewControlelr")
+        printLog(" deinited")
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.tableFooterView = UIView()
         tableView.tintColor = .black
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
     }
@@ -38,11 +30,9 @@ class AccountTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return composeVC.accounts.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         

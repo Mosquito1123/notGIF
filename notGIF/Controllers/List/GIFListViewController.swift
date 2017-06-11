@@ -79,7 +79,7 @@ class GIFListViewController: UIViewController {
             
             DispatchQueue.main.safeAsync {
                 
-                HUD.show(text: "fetching GIFs...")
+                HUD.show(.fetchGIF)
                 
                 NotGIFLibrary.shared.prepare { lastSelectTag in
                     self.showGIFList(of: lastSelectTag)

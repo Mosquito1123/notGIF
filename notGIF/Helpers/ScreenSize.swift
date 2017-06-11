@@ -12,6 +12,10 @@ public let kScreenSize = ScreenSize.shared.size
 public let kScreenWidth = ScreenSize.shared.size.width
 public let kScreenHeight = ScreenSize.shared.size.height
 
+#if CONTAINER_TARGET
+public let kStatusHeight = ScreenSize.shared.statusBarHeight
+#endif
+
 class ScreenSize {
     static let shared = ScreenSize()
     
@@ -24,6 +28,12 @@ class ScreenSize {
         }
         return ss
     }()
+    
+    #if CONTAINER_TARGET
+    let statusBarHeight: CGFloat = {
+        return UIApplication.shared.statusBarFrame.height
+    }()
+    #endif
     
     private init() {}
 }

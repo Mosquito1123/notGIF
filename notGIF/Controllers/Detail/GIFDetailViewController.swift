@@ -28,6 +28,20 @@ class GIFDetailViewController: UIViewController {
     
     fileprivate var notifiToken: NotificationToken?
     
+    fileprivate var gifLibrary = NotGIFLibrary.shared
+    
+    fileprivate var percentDrivenTransition: UIPercentDrivenInteractiveTransition?
+    fileprivate var popAnimator: PopDetailAnimator?
+    
+    fileprivate var isBarHidden = false {
+        didSet {
+            shareBar.isHidden = isBarHidden
+            navigationController?.setNavigationBarHidden(isBarHidden, animated: true)
+        }
+    }
+    
+    fileprivate lazy var infoLabel = GIFInfoLabel()
+
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             let layout = UICollectionViewFlowLayout()
@@ -38,20 +52,6 @@ class GIFDetailViewController: UIViewController {
             
             collectionView.setCollectionViewLayout(layout, animated: true)
             collectionView.panGestureRecognizer.addTarget(self, action: #selector(panToDismissHandler(ges:)))
-        }
-    }
-    
-    fileprivate lazy var infoLabel = GIFInfoLabel()
-    
-    fileprivate var gifLibrary = NotGIFLibrary.shared
-    
-    fileprivate var percentDrivenTransition: UIPercentDrivenInteractiveTransition?
-    fileprivate var popAnimator: PopDetailAnimator?
-    
-    fileprivate var isBarHidden = false {
-        didSet {
-            shareBar.isHidden = isBarHidden
-            navigationController?.setNavigationBarHidden(isBarHidden, animated: true)
         }
     }
     
@@ -142,76 +142,7 @@ extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDat
 // MARK: - Share GIF
 extension GIFDetailViewController {
     fileprivate func shareGIF(to type: ShareType) {
-        switch type {
-            
-        case .twitter, .weibo:
-            if let reachability = Reachability(), reachability.isReachable {
-                if let gifInfo = gifLibrary.getDataInfo(at: currentIndex) {
-                    let composeVC = ComposeViewController(shareType: type, with: gifInfo)
-                    composeVC.modalPresentationStyle = .overCurrentContext
-                    present(composeVC, animated: true, completion: nil)
-                } else {
-                    StatusBarToast.shared.show(info: .once(message: "unavailable data, try again", succeed: false))
-                }
-                
-            } else {
-                ATAlert.alert(type: .noInternet, in: self, withDismissAction: nil)
-            }
-            
-        case .wechat:
-            if OpenShare.canOpen(platform: .wechat) {
-                if let gifInfo = gifLibrary.getDataInfo(at: currentIndex) {
-                    OpenShare.shareGIF(to: .wechat, with: gifInfo)
-                } else {
-                    StatusBarToast.shared.show(info: .once(message: "unavailable data, try again", succeed: false))
-                }
-            } else {
-                ATAlert.alert(type: .noApp("Wechat"), in: self, withDismissAction: nil)
-            }
-            
-        case .more:
-            
-//            MBProgressHUD.showAdded(to: view, with: "Preparing")
-            
-            NotGIFLibrary.shared.requestGIFData(at: currentIndex) { data in
-                if let gifData = data {
-                    let activityVC = UIActivityViewController(activityItems: [gifData], applicationActivities: nil)
-                    DispatchQueue.main.async {
-                        self.present(activityVC, animated: true, completion: nil)
-                        MBProgressHUD.hide(for: self.view, animated: true)
-                    }
-                } else {
-//                    MBProgressHUD.hide(for: self.view, animated: true)
-                    StatusBarToast.shared.show(info: .once(message: "unavailable data, try again", succeed: false))
-                }
-            }
-            
-        case .message:
-            
-            if MFMessageComposeViewController.canSendAttachments() &&
-                MFMessageComposeViewController.isSupportedAttachmentUTI(kUTTypeGIF as String) {
-                
-//                MBProgressHUD.showAdded(to: view, with: "Prepareing")
-                
-                NotGIFLibrary.shared.requestGIFData(at: currentIndex) { data in
-                    
-                    if let gifData = data {
-                        
-                        let messageVC = MFMessageComposeViewController()
-                        messageVC.messageComposeDelegate = self
-                        messageVC.addAttachmentData(gifData, typeIdentifier: kUTTypeGIF as String, filename: "not.gif")
-                        DispatchQueue.main.async {
-                            self.present(messageVC, animated: true, completion: nil)
-                            MBProgressHUD.hide(for: self.view, animated: true)
-                        }
-                        
-                    } else {
-//                        MBProgressHUD.hide(for: self.view, animated: true)
-                        StatusBarToast.shared.show(info: .once(message: "unavailable data, try again", succeed: false))
-                    }
-                }
-            }
-        }
+        GIFShareManager.shareGIF(of: gifList[currentIndex].id, to: type)
     }
 }
 

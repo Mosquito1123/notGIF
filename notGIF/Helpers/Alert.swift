@@ -1,5 +1,5 @@
 //
-//  ATAlert.swift
+//  Alert.swift
 //  notGIF
 //
 //  Created by Atuooo on 13/10/2016.
@@ -15,11 +15,33 @@ public enum AlertType {
     case shareFailed(String)
     case shareSuccess
     case noInternet
+    
+    case accountAccessRejected(String)
 }
 
 public enum AlertStyle {
     case alert
     case toast
+}
+
+typealias CommonHandler = (() -> Void)
+
+final class Alert {
+    
+    class func show(type: AlertType, with dissmissAction: CommonHandler? = nil) {
+//        let _ = UIApplication.shared.keyWindow?.rootViewController
+        
+//        var title = "", message = ""
+//        var dismissTitle = String.trans_promptGetIt
+//        
+//        switch type {
+//        case .accountAccessRejected(let accountType):
+//            title = ""
+//        default:
+//            <#code#>
+//        }
+    }
+    
 }
 
 final class ATAlert {

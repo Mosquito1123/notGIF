@@ -27,7 +27,7 @@ class ComposeViewController: SLComposeServiceViewController {
     }
     
     deinit {
-        println(" deinit ComposeViewController")
+        printLog(" deinited")
     }
     
     override func viewDidLoad() {
@@ -47,10 +47,11 @@ class ComposeViewController: SLComposeServiceViewController {
     
     override func configurationItems() -> [Any]! {
         let item = SLComposeSheetConfigurationItem()!
-        item.title = "Account"
+        item.title = String.trans_titleAccount
         item.value = selectedAccount?.accountDescription
         item.tapHandler = { [unowned self] in
-            let accountTableVC = AccountTableViewController(in: self)
+            let accountTableVC = AccountTableViewController()
+            accountTableVC.composeVC = self
             self.pushConfigurationViewController(accountTableVC)
         }
         return [item]
@@ -68,19 +69,20 @@ class ComposeViewController: SLComposeServiceViewController {
     
     override func didSelectPost() {
         guard let account = selectedAccount else {
-            ATAlert.alert(type: .noAccount(title!), in: self, withDismissAction: {
-                self.dismiss(animated: true, completion: nil)
-            })
-            
+//            ATAlert.alert(type: .noAccount(title!), in: self, withDismissAction: {
+//                self.dismiss(animated: true, completion: nil)
+//            })
+            // TODO: -
             return
         }
 
-        SLRequestManager.shareGIF(asset: gifInfo.asset, to: account, with: contentText)
+        SLRequestManager.shareGIF(with: gifInfo.data, and: contentText, to: account)
         dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Get Account
     private func getAccounts(of type: ShareType) {
+        
         let accountStore = ACAccountStore()
         var accountType = ACAccountType()
         

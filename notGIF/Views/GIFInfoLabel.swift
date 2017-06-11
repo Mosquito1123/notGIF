@@ -17,8 +17,8 @@ class GIFInfoLabel: UILabel {
             let attString = NSMutableAttributedString(string: info)
             let aRange = (info as NSString).range(of: components[0])
             let bRange = (info as NSString).range(of: components[1])
-            attString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 16), range: aRange)
-            attString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 11), range: bRange)
+            attString.addAttribute(NSFontAttributeName, value: UIFont.menlo(ofSize: 15), range: aRange)
+            attString.addAttribute(NSFontAttributeName, value: UIFont.menlo(ofSize: 11), range: bRange)
             
             attributedText = attString
         }

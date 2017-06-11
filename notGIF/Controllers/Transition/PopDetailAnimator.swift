@@ -120,6 +120,10 @@ class PopDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                     
                 } else {
                     
+                    self.maskImageView.stopAnimating()
+                    listCell.isInTransition = false
+                    listCell.animating(enable: listVC.shouldPlay)
+
                     completionHandler()
                 }
             })
