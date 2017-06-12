@@ -26,7 +26,7 @@ extension UIColor {
     static let editYellow   = UIColor.hex(0xfe9402)
     static let deleteRed    = UIColor.hex(0xf8523a)
     
-    static let successBlue  = UIColor.blue
+    static let successBlue  = UIColor.hex(0x345479)
     static let failRed      = UIColor.deleteRed
     
     static let darkText     = UIColor.hex(0x666666)
@@ -36,16 +36,16 @@ extension UIColor {
 extension UIFont {
     
     // nav title: /jif/
-    class func kenia(ofSize size: CGFloat) -> UIFont? {
-        return UIFont(name: "Kenia-Regular", size: size)
+    class func kenia(ofSize size: CGFloat) -> UIFont {
+        return UIFont(name: "Kenia-Regular", size: size) ?? UIFont.systemFont(ofSize: size)
     }
     
     // notGIF slogan
-    class func shojumaru(ofSize size: CGFloat) -> UIFont? {
-        return UIFont(name: "Shojumaru-Regular", size: size)
+    class func shojumaru(ofSize size: CGFloat) -> UIFont {
+        return UIFont(name: "Shojumaru-Regular", size: size) ?? UIFont.systemFont(ofSize: size)
     }
     
-    class func menlo(ofSize size: CGFloat) -> UIFont? {
-        return UIFont(name: "Menlo", size: size)
+    class func menlo(ofSize size: CGFloat) -> UIFont {
+        return UIFont(name: "Menlo", size: size) ?? UIFont.systemFont(ofSize: size)
     }
 }

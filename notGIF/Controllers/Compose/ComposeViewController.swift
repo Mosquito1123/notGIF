@@ -69,10 +69,6 @@ class ComposeViewController: SLComposeServiceViewController {
     
     override func didSelectPost() {
         guard let account = selectedAccount else {
-//            ATAlert.alert(type: .noAccount(title!), in: self, withDismissAction: {
-//                self.dismiss(animated: true, completion: nil)
-//            })
-            // TODO: -
             return
         }
 
@@ -81,6 +77,7 @@ class ComposeViewController: SLComposeServiceViewController {
     }
     
     // MARK: - Get Account
+    
     private func getAccounts(of type: ShareType) {
         
         let accountStore = ACAccountStore()
@@ -89,13 +86,19 @@ class ComposeViewController: SLComposeServiceViewController {
         switch type {
         case .twitter:
             accountType = accountStore.accountType(withAccountTypeIdentifier: ACAccountTypeIdentifierTwitter)
+            title = String.trans_titleTwitter
+            
         case .weibo:
             accountType = accountStore.accountType(withAccountTypeIdentifier: ACAccountTypeIdentifierSinaWeibo)
+            title = String.trans_titleWeibo
+            
         default:
+            title = String.trans_titleUnknowType
+            Alert.show(.unknowType, in: self, withConfirmAction: {
+                self.dismiss(animated: true, completion: nil)
+            })
             break
         }
-        
-        title = accountType.accountTypeDescription
         
         accountStore.requestAccessToAccounts(with: accountType, options: nil) {granted, error in
             if granted {
@@ -103,23 +106,20 @@ class ComposeViewController: SLComposeServiceViewController {
                 self.accounts = accountStore.accounts(with: accountType) as! [ACAccount]
                 
                 if self.accounts.isEmpty {
-                    
-                    ATAlert.alert(type: .noAccount(self.title!), in: self, withDismissAction: {
+                    Alert.show(.noAccount(accountType.identifier), in: self, withConfirmAction: {
                         self.dismiss(animated: true, completion: nil)
                     })
                     
                 } else {
-                    
                     self.selectedAccount = self.accounts.first
                     
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.safeAsync {
                         self.reloadConfigurationItems()
                     }
                 }
                 
             } else {
-                
-                ATAlert.alert(type: .acAccessRejected(self.title!), in: self, withDismissAction: {
+                Alert.show(.noAccessAccount(accountType.identifier), in: self, withConfirmAction: {
                     self.dismiss(animated: true, completion: nil)
                 })
             }

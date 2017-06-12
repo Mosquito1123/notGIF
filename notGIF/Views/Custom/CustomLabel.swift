@@ -1,5 +1,5 @@
 //
-//  GIFInfoLabel.swift
+//  CustomLabel.swift
 //  notGIF
 //
 //  Created by Atuooo on 12/10/2016.
@@ -8,24 +8,30 @@
 
 import UIKit
 
-class GIFInfoLabel: UILabel {
+class CustomLabel: UILabel {
+    
+    fileprivate var aFont: UIFont
+    fileprivate var bFont: UIFont
+    
     var info: String = "" {
         didSet {
             let components = info.components(separatedBy: "\n")
-            guard !components.isEmpty else { return }
+            guard components.count == 2 else { return }
             
             let attString = NSMutableAttributedString(string: info)
             let aRange = (info as NSString).range(of: components[0])
             let bRange = (info as NSString).range(of: components[1])
-            attString.addAttribute(NSFontAttributeName, value: UIFont.menlo(ofSize: 15), range: aRange)
-            attString.addAttribute(NSFontAttributeName, value: UIFont.menlo(ofSize: 11), range: bRange)
+            attString.addAttribute(NSFontAttributeName, value: aFont, range: aRange)
+            attString.addAttribute(NSFontAttributeName, value: bFont, range: bRange)
             
             attributedText = attString
         }
     }
 
-    init() {
-        super.init(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+    init(aFont: UIFont, bFont: UIFont) {
+        self.aFont = aFont
+        self.bFont = bFont
+        super.init(frame: CGRect(x: 0, y: 0, width: kScreenWidth - 100, height: 40))
         
         textColor = .textTint
         textAlignment = .center

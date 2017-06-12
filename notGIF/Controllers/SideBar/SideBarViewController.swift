@@ -23,6 +23,7 @@ class SideBarViewController: UIViewController {
     }
     
     fileprivate var tagList: [Tag] = []
+    fileprivate var tagResult: Results<Tag>!
     fileprivate var notifiToken: NotificationToken?
     
     @IBOutlet weak var tableView: UITableView! {
@@ -32,12 +33,18 @@ class SideBarViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var addTagButton: UIButton! {
+        didSet {
+            addTagButton.setTitle(String.trans_tag, for: .normal)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         guard let realm = try? Realm() else { return }
         
-        let tagResult = realm.objects(Tag.self).sorted(byKeyPath: "createDate", ascending: false)
+        tagResult = realm.objects(Tag.self).sorted(byKeyPath: "createDate", ascending: false)
         tagList.append(contentsOf: tagResult)
         
         notifiToken = tagResult.addNotificationBlock { [weak self] changes in
@@ -102,8 +109,11 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.editCancelHandler = { [unowned self] in
-            self.tagList.remove(at: newTagCellInsertIP.item)
-            tableView.deleteRows(at: [newTagCellInsertIP], with: .bottom)
+            let tag = self.tagList[indexPath.item]
+            if !self.tagResult.contains(tag) {  // 新建的 Tag
+                self.tagList.remove(at: indexPath.item)
+                tableView.deleteRows(at: [indexPath], with: .bottom)
+            }
         }
         
         cell.endEditHandler = { [unowned self] in
@@ -119,7 +129,6 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         guard !isAddingTag, let drawer = parent as? DrawerViewController else { return }
-        
         NotificationCenter.default.post(name: .didSelectTag, object: tagList[indexPath.item])
         drawer.dismissSideBar()
     }
@@ -133,7 +142,10 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
         
         let deleteRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_delete"), bgColor: .deleteRed) {
             [unowned self] (_, rowActionIP) in
-            self.deleteTag(at: rowActionIP)
+            self.tableView.setEditing(false, animated: true)
+            Alert.show(.confirmDeleteTag) {
+                self.deleteTag(at: rowActionIP)
+            }
         }
         
         return [editRowAction, deleteRowAction]

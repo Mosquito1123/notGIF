@@ -6,19 +6,40 @@
   Copyright © 2017 xyz. All rights reserved.
 */
 
+"prompt.account_no_access_weibo" = "notGIF 无法获取您 微博 账号";
+"prompt.account_no_access_twitter" = "notGIF 无法获取您 Twitter 账号";
+"prompt.account_h2_authorize_twitter" = "您可以在 \n'设置' > '隐私' > 'Twitter'\n 授权 notGIF 访问您的账号";
+"prompt.account_h2_authorize_weibo" = "您可以在 \n'设置' > '隐私' > '新浪微博'\n 授权 notGIF 访问您的账号";
+
+"prompt.no_weibo_account" = "您还未添加 微博 账号";
+"prompt.no_twitter_account" = "您还未添加 Twitter 账号";
+"prompt.h2_add_weibo_account" = "您可以在 \n'设置' > '新浪微博'\n 中添加或创建账号";
+"prompt.h2_add_twitter_account" = "您可以在 \n'设置' > 'Twitter'\n 中添加或创建账号";
+
+"prompt.bad_network" = "网络不太好 !";
+"prompt.message_unsupport" = "短信 不支持发送 GIF !";
+
+"prompt.sending" = "发送中...";
+"prompt.post_failed" = "失败: ";
+"prompt.post_success" = "~ 发送成功 ~";
+"prompt.request_failed" = "请求失败";
+
 "prompt.get_it" = "知道了";
-"prompt.account_access_rejected" = "无法获取您的账号";
-"prompt.message_h2_allow_weibo" = "You can set in \n 'Settings' -> 'Privacy' -> 'Weibo' \n to allow access to your account";
-"prompt.message_h2_allow_twitter" = "";
-
-"prompt.title_no_account_found" = "No \(accountType) Account Found";
-"prompt.message_no_weibo_found" = "There are no \(accountType) accounts configured. You can add or create a \(accountType) account in \n 'Settings' -> '\(accountType)";
-"prompt.message_no_twitter_found" = "";
-
-
-
 "title.account" = "账号";
-"title.cancel" = "取消";
-"title.post" = "发布";
 
 "prompt.error" = "出错了";
+
+"title.weibo" = "新浪微博";
+"title.twitter" = "Twitter";
+"title.unknow_type" = "未知类型";
+
+"tag.all" = "所有";
+"title.tag" = "标签";
+"title.done" = "完成";
+"title.cancel" = "取消";
+"title.confirm" = "确定";
+
+"prompt.title_delete_tag" = "您确定删除该标签么 ?";
+"prompt.message_delete_tag" = "该标签下的 GIF 不会被删除";
+
+

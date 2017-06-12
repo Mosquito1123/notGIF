@@ -12,8 +12,7 @@ import Accounts
 import MobileCoreServices
 
 fileprivate typealias JSON = [String: AnyObject]
-//fileprivate typealias Completion = (_ result: Result) -> ()
-fileprivate typealias Completion = (_ result: PostResult) -> Void
+fileprivate typealias PostCompletion = (_ result: PostResult) -> Void
 
 fileprivate enum Result {
     case success(JSON)
@@ -80,6 +79,7 @@ final class SLRequestManager {
                     
                 case .success(let json):
                     
+                    // 获取 mediaID 后发送 tweet
                     guard let mediaID = json["media_id_string"] as? String else {
                         StatusBarToast.show(.postFailed("can't upload gif"))
                         return
@@ -123,7 +123,7 @@ final class SLRequestManager {
 
 fileprivate extension SLRequest {
     
-    func perform(completionHandler: @escaping Completion) {
+    func perform(completionHandler: @escaping PostCompletion) {
         
         perform { (data, response, err) in
             

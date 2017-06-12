@@ -40,7 +40,10 @@ class GIFDetailViewController: UIViewController {
         }
     }
     
-    fileprivate lazy var infoLabel = GIFInfoLabel()
+    fileprivate lazy var titleInfoLabel: CustomLabel = {
+        return CustomLabel(aFont: UIFont.menlo(ofSize: 16),
+                           bFont: UIFont.menlo(ofSize: 11))
+    }()
 
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
@@ -68,7 +71,7 @@ class GIFDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.titleView = infoLabel
+        navigationItem.titleView = titleInfoLabel
         setNotificationToken()
     }
     
@@ -125,7 +128,7 @@ extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDat
         
         let gif = gifList[indexPath.item]
         cell.imageView.setGIFImage(with: gif.id, shouldPlay: true) {[weak self] gif in
-            self?.infoLabel.info = gif.info
+            self?.titleInfoLabel.info = gif.info
         }
     }
     

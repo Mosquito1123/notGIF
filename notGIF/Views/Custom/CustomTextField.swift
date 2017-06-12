@@ -24,7 +24,7 @@ class CustomTextField: UITextField {
         if isEditing {
             let textSize = (text ?? "").size(attributes: typingAttributes)
             let otherW = (leftView?.bounds.size.width ?? 0) + (rightView?.bounds.size.width ?? 0)
-            return CGSize(width: otherW + textSize.width + 2, height: textSize.height)
+            return CGSize(width: otherW + textSize.width + 2, height: textSize.height + 1)
 
         } else {
             return super.intrinsicContentSize

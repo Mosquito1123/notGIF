@@ -13,32 +13,37 @@ public enum ToastShowScene {
     case postSuccess
     case postFailed(String)
     case requestFailed
+    case sthError
 }
 
 extension StatusBarToast {
     
     class func show(_ scene: ToastShowScene) {
         var message = ""
-        var displayType: DisplayType = .overlay
+        let displayType: DisplayType = .overlay
         var duration: TimeInterval = 5.0
-        var textColor: UIColor = UIColor.textTint
+        let textColor: UIColor = UIColor.textTint
         
         switch scene {
         case .posting:
-            message = "sending ... "
+            message = String.trans_sending
             duration = 7.0
             StatusBarToast.backgroundColor = UIColor.bgColor
             
         case .postSuccess:
-            message = "send successfully ..."
+            message = String.trans_postSuccess
             StatusBarToast.backgroundColor = UIColor.successBlue
             
         case .postFailed(let error):
-            message = "failed: \(error)"
+            message = String.trans_postFailed + error
             StatusBarToast.backgroundColor = UIColor.failRed
             
         case .requestFailed:
-            message = "request failed"
+            message = String.trans_requestFailed
+            StatusBarToast.backgroundColor = UIColor.failRed
+            
+        case .sthError:
+            message = String.trans_promptError
             StatusBarToast.backgroundColor = UIColor.failRed
         }
         

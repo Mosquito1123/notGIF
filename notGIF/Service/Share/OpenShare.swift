@@ -37,7 +37,7 @@ final class OpenShare {
     
     class func shareGIF(with gifInfo: GIFDataInfo, to platform: Platform) {
         guard let thumbData = gifInfo.thumbnail.monkeyking_compressedImageData else {
-            
+            // 发送失败？
             return
         }
         
@@ -62,7 +62,7 @@ final class OpenShare {
             guard let messageData = try? PropertyListSerialization.data(fromPropertyList: wechatMessage, format: .binary, options: 0),
                 let openURL = URL(string: "weixin://app/\(platform.appID)/sendreq/?") else {
                     
-//                 alert ?
+//                 alert ? 数据初始化失败
                 return
             }
             

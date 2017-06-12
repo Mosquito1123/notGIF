@@ -20,18 +20,18 @@ class TagListCell: UITableViewCell {
     fileprivate var tagName: String = ""
     
     fileprivate lazy var doneButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        button.setTitle("完成", for: .normal)
-        button.setTitleColor(UIColor.textTint, for: .normal)
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 40))
+        button.setTitle(String.trans_titleDone, for: .normal)
+        button.setTitleColor(UIColor.darkText, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.addTarget(self, action: #selector(TagListCell.doneButtonClicked), for: .touchUpInside)
         return button
     }()
     
     fileprivate lazy var cancelButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        button.setTitle("取消", for: .normal)
-        button.setTitleColor(UIColor.textTint, for: .normal)
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 40))
+        button.setTitle(String.trans_titleCancel, for: .normal)
+        button.setTitleColor(UIColor.darkText, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.addTarget(self, action: #selector(TagListCell.cancelButtonClicked), for: .touchUpInside)
         return button
@@ -39,11 +39,11 @@ class TagListCell: UITableViewCell {
     
     fileprivate lazy var toolBar: UIToolbar = {
         var bar = UIToolbar(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 40))
-        bar.backgroundColor = .black
+        bar.backgroundColor = UIColor.lightGray
         let doneItem = UIBarButtonItem(customView: self.doneButton)
         let cancelItem = UIBarButtonItem(customView: self.cancelButton)
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        bar.items = [space, cancelItem, space, doneItem, space]
+        bar.items = [space, cancelItem, space, space, doneItem, space]
         return bar
     }()
     
@@ -66,7 +66,7 @@ class TagListCell: UITableViewCell {
 //        let isSelect = tag.id == NGUserDefaults.lastSelectTagID
 //        nameField.font = isSelect ? UIFont.systemFont(ofSize: 30, weight: 24) : UIFont.systemFont(ofSize: 18)
 //        nameField.textColor = isSelect ? .red : .white
-        tagName = tag.name
+        tagName = tag.localNameStr
         nameField.text = tagName
         countLabel.text = "\(tag.gifs.count)"
     }

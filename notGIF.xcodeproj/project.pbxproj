@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		980566D91EEE7E4B009B86C8 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980566D81EEE7E4B009B86C8 /* CustomLabel.swift */; };
 		98088E8B1EE8026000ECED6C /* CustomRowAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98088E891EE8026000ECED6C /* CustomRowAction.swift */; };
 		98088E8C1EE8026000ECED6C /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98088E8A1EE8026000ECED6C /* CustomTextField.swift */; };
 		980B1F5D1EE8F12A00E48A2F /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980B1F5C1EE8F12A00E48A2F /* Log.swift */; };
@@ -23,7 +24,6 @@
 		983547901EE954BD00D84274 /* PushDetailAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9835478F1EE954BD00D84274 /* PushDetailAnimator.swift */; };
 		983547921EE954D500D84274 /* PopDetailAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983547911EE954D500D84274 /* PopDetailAnimator.swift */; };
 		9850BE321EEA50DE00D6CE88 /* String+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B7AD81EE75EC1008E20BB /* String+NG.swift */; };
-		98557AF71EDE77EF007C7E22 /* GIFInfoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AEE1EDE77EF007C7E22 /* GIFInfoLabel.swift */; };
 		98557AF81EDE77EF007C7E22 /* GIFShareBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AEF1EDE77EF007C7E22 /* GIFShareBar.swift */; };
 		98557AFA1EDE77EF007C7E22 /* StatusBarLoadingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AF21EDE77EF007C7E22 /* StatusBarLoadingLayer.swift */; };
 		98557AFB1EDE77EF007C7E22 /* StatusBarToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AF41EDE77EF007C7E22 /* StatusBarToast.swift */; };
@@ -101,8 +101,6 @@
 		C9F8608B1DBD027E006B1221 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8608A1DBD027E006B1221 /* MessagesViewController.swift */; };
 		C9F860901DBD027E006B1221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F8608F1DBD027E006B1221 /* Assets.xcassets */; };
 		C9F860941DBD027E006B1221 /* notGIFMessage.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9F860861DBD027E006B1221 /* notGIFMessage.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C9F8616B1DBD0B1C006B1221 /* ATUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8615A1DBD0B1C006B1221 /* ATUtility.swift */; };
-		C9F8616C1DBD0B1C006B1221 /* ATUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F8615A1DBD0B1C006B1221 /* ATUtility.swift */; };
 		C9F861A91DBD1046006B1221 /* MGIFLisViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861A81DBD1046006B1221 /* MGIFLisViewCell.swift */; };
 		C9F861BC1DC0C22B006B1221 /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861BB1DC0C22B006B1221 /* IndicatorView.swift */; };
 		C9F861BD1DC0C22B006B1221 /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861BB1DC0C22B006B1221 /* IndicatorView.swift */; };
@@ -139,6 +137,7 @@
 		25FEBD5B3FC0320DFA349F80 /* Pods-notGIFMessage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notGIFMessage.release.xcconfig"; path = "Pods/Target Support Files/Pods-notGIFMessage/Pods-notGIFMessage.release.xcconfig"; sourceTree = "<group>"; };
 		5E83B6C1B2758C67408FBD2A /* Pods-notGIF.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notGIF.release.xcconfig"; path = "Pods/Target Support Files/Pods-notGIF/Pods-notGIF.release.xcconfig"; sourceTree = "<group>"; };
 		77787802832EB1AFAF109C0C /* Pods_notGIFMessage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notGIFMessage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		980566D81EEE7E4B009B86C8 /* CustomLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		98088E891EE8026000ECED6C /* CustomRowAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomRowAction.swift; sourceTree = "<group>"; };
 		98088E8A1EE8026000ECED6C /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		980B1F5C1EE8F12A00E48A2F /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
@@ -153,7 +152,6 @@
 		9827EDD61EEA9F500043288F /* GIFLisCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFLisCell.swift; sourceTree = "<group>"; };
 		9835478F1EE954BD00D84274 /* PushDetailAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushDetailAnimator.swift; sourceTree = "<group>"; };
 		983547911EE954D500D84274 /* PopDetailAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopDetailAnimator.swift; sourceTree = "<group>"; };
-		98557AEE1EDE77EF007C7E22 /* GIFInfoLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFInfoLabel.swift; sourceTree = "<group>"; };
 		98557AEF1EDE77EF007C7E22 /* GIFShareBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFShareBar.swift; sourceTree = "<group>"; };
 		98557AF21EDE77EF007C7E22 /* StatusBarLoadingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarLoadingLayer.swift; sourceTree = "<group>"; };
 		98557AF41EDE77EF007C7E22 /* StatusBarToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarToast.swift; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 		C9F8608A1DBD027E006B1221 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		C9F8608F1DBD027E006B1221 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9F860911DBD027E006B1221 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C9F8615A1DBD0B1C006B1221 /* ATUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATUtility.swift; sourceTree = "<group>"; };
 		C9F861A81DBD1046006B1221 /* MGIFLisViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MGIFLisViewCell.swift; path = View/MGIFLisViewCell.swift; sourceTree = "<group>"; };
 		C9F861BB1DC0C22B006B1221 /* IndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -254,6 +251,7 @@
 		98088E881EE8026000ECED6C /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				980566D81EEE7E4B009B86C8 /* CustomLabel.swift */,
 				98088E891EE8026000ECED6C /* CustomRowAction.swift */,
 				98088E8A1EE8026000ECED6C /* CustomTextField.swift */,
 			);
@@ -330,7 +328,6 @@
 		98557AEA1EDE77EF007C7E22 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				98557AEE1EDE77EF007C7E22 /* GIFInfoLabel.swift */,
 				98557AEF1EDE77EF007C7E22 /* GIFShareBar.swift */,
 				98557AF21EDE77EF007C7E22 /* StatusBarLoadingLayer.swift */,
 				98A9FD6A1EE68CFD001A761D /* Layout */,
@@ -592,18 +589,9 @@
 		C9F8614F1DBD0B1C006B1221 /* Universal */ = {
 			isa = PBXGroup;
 			children = (
-				C9F861581DBD0B1C006B1221 /* Util */,
 				C9F861B11DC09503006B1221 /* View */,
 			);
 			path = Universal;
-			sourceTree = "<group>";
-		};
-		C9F861581DBD0B1C006B1221 /* Util */ = {
-			isa = PBXGroup;
-			children = (
-				C9F8615A1DBD0B1C006B1221 /* ATUtility.swift */,
-			);
-			path = Util;
 			sourceTree = "<group>";
 		};
 		C9F861B11DC09503006B1221 /* View */ = {
@@ -838,6 +826,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9BDEC871EE2A4E200EF99A8 /* UIColor+NG.swift in Sources */,
+				980566D91EEE7E4B009B86C8 /* CustomLabel.swift in Sources */,
 				983547901EE954BD00D84274 /* PushDetailAnimator.swift in Sources */,
 				980B1F5D1EE8F12A00E48A2F /* Log.swift in Sources */,
 				98A9FD671EE68C2A001A761D /* NotGIFLibrary.swift in Sources */,
@@ -855,7 +844,6 @@
 				9827EDD71EEA9F500043288F /* GIFDetailCell.swift in Sources */,
 				C90B9CB01EEC2F3D00C971C1 /* BaseNavigationController.swift in Sources */,
 				C90D1AD21EEC234500862CF5 /* CGGeometry+NG.swift in Sources */,
-				98557AF71EDE77EF007C7E22 /* GIFInfoLabel.swift in Sources */,
 				98557AFA1EDE77EF007C7E22 /* StatusBarLoadingLayer.swift in Sources */,
 				C94D68101EED8C85004B8E5A /* StatusBarToast+NG.swift in Sources */,
 				98A9FD6C1EE68CFD001A761D /* GIFListLayout.swift in Sources */,
@@ -878,7 +866,6 @@
 				C9E3F0D11EED31BD0018943C /* SLRequestManger.swift in Sources */,
 				C91E0FA41EE4697700F56737 /* RealmConfig.swift in Sources */,
 				98557AF81EDE77EF007C7E22 /* GIFShareBar.swift in Sources */,
-				C9F8616B1DBD0B1C006B1221 /* ATUtility.swift in Sources */,
 				98088E8C1EE8026000ECED6C /* CustomTextField.swift in Sources */,
 				C9E3F11C1EED69140018943C /* UIImage+NG.swift in Sources */,
 				C9C7DC311EE3FDDE002B26A0 /* ScreenSize.swift in Sources */,
@@ -924,7 +911,6 @@
 				C9BDEC921EE2FBC300EF99A8 /* FontAwesome.swift in Sources */,
 				C96561001EE7525C00BC3A87 /* HUD.swift in Sources */,
 				C9BDEC881EE2A4E200EF99A8 /* UIColor+NG.swift in Sources */,
-				C9F8616C1DBD0B1C006B1221 /* ATUtility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

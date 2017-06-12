@@ -24,107 +24,77 @@ public enum AlertStyle {
     case toast
 }
 
-typealias CommonHandler = (() -> Void)
+public enum AlertShowScene {
+    
+    case badNetwork
+    case messageUnsupport
+    
+    case noAccount(String)
+    case noAccessAccount(String)
+    
+    case unknowType
+    case confirmDeleteTag
+}
+
+typealias Completion = (() -> Void)
 
 final class Alert {
     
-    class func show(type: AlertType, with dissmissAction: CommonHandler? = nil) {
-//        let _ = UIApplication.shared.keyWindow?.rootViewController
+    class func show(_ scene: AlertShowScene, in viewController: UIViewController? = nil, withConfirmAction confirmAction: Completion? = nil) {
+        guard let vc = viewController ?? UIApplication.shared.keyWindow?.rootViewController else { return }
         
-//        var title = "", message = ""
-//        var dismissTitle = String.trans_promptGetIt
-//        
-//        switch type {
-//        case .accountAccessRejected(let accountType):
-//            title = ""
-//        default:
-//            <#code#>
-//        }
-    }
-    
-}
-
-final class ATAlert {
-    
-    class func alert(type: AlertType, in viewController: UIViewController, withDismissAction dismissAction: (() -> Void)?) {
-        var title = "", message = ""
-        var dismissTitle = "Get it"
-
-        switch type {
+        var title = "", message: String? = nil
+        var confirmTitle = String.trans_promptGetIt
+        var showCancel: Bool = false
+        
+        switch scene {
+        case .badNetwork:
+            title = String.trans_badNetwork
+            
+        case .messageUnsupport:
+            title = String.trans_messageUnsupport
+            
         case .noAccount(let accountType):
-            title = "No \(accountType) Account Found"
-            message = "There are no \(accountType) accounts configured. You can add or create a \(accountType) account in \n 'Settings' -> '\(accountType)"
+            title = String.trans_noAccount(accountType: accountType)
+            message = String.trans_h2Add(accountType: accountType)
             
-        case .acAccessRejected(let accountType):
-            title = "Can't Access Your Account"
-            message = "You can set in \n 'Settings' -> 'Privacy' -> '\(accountType)' \n to allow access to your account"
-        
-        case .noApp(let appName):
-            title = "You haven't installed \(appName)"
-            dismissTitle = "OK"
+        case .noAccessAccount(let accountType):
+            title = String.trans_noAccess(accountType: accountType)
+            message = String.trans_h2Access(accountType: accountType)
             
-        case .noInternet:
-            title = "No Internet. Can't Share"
-            message = "You are not connected to the internet!"
+        case .unknowType:
+            title = String.trans_titleUnknowType
             
-        default:
-            break
+        case .confirmDeleteTag:
+            title = String.trans_promptTitleDeleteTag
+            message = String.trans_promptMessageDeleteTag
+            confirmTitle = String.trans_titleConfirm
+            
+            showCancel = true
         }
         
-        alert(title: title, message: message, dismissTitle: dismissTitle, in: viewController, withDismissAction: dismissAction)
-    }
-
-    class func alert(title: String, message: String?, dismissTitle: String, in viewController: UIViewController?, withDismissAction dismissAction: (() -> Void)?) {
-        
-        DispatchQueue.main.async {
-            
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            
-            let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .default) { action in
-                if let dismissAction = dismissAction {
-                    dismissAction()
-                }
-            }
-            alertController.addAction(action)
-            
-            viewController?.present(alertController, animated: true, completion: nil)
-        }
+        alert(title: title, message: message, confirmTitle: confirmTitle, in: vc, showCancel: showCancel, confirmAction: confirmAction)
     }
     
-    class func tellYou(message: String, in viewController: UIViewController?) {
-        DispatchQueue.main.async {
+    class func alert(title: String, message: String?, confirmTitle: String, in viewController: UIViewController?, showCancel: Bool = false, confirmAction: Completion?) {
+        
+        DispatchQueue.main.safeAsync {
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+            alertController.view.tintColor = UIColor.black
             
-            let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
+            if showCancel {
+                let action = UIAlertAction(title: String.trans_titleCancel, style: .default, handler: nil)
+                alertController.addAction(action)
+            }
             
-            let action = UIAlertAction(title: "OK", style: .default) { action in
-                alertController.dismiss(animated: true, completion: nil)
+            let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: .default) { action in
+                confirmAction?()
             }
             
             alertController.addAction(action)
-            
-            viewController?.present(alertController, animated: true, completion: nil)
-        }
-    }
-    
-    class func confirmOrCancel(title: String, message: String, confirmTitle: String = "确定", cancelTitle: String = "取消", in viewController: UIViewController?, withConfirmAction confirmAction: @escaping () -> Void, cancelAction: @escaping () -> Void = { }) {
-        
-        DispatchQueue.main.async {
-
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            
-            let cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .cancel) { action in
-                cancelAction()
-            }
-            alertController.addAction(cancelAction)
-            
-            let confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .default) { action in
-                confirmAction()
-            }
-            alertController.addAction(confirmAction)
-            
             viewController?.present(alertController, animated: true, completion: nil)
         }
     }
 }
-
 

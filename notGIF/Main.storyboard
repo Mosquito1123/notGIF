@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E154a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="iUd-N1-Fjz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="iUd-N1-Fjz">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -89,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9RG-hR-HZm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="885.60000000000002" y="-55.322338830584712"/>
+            <point key="canvasLocation" x="382" y="-168"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="uyD-wL-qHq">
@@ -144,7 +144,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nU8-E9-8ST" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1624.8" y="-55.322338830584712"/>
+            <point key="canvasLocation" x="888" y="-167"/>
         </scene>
         <!--Base Navigation Controller-->
         <scene sceneID="wAT-8K-ijt">
@@ -168,7 +168,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DhT-gd-P0l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="-55.322338830584712"/>
+            <point key="canvasLocation" x="-95" y="-167"/>
         </scene>
         <!--Drawer View Controller-->
         <scene sceneID="QU3-Jj-Szn">
@@ -230,7 +230,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-583" y="-55"/>
+            <point key="canvasLocation" x="-584" y="-166"/>
         </scene>
         <!--Side Bar View Controller-->
         <scene sceneID="Nht-2u-AWW">
@@ -273,17 +273,17 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Pe-Iv-ASC">
-                                                            <rect key="frame" x="166" y="5" width="13" height="12"/>
+                                                            <rect key="frame" x="167" y="6" width="13" height="12"/>
                                                             <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="10"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" horizontalCompressionResistancePriority="250" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="Funny" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zxU-vf-hGf" customClass="CustomTextField" customModule="notGIF" customModuleProvider="target">
-                                                            <rect key="frame" x="108" y="5" width="54" height="22"/>
+                                                            <rect key="frame" x="107" y="6" width="56" height="20"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                             <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                            <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                             <connections>
                                                                 <outlet property="delegate" destination="nN9-78-aZ6" id="3NG-od-ZGK"/>
@@ -317,7 +317,8 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="Z2A-bK-IEH"/>
                                         </constraints>
-                                        <state key="normal" title=" 标签" image="icon_side_tag">
+                                        <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
+                                        <state key="normal" title="标签" image="icon_side_tag">
                                             <color key="titleColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                         </state>
                                         <connections>
@@ -351,6 +352,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addTagButton" destination="uOo-sR-sVS" id="zo8-ec-Dme"/>
                         <outlet property="tableView" destination="93e-9K-TFr" id="vSL-8a-QbW"/>
                     </connections>
                 </viewController>

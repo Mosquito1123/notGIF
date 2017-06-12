@@ -222,7 +222,7 @@ extension GIFListViewController {
         
         notifiToken?.stop()
         notifiToken = nil
-        
+                    
         currentTag = tag
         gifList = tag.gifs.sorted(byKeyPath: "creationDate", ascending: false)
         

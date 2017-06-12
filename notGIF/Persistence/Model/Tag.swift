@@ -34,6 +34,10 @@ class Tag: Object {
 
 extension Tag {
     
+    var localNameStr: String {
+        return id == Config.defaultTagID ? String.trans_tagAll : name
+    }
+    
     public func update(with name: String) -> Tag {
         modifyDate = Date()
         self.name = name

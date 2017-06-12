@@ -32,7 +32,7 @@ public enum ShareType: Int {
 class GIFShareManager {
     
     class func shareGIF(of id: String, to type: ShareType) {
-        guard let vc = UIApplication.shared.keyWindow?.rootViewController else { return }
+        guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else { return }
         
         HUD.show(.requestData)
         
@@ -47,43 +47,38 @@ class GIFShareManager {
             switch type {
                 
             case .weibo, .twitter:
-                
                 guard (Reachability()?.isReachable ?? false) else {
-                    // TODO: - alert?
                     HUD.hide()
+                    Alert.show(.badNetwork)
                     return
                 }
                 
                 let composeVC = ComposeViewController(shareType: type, with: gifInfo)
                 composeVC.modalPresentationStyle = .overCurrentContext
                 DispatchQueue.main.safeAsync {
-                    vc.present(composeVC, animated: true) { HUD.hide() }
+                    rootVC.present(composeVC, animated: true) { HUD.hide() }
                 }
                 
             case .wechat:
-                
                 OpenShare.shareGIF(with: gifInfo, to: .wechat)
                 HUD.hide()
                 
             case .more:
-                
                 let activityVC = UIActivityViewController(activityItems: [gifInfo.data], applicationActivities: nil)
                 
                 DispatchQueue.main.safeAsync {
-                    vc.present(activityVC, animated: true) { HUD.hide() }
+                    rootVC.present(activityVC, animated: true) { HUD.hide() }
                 }
                 
             case .message:
-                
                 if let messageVC = MessageComposeViewController(gifData: gifInfo.data) {
-                    
                     DispatchQueue.main.safeAsync {
-                        vc.present(messageVC, animated: true) { HUD.hide() }
+                        rootVC.present(messageVC, animated: true) { HUD.hide() }
                     }
                     
                 } else {
-                    // TODO: - alert?
                     HUD.hide()
+                    Alert.show(.messageUnsupport)
                 }
             }
         }

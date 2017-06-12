@@ -22,6 +22,7 @@ class AccountTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.backgroundColor = .clear
         tableView.tableFooterView = UIView()
         tableView.tintColor = .black
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
@@ -37,6 +38,7 @@ class AccountTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
         let account = composeVC.accounts[indexPath.item]
+        cell.backgroundColor = .clear
         cell.textLabel?.text = account.accountDescription
         cell.accessoryType = account == composeVC.selectedAccount ? .checkmark : .none
         return cell
