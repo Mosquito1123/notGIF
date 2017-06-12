@@ -19,19 +19,6 @@ class NotGIFLibrary: NSObject {
     
     static let shared = NotGIFLibrary()
     
-    var authorizationStatus: PHAuthorizationStatus {
-        return PHPhotoLibrary.authorizationStatus()
-    }
-    
-    subscript(index: Int) -> NotGIFImage? {
-        //        if index >= count {
-        //            return nil
-        //        } else {
-        //            return gifPool[gifAssets[index].localIdentifier]
-        //        }
-        return nil
-    }
-    
     fileprivate lazy var gifPool: [String: NotGIFImage] = [:]
     fileprivate lazy var gifAssetPool: [String: PHAsset] = [:]
     
@@ -49,7 +36,7 @@ class NotGIFLibrary: NSObject {
         return DispatchQueuePool(name: "com.notGIF.getGIF", qos: .utility, queueCount: 6)
     }()
     
-    func prepare(completion: @escaping ((Tag?) -> Void)) {
+    public func prepare(completion: @escaping ((Tag?) -> Void)) {
         do {
             let realm = try Realm()
             
@@ -105,7 +92,7 @@ class NotGIFLibrary: NSObject {
                 
                 try? realm.commitWrite()
                 
-                if authorizationStatus == .authorized {
+                if PHPhotoLibrary.authorizationStatus() == .authorized {
                     NGUserDefaults.haveFetched = true
                 }
                 
@@ -113,7 +100,7 @@ class NotGIFLibrary: NSObject {
             }
             
         } catch let err {
-            println("\n----------- init Realm failed:\n\(err.localizedDescription) -----------\n")
+            printLog("init Realm failed:\n\(err.localizedDescription)")
         }
     }
     
@@ -169,41 +156,8 @@ class NotGIFLibrary: NSObject {
         }
     }
     
-    func getDataInfo(at index: Int) -> GIFDataInfo? {
-        //        let asset = gifAssets[index]
-        //
-        //        if let gif = gifPool[asset.localIdentifier] {
-        //            return (asset, gif.posterImage)
-        //        } else {
-        return nil
-        //        }
-    }
-    
-    func requestGIFData(at index: Int, resultHandler: @escaping (Data?) -> Void) {
-        //        let gifAsset = gifAssets[index]
-        //        PHImageManager.requestGIFData(for: gifAsset) { data in
-        //            resultHandler(data)
-        //        }
-    }
-    
-    public func requestGIFData(of gifID: String, completionHandler: @escaping (GIFDataInfo?) -> Void) {
-        guard let gifAsset = gifAssetPool[gifID], let gif = gifPool[gifID] else {
-            completionHandler(nil)
-            return
-        }
-        
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.isSynchronous = true
-        requestOptions.version = .unadjusted
-        
-        PHImageManager.default().requestImageData(for: gifAsset, options: requestOptions) { (gifData, _, _, _) in
-            
-            if let gifData = gifData {
-                completionHandler((gifData, gif.posterImage))
-            } else {
-                completionHandler(nil)
-            }
-        }
+    public func getGIFInfoStr(of gif: NotGIF) -> String? {
+        return gifPool[gif.id]?.info ?? nil
     }
     
     public func retrieveGIF(with id: String, completionHandler: @escaping CompletionHandler) -> DispatchWorkItem? {
@@ -238,6 +192,28 @@ class NotGIFLibrary: NSObject {
         }
     }
     
+    public func requestGIFData(of gifID: String, completionHandler: @escaping (GIFDataInfo?) -> Void) {
+        guard let gifAsset = gifAssetPool[gifID], let gif = gifPool[gifID] else {
+            completionHandler(nil)
+            return
+        }
+        
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        requestOptions.version = .unadjusted
+        
+        PHImageManager.default().requestImageData(for: gifAsset, options: requestOptions) { (gifData, _, _, _) in
+            
+            if let gifData = gifData {
+                completionHandler((gifData, gif.posterImage))
+            } else {
+                completionHandler(nil)
+            }
+        }
+    }
+    
+    // MARK: - Init
+    
     override init() {
         super.init()
         PHPhotoLibrary.shared().register(self)
@@ -247,6 +223,8 @@ class NotGIFLibrary: NSObject {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
 }
+
+// MARK: - PhotoLibrary Delegate
 
 extension NotGIFLibrary: PHPhotoLibraryChangeObserver {
     
@@ -282,26 +260,6 @@ extension NotGIFLibrary: PHPhotoLibraryChangeObserver {
             if let defaultTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID) {
                 defaultTag.gifs.append(objectsIn: toInsertGIFs)
             }
-        }
-    }
-}
-
-extension PHImageManager {
-    class open func requestGIFData(for asset: PHAsset, resultHandler: @escaping (Data?) -> Void) {
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.isSynchronous = false
-        requestOptions.version = .original
-        
-        PHImageManager.default()
-            .requestImageData(for: asset,
-                              options: requestOptions)
-            { (data, UTI, orientation, info) in
-                
-                if let gifData = data, let uti = UTI, UTTypeConformsTo(uti as CFString , kUTTypeGIF) {
-                    resultHandler(gifData)
-                } else {
-                    resultHandler(data)
-                }
         }
     }
 }

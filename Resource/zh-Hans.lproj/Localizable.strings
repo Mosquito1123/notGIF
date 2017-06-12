@@ -41,5 +41,4 @@
 
 "prompt.title_delete_tag" = "您确定删除该标签么 ?";
 "prompt.message_delete_tag" = "该标签下的 GIF 不会被删除";
-
-
+"prompt.gif_not_prepared" = "GIF 还未准备好";

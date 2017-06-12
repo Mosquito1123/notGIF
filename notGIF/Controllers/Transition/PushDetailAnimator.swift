@@ -48,16 +48,16 @@ class PushDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
             detailView.alpha = 0
 
-            UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 2, options: [], animations: { 
+            detailVC.showShareBarToWindow()
+            
+            UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 2, options: [], animations: {
                 
-                listVC.collectionView.alpha = 0 
+                detailView.alpha = 1
+                listVC.collectionView.alpha = 0
                 listCell.imageView.frame = imageFinalRect
                 
             }, completion: { _ in
                 
-                detailView.alpha = 1
-                detailVC.collectionView.alpha = 1
-
                 imageView.stopAnimating()
                 let detailCell = detailVC.collectionView.cellForItem(at: selectIP) as? GIFDetailCell
                 detailCell?.imageView.startAnimating()
@@ -66,6 +66,8 @@ class PushDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 imageView.frame = imageOriginFrame
                 listCell.contentView.insertSubview(imageView, at: 0)
                 listCell.isInTransition = false
+                
+                detailVC.moveShareBarToView()
                 
                 let isSuccess = !transitionContext.transitionWasCancelled
                 transitionContext.completeTransition(isSuccess)

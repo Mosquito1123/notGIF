@@ -39,8 +39,8 @@ class GIFShareManager {
         NotGIFLibrary.shared.requestGIFData(of: id) { gifInfo in
             
             guard let gifInfo = gifInfo else {
-                // TODO: - Toast?
                 HUD.hide();
+                StatusBarToast.show(.gifNotPrepared)
                 return
             }
             

@@ -139,6 +139,10 @@ class PopDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     public func update(with offset: CGPoint, progress: CGFloat) {
         detailView.alpha = 1 - progress
+//        let translation = CGAffineTransform(translationX: offset.x, y: offset.y)
+//        let scale = CGAffineTransform(scaleX: 1 - 0.2 * progress, y: 1 - 0.2 * progress)
+//        maskImageView.frame = imageBeginFrame.applying(translation.concatenating(scale))
+        
         let rect = CGRect(origin: imageBeginFrame.origin + offset, size: imageBeginFrame.size)
         maskImageView.frame = rect.insetBy(scale: 0.1 * progress)
     }

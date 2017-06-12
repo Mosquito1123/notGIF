@@ -41,4 +41,5 @@
 
 "prompt.title_delete_tag" = "Are you sure to delete this tag?";
 "prompt.message_delete_tag" = "GIFs under this tag will not be deleted";
+"prompt.gif_not_prepared" = "GIF haven't be prepared";
 

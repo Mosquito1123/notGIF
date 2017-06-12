@@ -53,6 +53,7 @@ class TagListCell: UITableViewCell {
         nameField.text = nil
         countLabel.text = nil
         
+        nameField.font = UIFont.menlo(ofSize: 17)
     }
 
     override func prepareForReuse() {

@@ -16,6 +16,11 @@ import MobileCoreServices
 class GIFDetailViewController: UIViewController {
     
     public var gifList: Results<NotGIF>!
+    fileprivate var notifiToken: NotificationToken?
+    
+    fileprivate var canPanToPop: Bool = false
+    fileprivate var percentDrivenTransition: UIPercentDrivenInteractiveTransition?
+    fileprivate var popAnimator: PopDetailAnimator?
     
     public var currentIndex: Int = 0 {
         didSet {
@@ -26,13 +31,6 @@ class GIFDetailViewController: UIViewController {
         }
     }
     
-    fileprivate var notifiToken: NotificationToken?
-    
-    fileprivate var gifLibrary = NotGIFLibrary.shared
-    
-    fileprivate var percentDrivenTransition: UIPercentDrivenInteractiveTransition?
-    fileprivate var popAnimator: PopDetailAnimator?
-    
     fileprivate var isBarHidden = false {
         didSet {
             shareBar.isHidden = isBarHidden
@@ -40,6 +38,7 @@ class GIFDetailViewController: UIViewController {
         }
     }
     
+    fileprivate let defaultInfo = "xxx Frames\n xx / xx"
     fileprivate lazy var titleInfoLabel: CustomLabel = {
         return CustomLabel(aFont: UIFont.menlo(ofSize: 16),
                            bFont: UIFont.menlo(ofSize: 11))
@@ -70,7 +69,7 @@ class GIFDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         navigationItem.titleView = titleInfoLabel
         setNotificationToken()
     }
@@ -79,27 +78,16 @@ class GIFDetailViewController: UIViewController {
         super.viewDidAppear(animated)
         
         navigationController?.delegate = self
-        view.addSubview(shareBar)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        printLog("")
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .left, animated: false)
-    }
-    
-    func updateUI() {
-        func updateInfoLabel() {
-            currentIndex = Int(collectionView.contentOffset.x / kScreenWidth)
-            //            infoLabel.info = gifLibrary[currentIndex]?.gifInfo ?? tmpInfo
-        }
-        
-        CATransaction.begin()
-        CATransaction.setCompletionBlock {
-            updateInfoLabel()
-        }
-        
-        collectionView.reloadData()
-        CATransaction.commit()
     }
     
     deinit {
@@ -127,8 +115,8 @@ extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDat
         guard let cell = cell as? GIFDetailCell else { return }
         
         let gif = gifList[indexPath.item]
-        cell.imageView.setGIFImage(with: gif.id, shouldPlay: true) {[weak self] gif in
-            self?.titleInfoLabel.info = gif.info
+        cell.imageView.setGIFImage(with: gif.id, shouldPlay: true) { _ in
+
         }
     }
     
@@ -154,8 +142,11 @@ extension GIFDetailViewController {
 extension GIFDetailViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        currentIndex = Int(scrollView.contentOffset.x / kScreenWidth)
-//        infoLabel.info = gifLibrary[currentIndex]?.gifInfo ?? tmpInfo
+        if !canPanToPop {
+            collectionView.alwaysBounceVertical = true
+        }
+        
+        updateGIFInfoLabel()
     }
 }
 
@@ -186,9 +177,9 @@ extension GIFDetailViewController: UINavigationControllerDelegate {
         let progress = min(fabs(offset.y / (kScreenHeight * 0.4)), 1.0)
         
         switch ges.state {
-        case .began:
             
-            let canPanToPop = fabs(velocity.y) > fabs(velocity.x)
+        case .began:
+            canPanToPop = fabs(velocity.y) > fabs(velocity.x)
             
             if canPanToPop {
                 percentDrivenTransition = UIPercentDrivenInteractiveTransition()
@@ -200,12 +191,13 @@ extension GIFDetailViewController: UINavigationControllerDelegate {
             }
             
         case .changed:
-            
+            guard canPanToPop else { return }
             popAnimator?.update(with: offset, progress: progress)
             percentDrivenTransition?.update(progress)
             
         case .cancelled, .ended:
-            
+            guard canPanToPop else { return }
+
             if fabs(velocity.y) > 2000 {
                 percentDrivenTransition?.update(0.9)
                 percentDrivenTransition?.finish()
@@ -220,8 +212,7 @@ extension GIFDetailViewController: UINavigationControllerDelegate {
             }
             
             percentDrivenTransition = nil
-            collectionView.alwaysBounceVertical = true
-            
+
         case .failed, .possible:
             break
         }
@@ -252,6 +243,7 @@ extension GIFDetailViewController {
                 
             case .initial:
                 collectionView.reloadData()
+                self?.updateGIFInfoLabel()
                 
             case .update(_, let deletions, let insertions, let modifications):
                 
@@ -261,9 +253,27 @@ extension GIFDetailViewController {
                     collectionView.reloadItems(at: modifications.map{ IndexPath(item: $0, section: 0) })
                 }, completion: nil)
                 
+                self?.updateGIFInfoLabel()
+
             case .error(let err):
                 println(err.localizedDescription)
             }
         }
+    }
+    
+    public func showShareBarToWindow() {
+        UIApplication.shared.keyWindow?.addSubview(shareBar)
+        shareBar.animate()
+    }
+    
+    public func moveShareBarToView() {
+        shareBar.removeFromSuperview()
+        view.addSubview(shareBar)
+        view.bringSubview(toFront: shareBar)
+    }
+    
+    fileprivate func updateGIFInfoLabel() {
+        currentIndex = Int(collectionView.contentOffset.x / kScreenWidth)
+        titleInfoLabel.info = NotGIFLibrary.shared.getGIFInfoStr(of: gifList[currentIndex]) ?? defaultInfo
     }
 }

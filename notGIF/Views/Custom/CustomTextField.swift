@@ -22,9 +22,10 @@ class CustomTextField: UITextField {
     
     override var intrinsicContentSize: CGSize {
         if isEditing {
-            let textSize = (text ?? "").size(attributes: typingAttributes)
+//            let att = [NSFontAttributeName: UIFont.menlo(ofSize: 17)]
+            let textSize = (text ?? "").size(attributes: typingAttributes)  // typingAttributes
             let otherW = (leftView?.bounds.size.width ?? 0) + (rightView?.bounds.size.width ?? 0)
-            return CGSize(width: otherW + textSize.width + 2, height: textSize.height + 1)
+            return CGSize(width: otherW + textSize.width + 2, height: textSize.height)
 
         } else {
             return super.intrinsicContentSize

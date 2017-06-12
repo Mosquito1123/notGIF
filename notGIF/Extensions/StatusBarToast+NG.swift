@@ -13,6 +13,7 @@ public enum ToastShowScene {
     case postSuccess
     case postFailed(String)
     case requestFailed
+    case gifNotPrepared
     case sthError
 }
 
@@ -44,6 +45,10 @@ extension StatusBarToast {
             
         case .sthError:
             message = String.trans_promptError
+            StatusBarToast.backgroundColor = UIColor.failRed
+            
+        case .gifNotPrepared:
+            message = String.trans_gifNotPrepared
             StatusBarToast.backgroundColor = UIColor.failRed
         }
         

@@ -79,6 +79,10 @@ extension String {
     static var trans_requestFailed: String {
         return NSLocalizedString("prompt.request_failed", comment: "")
     }
+    
+    static var trans_gifNotPrepared: String {
+        return NSLocalizedString("prompt.gif_not_prepared", comment: "")
+    }
 }
 
 // MARK: - Alert

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="iUd-N1-Fjz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E154a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="iUd-N1-Fjz">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -89,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9RG-hR-HZm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="382" y="-168"/>
+            <point key="canvasLocation" x="732" y="-168"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="uyD-wL-qHq">
@@ -107,17 +107,17 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="FOA-zv-6jz">
-                                    <size key="itemSize" width="244" height="515"/>
+                                    <size key="itemSize" width="368" height="591"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" reuseIdentifier="GIFDetailCell" id="q3U-VY-S5l" customClass="GIFDetailCell" customModule="notGIF" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="76" width="244" height="515"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" reuseIdentifier="GIFDetailCell" id="q3U-VY-S5l" customClass="GIFDetailCell" customModule="notGIF" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="38" width="368" height="591"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="244" height="515"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="368" height="591"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </view>
                                     </collectionViewCell>
@@ -144,7 +144,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nU8-E9-8ST" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="888" y="-167"/>
+            <point key="canvasLocation" x="1564" y="-169.56521739130437"/>
         </scene>
         <!--Base Navigation Controller-->
         <scene sceneID="wAT-8K-ijt">
@@ -153,7 +153,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="umF-ix-sdO">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="umF-ix-sdO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.98431372549999996" green="0.98431372549999996" blue="0.98431372549999996" alpha="0.5" colorSpace="deviceRGB"/>
@@ -168,7 +168,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DhT-gd-P0l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-95" y="-167"/>
+            <point key="canvasLocation" x="-121" y="-168"/>
         </scene>
         <!--Drawer View Controller-->
         <scene sceneID="QU3-Jj-Szn">
@@ -230,7 +230,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-584" y="-166"/>
+            <point key="canvasLocation" x="-1004" y="-169"/>
         </scene>
         <!--Side Bar View Controller-->
         <scene sceneID="Nht-2u-AWW">
@@ -273,13 +273,13 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Pe-Iv-ASC">
-                                                            <rect key="frame" x="167" y="6" width="13" height="12"/>
+                                                            <rect key="frame" x="167" y="4.5" width="13" height="12"/>
                                                             <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="10"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" horizontalCompressionResistancePriority="250" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="Funny" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zxU-vf-hGf" customClass="CustomTextField" customModule="notGIF" customModuleProvider="target">
-                                                            <rect key="frame" x="107" y="6" width="56" height="20"/>
+                                                            <rect key="frame" x="107" y="0.0" width="56" height="33"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                             <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -293,10 +293,11 @@
                                                     <constraints>
                                                         <constraint firstItem="zxU-vf-hGf" firstAttribute="width" relation="lessThanOrEqual" secondItem="8mK-fv-84s" secondAttribute="width" multiplier="0.8" id="0rS-mY-EM7"/>
                                                         <constraint firstItem="zxU-vf-hGf" firstAttribute="centerX" secondItem="8mK-fv-84s" secondAttribute="centerX" id="Qrx-p4-dR7"/>
+                                                        <constraint firstItem="zxU-vf-hGf" firstAttribute="top" secondItem="8mK-fv-84s" secondAttribute="top" id="RtI-aE-d20"/>
                                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1Pe-Iv-ASC" secondAttribute="trailing" constant="4" id="T9N-Y4-Oli"/>
-                                                        <constraint firstItem="1Pe-Iv-ASC" firstAttribute="top" secondItem="zxU-vf-hGf" secondAttribute="top" id="TXo-K3-85P"/>
                                                         <constraint firstItem="1Pe-Iv-ASC" firstAttribute="leading" secondItem="zxU-vf-hGf" secondAttribute="trailing" constant="4" id="UEs-Ae-wC6"/>
-                                                        <constraint firstItem="zxU-vf-hGf" firstAttribute="centerY" secondItem="8mK-fv-84s" secondAttribute="centerY" id="naj-gF-EOd"/>
+                                                        <constraint firstAttribute="bottom" secondItem="zxU-vf-hGf" secondAttribute="bottom" id="k1j-9M-f5X"/>
+                                                        <constraint firstItem="1Pe-Iv-ASC" firstAttribute="centerY" secondItem="8mK-fv-84s" secondAttribute="centerY" constant="-6" id="uau-M6-fDZ"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -358,7 +359,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SgB-pI-Idm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-583.20000000000005" y="655.32233883058473"/>
+            <point key="canvasLocation" x="-1004" y="551"/>
         </scene>
     </scenes>
     <resources>

@@ -18,6 +18,7 @@ class GIFBaseCell: UICollectionViewCell {
         
         imageView.backgroundColor = .clear
         imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         contentView.insertSubview(imageView, at: 0)
     }
         

@@ -56,10 +56,9 @@ class GIFListViewController: UIViewController {
     
     fileprivate var notifiToken: NotificationToken?
     
-    fileprivate var currentTag: Tag!
+    fileprivate var currentTag: Tag?
     fileprivate var manualPaused = false
     
-
     
     var selectedFrame = CGRect.zero
     var selectedImage: UIImage!
@@ -205,7 +204,7 @@ extension GIFListViewController: UINavigationControllerDelegate {
 extension GIFListViewController {
     
     func checkToUpdateGIFList(with noti: Notification) {
-        guard let selectTag = noti.object as? Tag, selectTag.id != currentTag.id
+        guard let selectTag = noti.object as? Tag, selectTag.id != currentTag?.id
             else { return }
         
         NGUserDefaults.lastSelectTagID = selectTag.id

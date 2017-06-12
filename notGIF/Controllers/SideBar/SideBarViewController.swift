@@ -15,10 +15,10 @@ private let rowHeight: CGFloat = 44
 
 class SideBarViewController: UIViewController {
     
-    fileprivate var isAddingTag: Bool = false {
+    fileprivate var isEditingTag: Bool = false {
         didSet {    // 编辑时禁止返回
             guard let drawer = parent as? DrawerViewController else { return }
-            drawer.mainContainer.isUserInteractionEnabled = !isAddingTag
+            drawer.mainContainer.isUserInteractionEnabled = !isEditingTag
         }
     }
     
@@ -73,7 +73,7 @@ class SideBarViewController: UIViewController {
     }
     
     @IBAction func addTagButtonClicked(_ sender: UIButton) {
-        guard !isAddingTag, tagList.count > 0 else { return }
+        guard !isEditingTag, tagList.count > 0 else { return }
         
         UIView.animate(withDuration: 0.2, animations: { 
             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
@@ -81,7 +81,7 @@ class SideBarViewController: UIViewController {
 
         }) { _ in
             
-            self.isAddingTag = true
+            self.isEditingTag = true
             self.tagList.insert(Tag(name: ""), at: newTagCellInsertIP.item)
             self.tableView.insertRows(at: [newTagCellInsertIP], with: .top)
             self.beginEditTag(at: newTagCellInsertIP)
@@ -117,7 +117,7 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.endEditHandler = { [unowned self] in
-            self.isAddingTag = false
+            self.isEditingTag = false
         }
         
         return cell
@@ -128,7 +128,7 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
         }
         
-        guard !isAddingTag, let drawer = parent as? DrawerViewController else { return }
+        guard !isEditingTag, let drawer = parent as? DrawerViewController else { return }
         NotificationCenter.default.post(name: .didSelectTag, object: tagList[indexPath.item])
         drawer.dismissSideBar()
     }
@@ -152,7 +152,7 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return !isAddingTag && tagList[indexPath.item].id != Config.defaultTagID
+        return !isEditingTag && tagList[indexPath.item].id != Config.defaultTagID
     }
 }
 
@@ -160,6 +160,7 @@ extension SideBarViewController {
     
     fileprivate func beginEditTag(at indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TagListCell else { return }
+        isEditingTag = true
         tableView.setEditing(false, animated: true)
         cell.beginEdit()
     }

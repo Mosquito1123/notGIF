@@ -10,6 +10,7 @@ import UIKit
 
 class NotGIFImageView: UIImageView {
     
+    public var shouldUpdateImmediately: Bool = true
     public var currentFrame: UIImage!
     
     public var currentFrameIndex: Int {
@@ -21,6 +22,7 @@ class NotGIFImageView: UIImageView {
             return _currentFrameIndex
         }
     }
+    
     private var _currentFrameIndex = 0
     
     public var animateImage: NotGIFImage! {
@@ -121,9 +123,11 @@ class NotGIFImageView: UIImageView {
         
         currentFrameIndex = animateImage.currentIndexForContinue
         
-        if let frame = animateImage.imageLazilyCachedAt(index: currentFrameIndex) {
-            currentFrame = frame
-            layer.setNeedsDisplay()
+        if shouldUpdateImmediately {
+            if let frame = animateImage.imageLazilyCachedAt(index: currentFrameIndex) {
+                currentFrame = frame
+                layer.setNeedsDisplay()
+            }
         }
 
         if displayLink == nil {
@@ -148,6 +152,7 @@ class NotGIFImageView: UIImageView {
     
     override func stopAnimating() {
         guard animateImage != nil, let dpLink = displayLink else {
+            displayLink?.isPaused = true
             super.stopAnimating()
             return
         }
@@ -164,7 +169,7 @@ class NotGIFImageView: UIImageView {
             dpLink.isPaused = true
         }
     }
-
+    
     override var isAnimating: Bool {
         if animateImage != nil {
             return displayLink?.isPaused ?? false
