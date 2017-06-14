@@ -48,7 +48,7 @@ class GIFListLayout: UICollectionViewLayout {
         cachedAttributes.removeAll()
         
         let itemCount = collectionView.numberOfItems(inSection: 0)
-        let contentWidth = UIScreen.main.bounds.size.width - 3 * cellPadding
+        let contentWidth = kScreenWidth - 3 * cellPadding
         
         var yOffset = CGFloat(1)
         
@@ -82,6 +82,10 @@ class GIFListLayout: UICollectionViewLayout {
             yOffset += itemHeight
         }
         
-        contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: yOffset)
+        let footerAtt = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, with: IndexPath(item: 0, section: 0))
+        footerAtt.frame = CGRect(x: 0, y: yOffset, width: kScreenWidth, height: GIFListFooter.height)
+        cachedAttributes.append(footerAtt)
+        
+        contentSize = CGSize(width: kScreenWidth, height: yOffset+GIFListFooter.height)
     }
 }

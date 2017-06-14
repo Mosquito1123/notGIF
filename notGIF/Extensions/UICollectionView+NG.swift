@@ -21,5 +21,17 @@ extension UICollectionView {
         
         return cell
     }
+    
+    func registerFooterOf<T: UICollectionReusableView>(_: T.Type) where T: Reusable {
+        register(T.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: T.ng_reuseIdentifier)
+    }
+
+    func dequeueReusableFooter<T: UICollectionReusableView>(for indexPath: IndexPath) -> T where T: Reusable {
+        guard let footer = dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: T.ng_reuseIdentifier, for: indexPath) as? T else {
+            fatalError("Could not dequeue footer with identifier: \(T.ng_reuseIdentifier)")
+        }
+        
+        return footer
+    }
 }
 

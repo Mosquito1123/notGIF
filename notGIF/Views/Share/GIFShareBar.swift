@@ -55,7 +55,7 @@ class GIFShareBar: UIView {
         
         for i in 0..<shareButtons.count {
             let button = shareButtons[i]
-            UIView.animate(withDuration: 0.9, delay: Double(i) * 0.04, usingSpringWithDamping: 0.7, initialSpringVelocity: 10, options: [.beginFromCurrentState, .allowUserInteraction], animations: {
+            UIView.animate(withDuration: 0.7, delay: Double(i) * 0.04, usingSpringWithDamping: 0.7, initialSpringVelocity: 10, options: [.beginFromCurrentState, .allowUserInteraction], animations: {
                 button.transform = .identity
             }, completion: nil)
         }

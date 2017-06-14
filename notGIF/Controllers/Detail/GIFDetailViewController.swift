@@ -80,11 +80,6 @@ class GIFDetailViewController: UIViewController {
         navigationController?.delegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        printLog("")
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .left, animated: false)

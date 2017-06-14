@@ -58,6 +58,14 @@ extension String {
     static var trans_titleConfirm: String {
         return NSLocalizedString("title.confirm", comment: "")
     }
+    
+    static var trans_titleOpenSettings: String {
+        return NSLocalizedString("title.open_settings", comment: "")
+    }
+    
+    static var trans_needPhotosPermission: String {
+        return NSLocalizedString("prompt.need_photos_permission", comment: "")
+    }
 }
 
 // MARK: - Toast

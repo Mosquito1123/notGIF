@@ -11,7 +11,6 @@ import RealmSwift
 
 // 添加 Tag 时插入的位置
 private let newTagCellInsertIP = IndexPath(item: 1, section: 0)
-private let rowHeight: CGFloat = 44
 
 class SideBarViewController: UIViewController {
     
@@ -25,11 +24,12 @@ class SideBarViewController: UIViewController {
     fileprivate var tagList: [Tag] = []
     fileprivate var tagResult: Results<Tag>!
     fileprivate var notifiToken: NotificationToken?
+    fileprivate var selectTag: Tag!
     
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.tableFooterView = UIView()
-            tableView.rowHeight = rowHeight
+            tableView.rowHeight = TagListCell.height
         }
     }
     
@@ -44,6 +44,7 @@ class SideBarViewController: UIViewController {
         
         guard let realm = try? Realm() else { return }
         
+        selectTag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTagID)
         tagResult = realm.objects(Tag.self).sorted(byKeyPath: "createDate", ascending: false)
         tagList.append(contentsOf: tagResult)
         
@@ -97,7 +98,8 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TagListCell = tableView.dequeueReusableCell()
-        cell.configure(with: tagList[indexPath.item])
+        let tag = tagList[indexPath.item]
+        cell.configure(with: tag, isSelected: tag.id == selectTag.id)
 
         cell.editDoneHandler = { [unowned self] text in
             guard let realm = try? Realm(),
@@ -128,20 +130,27 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
         }
         
-        guard !isEditingTag, let drawer = parent as? DrawerViewController else { return }
-        NotificationCenter.default.post(name: .didSelectTag, object: tagList[indexPath.item])
-        drawer.dismissSideBar()
+        let tag = tagList[indexPath.item]
+        guard !isEditingTag, tag.id != selectTag.id else {
+            return
+        }
+        
+        selectTag = tag
+        tableView.reloadData()
+        
+        (parent as? DrawerViewController)?.dismissSideBar()
+        NotificationCenter.default.post(name: .didSelectTag, object: tag)
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let actionSize = CGSize(width: 40, height: rowHeight)
-        let editRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_edit"), bgColor: .editYellow) {
-            [unowned self] (_, rowActionIP) in
+        let actionSize = CGSize(width: 40, height: TagListCell.height)
+        let editRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_edit"), bgColor: .editYellow) { [unowned self] (_, rowActionIP) in
+            
             self.beginEditTag(at: rowActionIP)
         }
         
-        let deleteRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_delete"), bgColor: .deleteRed) {
-            [unowned self] (_, rowActionIP) in
+        let deleteRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_delete"), bgColor: .deleteRed) { [unowned self] (_, rowActionIP) in
+            
             self.tableView.setEditing(false, animated: true)
             Alert.show(.confirmDeleteTag) {
                 self.deleteTag(at: rowActionIP)

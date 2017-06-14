@@ -30,8 +30,12 @@ class GIFListViewController: UIViewController {
             .forEach { $0.animating(enable: _shouldPlay) }
         }
     }
-
-    @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBOutlet weak var collectionView: UICollectionView! {
+        didSet {
+            collectionView.registerFooterOf(GIFListFooter.self)
+        }
+    }
     
     fileprivate var indicatorView: IndicatorView? {
         willSet {
@@ -58,10 +62,6 @@ class GIFListViewController: UIViewController {
     
     fileprivate var currentTag: Tag?
     fileprivate var manualPaused = false
-    
-    
-    var selectedFrame = CGRect.zero
-    var selectedImage: UIImage!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,7 +102,6 @@ class GIFListViewController: UIViewController {
         
         setDrawerPanGes(enable: true)
 
-        
         selectIndexPath = nil
         // fix delegate
         navigationController?.delegate = self
@@ -140,7 +139,11 @@ class GIFListViewController: UIViewController {
 // MARK: - Collection Delegate
 extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gifList != nil ? gifList.count : 0
+        if PHPhotoLibrary.authorizationStatus() == .authorized {
+            return gifList != nil ? gifList.count : 0
+        } else {
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -169,6 +172,13 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard selectIndexPath == nil else { return }
         selectIndexPath = indexPath
         performSegue(withIdentifier: "showDetail", sender: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let footer: GIFListFooter = collectionView.dequeueReusableFooter(for: indexPath)
+        let type: GIFListFooterType = PHPhotoLibrary.authorizationStatus() == .authorized ? .showCount(currentTag) : .needAuthorize
+        footer.update(with: type)
+        return footer
     }
 }
 

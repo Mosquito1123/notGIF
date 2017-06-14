@@ -10,12 +10,16 @@ import UIKit
 
 class TagListCell: UITableViewCell {
     
+    static let height: CGFloat = 52
+    
     public var editDoneHandler: ((String) -> ())?
     public var editCancelHandler: (() -> ())?
     public var endEditHandler: (() -> ())?
     
     @IBOutlet weak var nameField: CustomTextField!
     @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet weak var leftMark: UIImageView!
+    @IBOutlet weak var rightMark: UIImageView!
     
     fileprivate var tagName: String = ""
     
@@ -63,10 +67,15 @@ class TagListCell: UITableViewCell {
         countLabel.text = nil
     }
     
-    public func configure(with tag: Tag) {
-//        let isSelect = tag.id == NGUserDefaults.lastSelectTagID
-//        nameField.font = isSelect ? UIFont.systemFont(ofSize: 30, weight: 24) : UIFont.systemFont(ofSize: 18)
-//        nameField.textColor = isSelect ? .red : .white
+    public func configure(with tag: Tag, isSelected: Bool) {
+        if isSelected {
+            nameField.textColor = UIColor.textTint
+            nameField.font = UIFont.menlo(ofSize: 19)
+        } else {
+            nameField.textColor = UIColor.textTint.withAlphaComponent(0.77)
+            nameField.font = UIFont.menlo(ofSize: 17)
+        }
+        
         tagName = tag.localNameStr
         nameField.text = tagName
         countLabel.text = "\(tag.gifs.count)"

@@ -28,6 +28,8 @@
 		98557AFB1EDE77EF007C7E22 /* StatusBarToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AF41EDE77EF007C7E22 /* StatusBarToast.swift */; };
 		98557B211EE002C9007C7E22 /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557B201EE002C9007C7E22 /* DrawerViewController.swift */; };
 		98557B241EE003CD007C7E22 /* SideBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557B231EE003CD007C7E22 /* SideBarViewController.swift */; };
+		98982FCC1EF10EB4003FEDB4 /* GIFListFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92880041EF0730400FB5115 /* GIFListFooter.swift */; };
+		98982FCF1EF14245003FEDB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C947E0961DAA279900625B72 /* Assets.xcassets */; };
 		98A9FD661EE68C2A001A761D /* NotGIFImageView+Load.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD621EE68C2A001A761D /* NotGIFImageView+Load.swift */; };
 		98A9FD671EE68C2A001A761D /* NotGIFLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD631EE68C2A001A761D /* NotGIFLibrary.swift */; };
 		98A9FD6C1EE68CFD001A761D /* GIFListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD6B1EE68CFD001A761D /* GIFListLayout.swift */; };
@@ -46,6 +48,7 @@
 		C90D1AD21EEC234500862CF5 /* CGGeometry+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90D1AD11EEC234500862CF5 /* CGGeometry+NG.swift */; };
 		C91E0FA41EE4697700F56737 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E0FA31EE4697700F56737 /* RealmConfig.swift */; };
 		C92880011EEEDC3F00FB5115 /* GIFShareBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92880001EEEDC3F00FB5115 /* GIFShareBar.swift */; };
+		C92880051EF0730400FB5115 /* GIFListFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92880041EF0730400FB5115 /* GIFListFooter.swift */; };
 		C947E0901DAA279900625B72 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947E08F1DAA279900625B72 /* AppDelegate.swift */; };
 		C947E0971DAA279900625B72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C947E0961DAA279900625B72 /* Assets.xcassets */; };
 		C947E09A1DAA279900625B72 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C947E0981DAA279900625B72 /* LaunchScreen.storyboard */; };
@@ -169,6 +172,7 @@
 		C90D1AD11EEC234500862CF5 /* CGGeometry+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGGeometry+NG.swift"; sourceTree = "<group>"; };
 		C91E0FA31EE4697700F56737 /* RealmConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmConfig.swift; sourceTree = "<group>"; };
 		C92880001EEEDC3F00FB5115 /* GIFShareBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFShareBar.swift; sourceTree = "<group>"; };
+		C92880041EF0730400FB5115 /* GIFListFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFListFooter.swift; sourceTree = "<group>"; };
 		C947E08C1DAA279900625B72 /* notGIF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notGIF.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C947E08F1DAA279900625B72 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C947E0961DAA279900625B72 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -179,7 +183,7 @@
 		C963F77D1ED85044004405EB /* NotGIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIF.swift; sourceTree = "<group>"; };
 		C963F7801ED8504E004405EB /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		C96560FC1EE7509400BC3A87 /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
-		C96561011EE753B600BC3A87 /* notGIFMessage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = notGIFMessage.entitlements; path = notGIFMessage/notGIFMessage.entitlements; sourceTree = "<group>"; };
+		C96561011EE753B600BC3A87 /* notGIFMessage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = notGIFMessage.entitlements; sourceTree = "<group>"; };
 		C994D9A11EDBBFCA00A0D6A8 /* NotGIF_Bridging_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotGIF_Bridging_Header.h; sourceTree = "<group>"; };
 		C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadHelper.swift; sourceTree = "<group>"; };
 		C9BDEC741EE2A0CE00EF99A8 /* NotGIFImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIFImage.swift; sourceTree = "<group>"; };
@@ -263,8 +267,8 @@
 			children = (
 				9811340F1EDE766600D4097D /* List */,
 				9811340D1EDE766600D4097D /* Detail */,
-				98557B1F1EE00180007C7E22 /* Drawer */,
 				98557B221EE003C0007C7E22 /* SideBar */,
+				98557B1F1EE00180007C7E22 /* Drawer */,
 				9811340A1EDE766600D4097D /* Compose */,
 				C90B9CAE1EEC2F0000C971C1 /* Base */,
 				981134111EDE766600D4097D /* Transition */,
@@ -329,12 +333,13 @@
 			isa = PBXGroup;
 			children = (
 				98557AF21EDE77EF007C7E22 /* StatusBarLoadingLayer.swift */,
-				98A9FD6A1EE68CFD001A761D /* Layout */,
 				C9BDEC721EE2A0CE00EF99A8 /* GIF */,
 				C9BDEC671EE2A01500EF99A8 /* Cell */,
+				C92880031EF072E000FB5115 /* Footer */,
 				C9287FFF1EEEDC0F00FB5115 /* Share */,
 				98159B3C1EE693E400341ACC /* Hud */,
 				98557AF31EDE77EF007C7E22 /* Toast */,
+				98A9FD6A1EE68CFD001A761D /* Layout */,
 				98088E881EE8026000ECED6C /* Custom */,
 			);
 			path = Views;
@@ -415,10 +420,17 @@
 			path = Share;
 			sourceTree = "<group>";
 		};
+		C92880031EF072E000FB5115 /* Footer */ = {
+			isa = PBXGroup;
+			children = (
+				C92880041EF0730400FB5115 /* GIFListFooter.swift */,
+			);
+			path = Footer;
+			sourceTree = "<group>";
+		};
 		C947E0831DAA279900625B72 = {
 			isa = PBXGroup;
 			children = (
-				C96561011EE753B600BC3A87 /* notGIFMessage.entitlements */,
 				C947E08E1DAA279900625B72 /* notGIF */,
 				C9F860891DBD027E006B1221 /* notGIFMessage 💬 */,
 				C9E3F0E51EED363B0018943C /* Resource */,
@@ -578,6 +590,7 @@
 			children = (
 				C9F8608A1DBD027E006B1221 /* MessagesViewController.swift */,
 				C9F861A81DBD1046006B1221 /* MGIFLisViewCell.swift */,
+				C96561011EE753B600BC3A87 /* notGIFMessage.entitlements */,
 				C96560FC1EE7509400BC3A87 /* MainInterface.storyboard */,
 				C9F8614E1DBD0ABC006B1221 /* Supporthings */,
 			);
@@ -744,6 +757,7 @@
 				C9E3F10E1EED36CD0018943C /* Localizable.strings in Resources */,
 				C9F860901DBD027E006B1221 /* Assets.xcassets in Resources */,
 				C9E3F0EB1EED363B0018943C /* FontAwesome.otf in Resources */,
+				98982FCF1EF14245003FEDB4 /* Assets.xcassets in Resources */,
 				C9E3F0ED1EED363B0018943C /* Kenia-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -850,6 +864,7 @@
 				C9E3F1161EED41C40018943C /* GIFShareManager.swift in Sources */,
 				C963F7811ED8504E004405EB /* Tag.swift in Sources */,
 				9827EDD71EEA9F500043288F /* GIFDetailCell.swift in Sources */,
+				C92880051EF0730400FB5115 /* GIFListFooter.swift in Sources */,
 				C90B9CB01EEC2F3D00C971C1 /* BaseNavigationController.swift in Sources */,
 				C90D1AD21EEC234500862CF5 /* CGGeometry+NG.swift in Sources */,
 				98557AFA1EDE77EF007C7E22 /* StatusBarLoadingLayer.swift in Sources */,
@@ -910,6 +925,7 @@
 				C9E3F1141EED392A0018943C /* String+Trans.swift in Sources */,
 				98A9FD6F1EE68DF4001A761D /* NotGIFImageView+Load.swift in Sources */,
 				C9BDEC7A1EE2A0CE00EF99A8 /* NotGIFImage.swift in Sources */,
+				98982FCC1EF10EB4003FEDB4 /* GIFListFooter.swift in Sources */,
 				C96560FE1EE751B100BC3A87 /* PHAsset+NG.swift in Sources */,
 				9850BE321EEA50DE00D6CE88 /* String+NG.swift in Sources */,
 				98FD09751EE7A1D30078DEB0 /* UITableView+NG.swift in Sources */,
@@ -989,7 +1005,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
+				ENABLE_ON_DEMAND_RESOURCES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1042,8 +1059,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_ON_DEMAND_RESOURCES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1074,7 +1092,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = Q9PYPYJJT9;
-				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					TARGET_IS_HOSTAPP,
@@ -1105,7 +1123,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: JinWei Shi (HBGHZ85ABK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = Q9PYPYJJT9;
-				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					TARGET_IS_HOSTAPP,
@@ -1136,6 +1154,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: JinWei Shi (YN7EQ5FB5F)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = Q9PYPYJJT9;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -1166,6 +1186,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: JinWei Shi (HBGHZ85ABK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = Q9PYPYJJT9;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",

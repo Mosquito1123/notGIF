@@ -8,8 +8,8 @@
 
 "prompt.account_no_access_weibo" = "notGIF 无法获取您 微博 账号";
 "prompt.account_no_access_twitter" = "notGIF 无法获取您 Twitter 账号";
-"prompt.account_h2_authorize_twitter" = "您可以在 \n'设置' > '隐私' > 'Twitter'\n 授权 notGIF 访问您的账号";
-"prompt.account_h2_authorize_weibo" = "您可以在 \n'设置' > '隐私' > '新浪微博'\n 授权 notGIF 访问您的账号";
+"prompt.account_h2_authorize_twitter" = "您可以在 \n'设置' > '隐私' > 'Twitter'\n 允许 notGIF 访问您的账号";
+"prompt.account_h2_authorize_weibo" = "您可以在 \n'设置' > '隐私' > '新浪微博'\n 允许 notGIF 访问您的账号";
 
 "prompt.no_weibo_account" = "您还未添加 微博 账号";
 "prompt.no_twitter_account" = "您还未添加 Twitter 账号";
@@ -42,3 +42,6 @@
 "prompt.title_delete_tag" = "您确定删除该标签么 ?";
 "prompt.message_delete_tag" = "该标签下的 GIF 不会被删除";
 "prompt.gif_not_prepared" = "GIF 还未准备好";
+
+"title.open_settings" = "打开设置";
+"prompt.need_photos_permission" = "notGIF 需要照片访问权限";

@@ -8,8 +8,8 @@
 
 "prompt.account_no_access_weibo" = "notGIF Can't Access Your Weibo Account";
 "prompt.account_no_access_twitter" = "notGIF Can't Access Your Twitter Account";
-"prompt.account_h2_authorize_twitter" = "You can set in \n 'Settings' > 'Privacy' > 'Twitter' \n to allow notGIF to access your account";
-"prompt.account_h2_authorize_weibo" = "You can set in \n 'Settings' > 'Privacy' > 'Sina Weibo' \n to allow notGIF to access your account";
+"prompt.account_h2_authorize_twitter" = "You can set in \n 'Settings' > 'Privacy' > 'Twitter' \n";
+"prompt.account_h2_authorize_weibo" = "You can set in \n 'Settings' > 'Privacy' > 'Sina Weibo' \n";
 
 "prompt.no_weibo_account" = "No Weibo Account Found";
 "prompt.no_twitter_account" = "No Twitter Account Found";
@@ -43,3 +43,5 @@
 "prompt.message_delete_tag" = "GIFs under this tag will not be deleted";
 "prompt.gif_not_prepared" = "GIF haven't be prepared";
 
+"title.open_settings" = "OPEN SETTINGS";
+"prompt.need_photos_permission" = "Please Allow Photos Access";

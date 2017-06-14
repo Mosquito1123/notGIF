@@ -14,7 +14,9 @@ final public class Config {
     
     static let defaultTagID = "not.all.gif.tagId"
     
-    static let sideBarWidth = 0.72 * kScreenWidth    // -> Main.storybord    
+    static let urlScheme    = "notGIF://"
+    
+    static let sideBarWidth = 0.72 * kScreenWidth    // -> Main.storybord
 }
 
 extension Notification.Name {
@@ -24,12 +26,13 @@ extension Notification.Name {
 extension UIColor {
     static let textTint     = UIColor.hex(0xfbfbfb)
     static let editYellow   = UIColor.hex(0xfe9402)
-    static let deleteRed    = UIColor.hex(0xf8523a)
+    static let deleteRed    = UIColor.hex(0xe74c3c)     // #f8523a
     
-    static let successBlue  = UIColor.hex(0x345479)
+    static let successBlue  = UIColor.hex(0x3498db)     // 0x345479
     static let failRed      = UIColor.deleteRed
     
     static let darkText     = UIColor.hex(0x666666)
+    static let lightText    = UIColor.hex(0x999999)     // 0x7f8c8d
     static let bgColor      = UIColor.hex(0x1d1d1d)
 }
 
