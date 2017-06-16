@@ -36,13 +36,7 @@ class GIFListViewController: UIViewController {
             collectionView.registerFooterOf(GIFListFooter.self)
         }
     }
-    
-    fileprivate var indicatorView: IndicatorView? {
-        willSet {
-            indicatorView?.removeFromSuperview()
-        }
-    }
-    
+
     fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
         label.text = "/jif/"
@@ -148,6 +142,13 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: GIFListCell = collectionView.dequeueReusableCell(for: indexPath)
+        cell.shareGIFHandler = { [weak self] type in
+            guard let shareIP = collectionView.indexPath(for: cell),
+                let gifID = self?.gifList[shareIP.item].id else { return }
+            
+            GIFShareManager.shareGIF(of: gifID, to: type)
+        }
+        
         return cell
     }
     

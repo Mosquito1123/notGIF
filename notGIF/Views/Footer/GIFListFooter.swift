@@ -73,6 +73,12 @@ class GIFListFooter: UICollectionReusableView {
     }
     
     fileprivate func showCount(of tag: Tag) {
+        
+        if let _ = promptLabel.superview {
+            promptLabel.removeFromSuperview()
+            goSettingsButton.removeFromSuperview()
+        }
+        
         let fHeihgt = GIFListFooter.height, lableH: CGFloat = 16
         tagNameLabel.frame = CGRect(x: 0, y: fHeihgt/2-lableH-2, width: kScreenWidth, height: lableH)
         countLabel.frame = CGRect(x: 0, y: fHeihgt/2+2, width: kScreenWidth, height: lableH)

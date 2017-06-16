@@ -151,6 +151,7 @@ class NotGIFImageView: UIImageView {
     }
     
     override func stopAnimating() {
+        
         guard animateImage != nil, let dpLink = displayLink else {
             displayLink?.isPaused = true
             super.stopAnimating()

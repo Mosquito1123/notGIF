@@ -8,16 +8,16 @@ def groupPods
     pod 'ReachabilitySwift'
     pod 'MBProgressHUD'
     pod 'RealmSwift'
-    
+
 end
 
 def mainPods
-    
-    pod 'IQKeyboardManagerSwift', '~> 4.0.8'
-    
+	
+	pod 'IQKeyboardManagerSwift', '~> 4.0.8'
+
 end
 
-target ‘notGIF’ do
+target 'notGIF' do
     
     groupPods
     mainPods
@@ -27,7 +27,7 @@ end
 target 'notGIFMessage' do
     
     groupPods
-    
+
 end
 
 #post_install do |installer|

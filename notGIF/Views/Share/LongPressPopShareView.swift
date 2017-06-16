@@ -1,0 +1,139 @@
+//
+//  LongPressPopShareView.swift
+//  notGIF
+//
+//  Created by ooatuoo on 2017/6/16.
+//  Copyright © 2017年 xyz. All rights reserved.
+//
+
+import UIKit
+
+class LongPressPopShareView: UIView {
+
+    fileprivate var iconViews: [UIImageView] = []
+    fileprivate var iconTriggerRects: [CGRect] = []
+    fileprivate var shareTypes: [ShareType] = [.more, .twitter, .weibo]
+    
+    fileprivate var cellMaskRect: CGRect = .zero
+    
+    init(popOrigin: CGPoint, cellRect: CGRect) {
+        super.init(frame: UIScreen.main.bounds)
+        backgroundColor = UIColor.clear
+        
+        cellMaskRect = cellRect
+
+        if OpenShare.canOpen(.wechat) {
+            shareTypes.append(.wechat)
+        }
+        
+        let iconS: CGFloat = 28
+        let padding: CGFloat = 20
+        let spaceV: CGFloat = 12
+        let count = shareTypes.count
+        let totalW = CGFloat(count) * iconS + CGFloat(count - 1) * padding
+        
+        var beignOx: CGFloat
+        
+        if totalW/2 + popOrigin.x > (kScreenWidth - padding/2) {
+            beignOx = kScreenWidth - totalW - padding / 2
+        } else if popOrigin.x - totalW/2 < padding / 2 {
+            beignOx = padding/2
+        } else {
+            beignOx = popOrigin.x - totalW/2
+        }
+        
+        let baseOriginY: CGFloat = cellRect.minY - spaceV - iconS
+        
+        for i in 0..<count {
+            
+            let iconViewFrame = CGRect(x: beignOx, y: baseOriginY, width: iconS, height: iconS)
+            let iconView = UIImageView(frame: iconViewFrame)
+            beignOx += iconS + padding
+            iconView.contentMode = .scaleAspectFit
+            
+            iconView.image = UIImage.iCon(ofCode: shareTypes[i].iconCode, size: CGSize(width: iconS, height: iconS), color: UIColor.textTint)
+            
+            let iconTriggerRect = CGRect(x: iconViewFrame.minX - padding/2, y: baseOriginY, width: iconS+padding, height: cellRect.maxY - iconViewFrame.minY)
+            iconTriggerRects.append(iconTriggerRect)
+            
+            if i % 2 == 0 {
+                let transformT = CGAffineTransform(translationX: 0, y: iconS)
+                let transformR = CGAffineTransform(rotationAngle: CGFloat.pi * 0.3)
+                let transfromS = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                
+                iconView.transform = transformT.concatenating(transfromS).concatenating(transformR)
+                
+            } else {
+                let transformT = CGAffineTransform(translationX: 0, y: -iconS)
+                let transformR = CGAffineTransform(rotationAngle: CGFloat.pi * 0.7)
+                let transfromS = CGAffineTransform(scaleX: 0.3, y: 0.3)
+                
+                iconView.transform = transformT.concatenating(transfromS).concatenating(transformR)
+            }
+            
+            iconViews.append(iconView)
+            addSubview(iconView)
+        }
+    }
+    
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        
+        UIView.animate(withDuration: 0.3) {
+            self.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        }
+        
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [.curveEaseIn], animations: {
+            self.iconViews.forEach { $0.transform = .identity }
+        }, completion: nil)
+    }
+    
+    override func draw(_ rect: CGRect) {
+//        UIColor.clear.setFill()
+//        UIRectFill(cellMaskRect)
+
+        let context = UIGraphicsGetCurrentContext()
+        context?.setFillColor(UIColor.clear.cgColor)
+        context?.setBlendMode(.clear)
+        context?.fillEllipse(in: cellMaskRect.insetBy(dx: 2, dy: 2))
+    }
+    
+    public func update(with offset: CGPoint) {
+        
+        let transfromS = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        let transformT = CGAffineTransform(translationX: 0, y: -12)
+        let transform = transformT.concatenating(transfromS)
+        
+        let index = iconTriggerRects.index(where: { $0.contains(offset) })
+        
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.curveEaseInOut], animations: {
+            
+            for i in 0..<self.iconViews.count {
+                if index == i {
+                    self.iconViews[i].transform = transform
+                } else {
+                    self.iconViews[i].transform = .identity
+                }
+            }
+            
+        }, completion: nil)
+    }
+    
+    public func end(with offset: CGPoint) -> ShareType? {
+        UIView.animate(withDuration: 0.2, animations: { 
+            self.alpha = 0
+        }) { _ in
+            self.removeFromSuperview()
+        }
+        
+        if let index = iconTriggerRects.index(where: { $0.contains(offset) }) {
+            return shareTypes[index]
+        } else {
+            return nil
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

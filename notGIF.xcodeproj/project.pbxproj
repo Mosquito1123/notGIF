@@ -24,12 +24,12 @@
 		983547901EE954BD00D84274 /* PushDetailAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9835478F1EE954BD00D84274 /* PushDetailAnimator.swift */; };
 		983547921EE954D500D84274 /* PopDetailAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983547911EE954D500D84274 /* PopDetailAnimator.swift */; };
 		9850BE321EEA50DE00D6CE88 /* String+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B7AD81EE75EC1008E20BB /* String+NG.swift */; };
+		98540F231EF3CBDE002EC443 /* LongPressPopShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98540F221EF3CBDE002EC443 /* LongPressPopShareView.swift */; };
 		98557AFA1EDE77EF007C7E22 /* StatusBarLoadingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AF21EDE77EF007C7E22 /* StatusBarLoadingLayer.swift */; };
 		98557AFB1EDE77EF007C7E22 /* StatusBarToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AF41EDE77EF007C7E22 /* StatusBarToast.swift */; };
 		98557B211EE002C9007C7E22 /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557B201EE002C9007C7E22 /* DrawerViewController.swift */; };
 		98557B241EE003CD007C7E22 /* SideBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557B231EE003CD007C7E22 /* SideBarViewController.swift */; };
 		98982FCC1EF10EB4003FEDB4 /* GIFListFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92880041EF0730400FB5115 /* GIFListFooter.swift */; };
-		98982FCF1EF14245003FEDB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C947E0961DAA279900625B72 /* Assets.xcassets */; };
 		98A9FD661EE68C2A001A761D /* NotGIFImageView+Load.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD621EE68C2A001A761D /* NotGIFImageView+Load.swift */; };
 		98A9FD671EE68C2A001A761D /* NotGIFLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD631EE68C2A001A761D /* NotGIFLibrary.swift */; };
 		98A9FD6C1EE68CFD001A761D /* GIFListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A9FD6B1EE68CFD001A761D /* GIFListLayout.swift */; };
@@ -105,8 +105,6 @@
 		C9F860901DBD027E006B1221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9F8608F1DBD027E006B1221 /* Assets.xcassets */; };
 		C9F860941DBD027E006B1221 /* notGIFMessage.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C9F860861DBD027E006B1221 /* notGIFMessage.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9F861A91DBD1046006B1221 /* MGIFLisViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861A81DBD1046006B1221 /* MGIFLisViewCell.swift */; };
-		C9F861BC1DC0C22B006B1221 /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861BB1DC0C22B006B1221 /* IndicatorView.swift */; };
-		C9F861BD1DC0C22B006B1221 /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F861BB1DC0C22B006B1221 /* IndicatorView.swift */; };
 		D0059755BF0A4A8ED99FB80E /* Pods_notGIFMessage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77787802832EB1AFAF109C0C /* Pods_notGIFMessage.framework */; };
 		F6489894CDB7CC2C39F1B825 /* Pods_notGIF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7989C9163A7614ED2EDFD44 /* Pods_notGIF.framework */; };
 /* End PBXBuildFile section */
@@ -155,6 +153,7 @@
 		9827EDD61EEA9F500043288F /* GIFLisCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFLisCell.swift; sourceTree = "<group>"; };
 		9835478F1EE954BD00D84274 /* PushDetailAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushDetailAnimator.swift; sourceTree = "<group>"; };
 		983547911EE954D500D84274 /* PopDetailAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopDetailAnimator.swift; sourceTree = "<group>"; };
+		98540F221EF3CBDE002EC443 /* LongPressPopShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LongPressPopShareView.swift; sourceTree = "<group>"; };
 		98557AF21EDE77EF007C7E22 /* StatusBarLoadingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarLoadingLayer.swift; sourceTree = "<group>"; };
 		98557AF41EDE77EF007C7E22 /* StatusBarToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarToast.swift; sourceTree = "<group>"; };
 		98557B201EE002C9007C7E22 /* DrawerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
@@ -218,7 +217,6 @@
 		C9F8608F1DBD027E006B1221 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9F860911DBD027E006B1221 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9F861A81DBD1046006B1221 /* MGIFLisViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MGIFLisViewCell.swift; path = View/MGIFLisViewCell.swift; sourceTree = "<group>"; };
-		C9F861BB1DC0C22B006B1221 /* IndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -416,6 +414,7 @@
 			isa = PBXGroup;
 			children = (
 				C92880001EEEDC3F00FB5115 /* GIFShareBar.swift */,
+				98540F221EF3CBDE002EC443 /* LongPressPopShareView.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -434,7 +433,6 @@
 				C947E08E1DAA279900625B72 /* notGIF */,
 				C9F860891DBD027E006B1221 /* notGIFMessage 💬 */,
 				C9E3F0E51EED363B0018943C /* Resource */,
-				C9F8614F1DBD0B1C006B1221 /* Universal */,
 				C947E08D1DAA279900625B72 /* Products */,
 				E3EA69F66433BE76AC6DA675 /* Pods */,
 				2C34D67C976F2BA279457C9E /* Frameworks */,
@@ -607,22 +605,6 @@
 			name = Supporthings;
 			sourceTree = "<group>";
 		};
-		C9F8614F1DBD0B1C006B1221 /* Universal */ = {
-			isa = PBXGroup;
-			children = (
-				C9F861B11DC09503006B1221 /* View */,
-			);
-			path = Universal;
-			sourceTree = "<group>";
-		};
-		C9F861B11DC09503006B1221 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				C9F861BB1DC0C22B006B1221 /* IndicatorView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		E3EA69F66433BE76AC6DA675 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -757,7 +739,6 @@
 				C9E3F10E1EED36CD0018943C /* Localizable.strings in Resources */,
 				C9F860901DBD027E006B1221 /* Assets.xcassets in Resources */,
 				C9E3F0EB1EED363B0018943C /* FontAwesome.otf in Resources */,
-				98982FCF1EF14245003FEDB4 /* Assets.xcassets in Resources */,
 				C9E3F0ED1EED363B0018943C /* Kenia-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -777,7 +758,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		5883E66A575480AA086CEF38 /* [CP] Check Pods Manifest.lock */ = {
@@ -792,7 +773,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		5E8761DBC5466D5B7885BFA6 /* [CP] Copy Pods Resources */ = {
@@ -897,7 +878,7 @@
 				C9BDEC8F1EE2D83600EF99A8 /* TagListCell.swift in Sources */,
 				C963F77E1ED85044004405EB /* NotGIF.swift in Sources */,
 				9827EDD81EEA9F500043288F /* GIFLisCell.swift in Sources */,
-				C9F861BC1DC0C22B006B1221 /* IndicatorView.swift in Sources */,
+				98540F231EF3CBDE002EC443 /* LongPressPopShareView.swift in Sources */,
 				98088E8B1EE8026000ECED6C /* CustomRowAction.swift in Sources */,
 				98FD09741EE7A1D30078DEB0 /* UITableView+NG.swift in Sources */,
 				981134151EDE766600D4097D /* GIFDetailViewController.swift in Sources */,
@@ -912,7 +893,6 @@
 				C9F861A91DBD1046006B1221 /* MGIFLisViewCell.swift in Sources */,
 				98A9FD6E1EE68DF1001A761D /* NotGIFLibrary.swift in Sources */,
 				C9C7DC321EE3FDDE002B26A0 /* ScreenSize.swift in Sources */,
-				C9F861BD1DC0C22B006B1221 /* IndicatorView.swift in Sources */,
 				98AFCB551ED928F500D64FBE /* UserDefaults.swift in Sources */,
 				980B1F5E1EE8F12A00E48A2F /* Log.swift in Sources */,
 				C9F8608B1DBD027E006B1221 /* MessagesViewController.swift in Sources */,

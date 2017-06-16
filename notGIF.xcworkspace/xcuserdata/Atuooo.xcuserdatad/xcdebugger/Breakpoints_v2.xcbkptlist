@@ -41,13 +41,13 @@
                   symbolName = "notGIF.prepareRealm () -&gt; ()"
                   moduleName = "notGIF"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Atuooo/Desktop/nonoGIF-que/notGIF/Persistence/RealmConfig.swift"
-                  timestampString = "519080254.229867"
+                  urlString = "file:///Users/Atuooo/Desktop/notGIF_longP/notGIF/Persistence/RealmConfig.swift"
+                  timestampString = "519139004.330783"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "42"
                   endingLineNumber = "42"
-                  offsetFromSymbolStart = "507">
+                  offsetFromSymbolStart = "432">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -56,13 +56,13 @@
                   symbolName = "notGIF.(prepareRealm () -&gt; ()).(closure #1)"
                   moduleName = "notGIF"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Atuooo/Desktop/nonoGIF-que/notGIF/Persistence/RealmConfig.swift"
-                  timestampString = "519080254.235436"
+                  urlString = "file:///Users/Atuooo/Desktop/notGIF_longP/notGIF/Persistence/RealmConfig.swift"
+                  timestampString = "519139004.334755"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "42"
                   endingLineNumber = "42"
-                  offsetFromSymbolStart = "54">
+                  offsetFromSymbolStart = "64">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -89,13 +89,13 @@
                   symbolName = "notGIF.prepareRealm () -&gt; ()"
                   moduleName = "notGIF"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Atuooo/Desktop/nonoGIF-que/notGIF/Persistence/RealmConfig.swift"
-                  timestampString = "519080254.245525"
+                  urlString = "file:///Users/Atuooo/Desktop/notGIF_longP/notGIF/Persistence/RealmConfig.swift"
+                  timestampString = "519139004.358736"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "40"
                   endingLineNumber = "40"
-                  offsetFromSymbolStart = "413">
+                  offsetFromSymbolStart = "356">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -104,13 +104,13 @@
                   symbolName = "notGIF.(prepareRealm () -&gt; ()).(closure #1)"
                   moduleName = "notGIF"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Atuooo/Desktop/nonoGIF-que/notGIF/Persistence/RealmConfig.swift"
-                  timestampString = "519080254.248598"
+                  urlString = "file:///Users/Atuooo/Desktop/notGIF_longP/notGIF/Persistence/RealmConfig.swift"
+                  timestampString = "519139004.363382"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "41"
                   endingLineNumber = "41"
-                  offsetFromSymbolStart = "16">
+                  offsetFromSymbolStart = "20">
                </Location>
             </Locations>
          </BreakpointContent>
