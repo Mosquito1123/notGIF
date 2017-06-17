@@ -41,10 +41,10 @@ class MessagesViewController: MSMessagesAppViewController {
             
             DispatchQueue.main.safeAsync {
                 HUD.show(to: self.collectionView, .fetchGIF)
-                NotGIFLibrary.shared.prepare { _ in
+                NotGIFLibrary.shared.prepare(completion: { (_, _) in
                     self.showAllGIF()
                     HUD.hide(in: self.collectionView)
-                }
+                })
             }
         }
     }

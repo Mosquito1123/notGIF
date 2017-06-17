@@ -13,42 +13,22 @@ class TagListCell: UITableViewCell {
     static let height: CGFloat = 52
     
     public var editDoneHandler: ((String) -> ())?
-    public var editCancelHandler: (() -> ())?
-    public var endEditHandler: (() -> ())?
     
-    @IBOutlet weak var nameField: CustomTextField!
+    @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var leftMark: UIImageView!
     @IBOutlet weak var rightMark: UIImageView!
     
+    fileprivate var couldEndEdit: Bool = false
+    
     fileprivate var tagName: String = ""
     
-    fileprivate lazy var doneButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 40))
-        button.setTitle(String.trans_titleDone, for: .normal)
-        button.setTitleColor(UIColor.darkText, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.addTarget(self, action: #selector(TagListCell.doneButtonClicked), for: .touchUpInside)
-        return button
-    }()
-    
-    fileprivate lazy var cancelButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 40))
-        button.setTitle(String.trans_titleCancel, for: .normal)
-        button.setTitleColor(UIColor.darkText, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.addTarget(self, action: #selector(TagListCell.cancelButtonClicked), for: .touchUpInside)
-        return button
-    }()
-    
-    fileprivate lazy var toolBar: UIToolbar = {
-        var bar = UIToolbar(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: 40))
-        bar.backgroundColor = UIColor.lightGray
-        let doneItem = UIBarButtonItem(customView: self.doneButton)
-        let cancelItem = UIBarButtonItem(customView: self.cancelButton)
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        bar.items = [space, cancelItem, space, space, doneItem, space]
-        return bar
+    fileprivate lazy var toolBar: CustomToolBar = {
+        return CustomToolBar(doneHandler: {
+            self.editDone()
+        }, cancelHandler: {
+            self.editCancel()
+        })
     }()
     
     override func awakeFromNib() {
@@ -91,15 +71,18 @@ class TagListCell: UITableViewCell {
 
 extension TagListCell {
     
-    func doneButtonClicked() {
+    fileprivate func editDone() {
         tagName = nameField.text ?? ""
         editDoneHandler?(tagName)
+        
+        couldEndEdit = true
         nameField.resignFirstResponder()
     }
     
-    func cancelButtonClicked() {
+    fileprivate func editCancel() {
         nameField.text = tagName
-        editCancelHandler?()
+        
+        couldEndEdit = true
         nameField.resignFirstResponder()
     }
 }
@@ -109,12 +92,17 @@ extension TagListCell {
 extension TagListCell: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        doneButtonClicked()
+        editDone()
         return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         nameField.isEnabled = false
-        endEditHandler?()
+        couldEndEdit = false
+    }
+    
+    // 防止第三方收起键盘
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return couldEndEdit
     }
 }

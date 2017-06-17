@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     fileprivate func setIQKeyboardManager() {
         IQKeyboardManager.sharedManager().enable = true
+        IQKeyboardManager.sharedManager().disabledDistanceHandlingClasses = [AddTagListViewController.self]
         IQKeyboardManager.sharedManager().enableAutoToolbar = false
         IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = false
         IQKeyboardManager.sharedManager().keyboardDistanceFromTextField = 20

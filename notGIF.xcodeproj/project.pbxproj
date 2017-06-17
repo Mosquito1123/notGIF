@@ -62,8 +62,12 @@
 		C96560FE1EE751B100BC3A87 /* PHAsset+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7DC2E1EE3FDBA002B26A0 /* PHAsset+NG.swift */; };
 		C96560FF1EE7523D00BC3A87 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E0FA31EE4697700F56737 /* RealmConfig.swift */; };
 		C96561001EE7525C00BC3A87 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98159B3D1EE6945500341ACC /* HUD.swift */; };
+		C97BF3D21EF518DA00620E0E /* AddTagTextfieldHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97BF3D11EF518DA00620E0E /* AddTagTextfieldHeader.swift */; };
+		C9875BA71EF54D1A001ABCF4 /* CustomToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9875BA61EF54D1A001ABCF4 /* CustomToolBar.swift */; };
 		C994D9A61EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */; };
 		C994D9A71EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */; };
+		C99FB2C31EF4DD2200A31D0A /* AddTagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99FB2C21EF4DD2200A31D0A /* AddTagListViewController.swift */; };
+		C99FB2C51EF4DD6900A31D0A /* AddTagListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99FB2C41EF4DD6900A31D0A /* AddTagListCell.swift */; };
 		C9BDEC791EE2A0CE00EF99A8 /* NotGIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC741EE2A0CE00EF99A8 /* NotGIFImage.swift */; };
 		C9BDEC7A1EE2A0CE00EF99A8 /* NotGIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC741EE2A0CE00EF99A8 /* NotGIFImage.swift */; };
 		C9BDEC7D1EE2A0CE00EF99A8 /* NotGIFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC761EE2A0CE00EF99A8 /* NotGIFImageView.swift */; };
@@ -183,8 +187,12 @@
 		C963F7801ED8504E004405EB /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		C96560FC1EE7509400BC3A87 /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		C96561011EE753B600BC3A87 /* notGIFMessage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = notGIFMessage.entitlements; sourceTree = "<group>"; };
+		C97BF3D11EF518DA00620E0E /* AddTagTextfieldHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagTextfieldHeader.swift; sourceTree = "<group>"; };
+		C9875BA61EF54D1A001ABCF4 /* CustomToolBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomToolBar.swift; sourceTree = "<group>"; };
 		C994D9A11EDBBFCA00A0D6A8 /* NotGIF_Bridging_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotGIF_Bridging_Header.h; sourceTree = "<group>"; };
 		C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadHelper.swift; sourceTree = "<group>"; };
+		C99FB2C21EF4DD2200A31D0A /* AddTagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagListViewController.swift; sourceTree = "<group>"; };
+		C99FB2C41EF4DD6900A31D0A /* AddTagListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagListCell.swift; sourceTree = "<group>"; };
 		C9BDEC741EE2A0CE00EF99A8 /* NotGIFImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIFImage.swift; sourceTree = "<group>"; };
 		C9BDEC761EE2A0CE00EF99A8 /* NotGIFImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIFImageView.swift; sourceTree = "<group>"; };
 		C9BDEC7F1EE2A0FC00EF99A8 /* NGWeakProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGWeakProxy.swift; sourceTree = "<group>"; };
@@ -255,7 +263,9 @@
 			children = (
 				980566D81EEE7E4B009B86C8 /* CustomLabel.swift */,
 				98088E891EE8026000ECED6C /* CustomRowAction.swift */,
+				C9875BA61EF54D1A001ABCF4 /* CustomToolBar.swift */,
 				98088E8A1EE8026000ECED6C /* CustomTextField.swift */,
+				C97BF3D11EF518DA00620E0E /* AddTagTextfieldHeader.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -266,6 +276,7 @@
 				9811340F1EDE766600D4097D /* List */,
 				9811340D1EDE766600D4097D /* Detail */,
 				98557B221EE003C0007C7E22 /* SideBar */,
+				C99FB2C11EF4DC8500A31D0A /* Tag */,
 				98557B1F1EE00180007C7E22 /* Drawer */,
 				9811340A1EDE766600D4097D /* Compose */,
 				C90B9CAE1EEC2F0000C971C1 /* Base */,
@@ -413,8 +424,8 @@
 		C9287FFF1EEEDC0F00FB5115 /* Share */ = {
 			isa = PBXGroup;
 			children = (
-				C92880001EEEDC3F00FB5115 /* GIFShareBar.swift */,
 				98540F221EF3CBDE002EC443 /* LongPressPopShareView.swift */,
+				C92880001EEEDC3F00FB5115 /* GIFShareBar.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -511,6 +522,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		C99FB2C11EF4DC8500A31D0A /* Tag */ = {
+			isa = PBXGroup;
+			children = (
+				C99FB2C21EF4DD2200A31D0A /* AddTagListViewController.swift */,
+			);
+			path = Tag;
+			sourceTree = "<group>";
+		};
 		C9BDEC671EE2A01500EF99A8 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -524,6 +543,7 @@
 			isa = PBXGroup;
 			children = (
 				C9BDEC8E1EE2D83600EF99A8 /* TagListCell.swift */,
+				C99FB2C41EF4DD6900A31D0A /* AddTagListCell.swift */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -844,6 +864,7 @@
 				981134161EDE766600D4097D /* GIFListViewController.swift in Sources */,
 				C9E3F1161EED41C40018943C /* GIFShareManager.swift in Sources */,
 				C963F7811ED8504E004405EB /* Tag.swift in Sources */,
+				C99FB2C51EF4DD6900A31D0A /* AddTagListCell.swift in Sources */,
 				9827EDD71EEA9F500043288F /* GIFDetailCell.swift in Sources */,
 				C92880051EF0730400FB5115 /* GIFListFooter.swift in Sources */,
 				C90B9CB01EEC2F3D00C971C1 /* BaseNavigationController.swift in Sources */,
@@ -859,10 +880,13 @@
 				C9E9AD681ED8544700C34DF4 /* Config.swift in Sources */,
 				C9E3F0D01EED31BD0018943C /* OpenShare.swift in Sources */,
 				C92880011EEEDC3F00FB5115 /* GIFShareBar.swift in Sources */,
+				C97BF3D21EF518DA00620E0E /* AddTagTextfieldHeader.swift in Sources */,
+				C99FB2C31EF4DD2200A31D0A /* AddTagListViewController.swift in Sources */,
 				98AFCB541ED928EB00D64FBE /* UserDefaults.swift in Sources */,
 				98557AFB1EDE77EF007C7E22 /* StatusBarToast.swift in Sources */,
 				C9BDEC801EE2A0FC00EF99A8 /* NGWeakProxy.swift in Sources */,
 				C9E3F0CC1EED2F650018943C /* Alert.swift in Sources */,
+				C9875BA71EF54D1A001ABCF4 /* CustomToolBar.swift in Sources */,
 				98159B3E1EE6945500341ACC /* HUD.swift in Sources */,
 				C9BDEC7D1EE2A0CE00EF99A8 /* NotGIFImageView.swift in Sources */,
 				9827EDD41EEA9F170043288F /* GIFBaseCell.swift in Sources */,

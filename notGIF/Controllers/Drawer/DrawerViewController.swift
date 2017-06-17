@@ -32,6 +32,8 @@ class DrawerViewController: UIViewController {
         
     }
     
+    // MARK: - Gesture Handler
+    
     @IBAction func sidePanGesHandler(_ sender: UIPanGestureRecognizer) {
         let transitionX = sender.translation(in: view).x
         let offsetX = gesBeginOffsetX + transitionX
@@ -58,6 +60,8 @@ class DrawerViewController: UIViewController {
         dismissSideBar()
     }
     
+    // MARK: - Show & Dismiss
+    
     fileprivate func endMoveSideBar(with offset: CGFloat, velocityX: CGFloat) {
         if offset >= sideBarWidth * 0.3 {
             showSideBar(with: offset, velocityX: velocityX)
@@ -82,6 +86,7 @@ class DrawerViewController: UIViewController {
                                             .scaledBy(x: 1, y: finalScale)
         }) { _ in
             
+            self.mainContainer.isUserInteractionEnabled = false
             self.isShowing = true
         }
     }
@@ -101,6 +106,7 @@ class DrawerViewController: UIViewController {
             
         }) { _ in
             
+            self.mainContainer.isUserInteractionEnabled = true
             self.isShowing = false
         }
     }
@@ -115,7 +121,16 @@ extension DrawerViewController: UIGestureRecognizerDelegate {
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer === sidePanGes {
-            return isShowing || sidePanGes.velocity(in: mainContainer).x > 0
+            if isShowing {
+                let location = sidePanGes.location(in: view)
+                return mainContainer.frame.contains(location)
+            } else {
+                return sidePanGes.velocity(in: mainContainer).x > 0
+            }
+            
+        } else if gestureRecognizer === dissmisTapGes {
+            let tapLocation = dissmisTapGes.location(in: view)
+            return isShowing && mainContainer.frame.contains(tapLocation)
         }
         
         return true

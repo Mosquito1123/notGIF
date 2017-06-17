@@ -60,6 +60,8 @@ class GIFListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.setToolbarHidden(true, animated: false)
+        
         navigationItem.titleView = titleLabel
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .pause,
@@ -74,17 +76,20 @@ class GIFListViewController: UIViewController {
                 
                 HUD.show(.fetchGIF)
                 
-                NotGIFLibrary.shared.prepare { lastSelectTag in
-                    self.showGIFList(of: lastSelectTag)
+                NotGIFLibrary.shared.prepare(completion: { (lastTag, needBgUpdate) in
+                    self.showGIFList(of: lastTag)
                     HUD.hide()
-                }
+                    
+                    if needBgUpdate {
+                        
+                    }
+                }, bgUpdateCompletion: {
+                    
+                })
             }
         }
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(GIFListViewController.checkToUpdateGIFList(with:)),
-                                               name: .didSelectTag,
-                                               object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GIFListViewController.checkToUpdateGIFList(with:)), name: .didSelectTag, object: nil)
         
         #if DEBUG
             view.addSubview(FPSLabel())
@@ -110,6 +115,13 @@ class GIFListViewController: UIViewController {
                     let selectIP = sender as? IndexPath else { return }
             detailVC.currentIndex = selectIP.item
             detailVC.gifList = gifList
+            
+        case "showAddTag":
+            guard let popover = segue.destination.popoverPresentationController else { return }
+            popover.sourceView = view
+            popover.sourceRect = view.bounds
+            popover.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
+            popover.delegate = self
             
         default:
             break
@@ -142,11 +154,17 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: GIFListCell = collectionView.dequeueReusableCell(for: indexPath)
+        
         cell.shareGIFHandler = { [weak self] type in
-            guard let shareIP = collectionView.indexPath(for: cell),
-                let gifID = self?.gifList[shareIP.item].id else { return }
+            guard let sSelf = self, let shareIP = collectionView.indexPath(for: cell) else { return }
             
-            GIFShareManager.shareGIF(of: gifID, to: type)
+            if type == .tag {
+                sSelf.beginAddTag()
+                
+            } else {
+                let gifID = sSelf.gifList[shareIP.item].id
+                GIFShareManager.shareGIF(of: gifID, to: type)
+            }
         }
         
         return cell
@@ -183,6 +201,15 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 
+// MARK: - Add Tag 
+
+extension GIFListViewController {
+    
+    fileprivate func beginAddTag() {
+        navigationController?.setToolbarHidden(false, animated: true)
+    }
+}
+
 // MARK: - CollectionLayout Delegate
 
 extension GIFListViewController: GIFListLayoutDelegate {
@@ -207,6 +234,19 @@ extension GIFListViewController: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         setDrawerPanGes(enable: false)
+    }
+}
+
+// MARK: - Popover Delegate
+
+extension GIFListViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    
+    func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        return false
     }
 }
 

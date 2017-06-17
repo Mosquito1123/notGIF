@@ -13,7 +13,7 @@ import MobileCoreServices
 
 typealias GIFDataInfo = (data: Data, thumbnail: UIImage)
 
-public typealias CompletionHandler = (_ image: NotGIFImage, _ localID: String, _ withTransition: Bool) -> ()
+public typealias GIFRetrieveCompletion = (_ image: NotGIFImage, _ localID: String, _ withTransition: Bool) -> ()
 
 class NotGIFLibrary: NSObject {
     
@@ -36,13 +36,13 @@ class NotGIFLibrary: NSObject {
         return DispatchQueuePool(name: "com.notGIF.getGIF", qos: .utility, queueCount: 6)
     }()
     
-    public func prepare(completion: @escaping ((Tag?) -> Void)) {
+    public func prepare(completion: @escaping ((Tag?, Bool) -> Void), bgUpdateCompletion: CommonCompletion? = nil) {
         do {
             let realm = try Realm()
             
-            let completionHandler = {
+            let completionHandler: (Bool) -> Void = { needBgUpdate in
                 let selectTag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTagID)
-                completion(selectTag)
+                completion(selectTag, needBgUpdate)
             }
             
             if NGUserDefaults.haveFetched { // 直接从 Realm 中获取 GIF 信息
@@ -63,11 +63,12 @@ class NotGIFLibrary: NSObject {
                     realm.delete( notGIFs.filter { !tmpAllGIFIDs.contains($0.id) } )
                 }
                 
-                completionHandler()
+                completionHandler(true)
                 
                 // 后台更新 GIF Library
                 bgFetchQueue.async { [unowned self] in
                     self.updateGIFLibrary(with: Set<PHAsset>(tempAllGIFAessts))
+                    bgUpdateCompletion?()
                 }
                 
             } else {    // 从 Photos 中获取 GIF
@@ -96,7 +97,7 @@ class NotGIFLibrary: NSObject {
                     NGUserDefaults.haveFetched = true
                 }
                 
-                completionHandler()
+                completionHandler(false)
             }
             
         } catch let err {
@@ -160,7 +161,8 @@ class NotGIFLibrary: NSObject {
         return gifPool[gif.id]?.info ?? nil
     }
     
-    public func retrieveGIF(with id: String, completionHandler: @escaping CompletionHandler) -> DispatchWorkItem? {
+    // retrieve gif to show
+    public func retrieveGIF(with id: String, completionHandler: @escaping GIFRetrieveCompletion) -> DispatchWorkItem? {
         
         if let gif = gifPool[id] {
             completionHandler(gif, id, false)
@@ -192,6 +194,7 @@ class NotGIFLibrary: NSObject {
         }
     }
     
+    // request data to share gif
     public func requestGIFData(of gifID: String, completionHandler: @escaping (GIFDataInfo?) -> Void) {
         guard let gifAsset = gifAssetPool[gifID], let gif = gifPool[gifID] else {
             completionHandler(nil)

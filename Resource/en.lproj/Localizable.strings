@@ -45,3 +45,5 @@
 
 "title.open_settings" = "OPEN SETTINGS";
 "prompt.need_photos_permission" = "Please Allow Photos Access";
+
+"prompt.updating" = "Updating";

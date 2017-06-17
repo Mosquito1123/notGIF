@@ -17,6 +17,7 @@ public enum ShareType: Int {
     case weibo
     case wechat
     case message
+    case tag
     
     var iconCode: FontUnicode {
         switch self {
@@ -25,6 +26,7 @@ public enum ShareType: Int {
         case .weibo:    return .weibo
         case .wechat:   return .wechat
         case .message:  return .message
+        case .tag:      return .tag
         }
     }
 }
@@ -80,7 +82,11 @@ class GIFShareManager {
                     HUD.hide()
                     Alert.show(.messageUnsupport)
                 }
+                
+            default:
+                break
             }
+            
         }
     }
     

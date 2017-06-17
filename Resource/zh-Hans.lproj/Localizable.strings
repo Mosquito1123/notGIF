@@ -45,3 +45,5 @@
 
 "title.open_settings" = "打开设置";
 "prompt.need_photos_permission" = "notGIF 需要照片访问权限";
+
+"prompt.updating" = "更新中";

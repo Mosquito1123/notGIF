@@ -4,10 +4,10 @@ use_frameworks!
 
 def groupPods
     
-    pod 'SnapKit'
     pod 'ReachabilitySwift'
     pod 'MBProgressHUD'
     pod 'RealmSwift'
+    pod 'SnapKit'
 
 end
 

@@ -52,3 +52,7 @@ extension UIFont {
         return UIFont(name: "Menlo", size: size) ?? UIFont.systemFont(ofSize: size)
     }
 }
+
+public typealias CommonHandler = (() -> Void)
+public typealias CommonCompletion = () -> Void
+

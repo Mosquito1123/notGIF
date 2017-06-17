@@ -10,9 +10,10 @@ import UIKit
 
 class LongPressPopShareView: UIView {
 
-    fileprivate var iconViews: [UIImageView] = []
+    fileprivate var iconViews: [UIView] = []
     fileprivate var iconTriggerRects: [CGRect] = []
-    fileprivate var shareTypes: [ShareType] = [.more, .twitter, .weibo]
+    fileprivate var shareTypes: [ShareType] = [.more, .twitter, .weibo, .tag]
+    fileprivate var hasChanged: Bool = false
     
     fileprivate var cellMaskRect: CGRect = .zero
     
@@ -26,8 +27,8 @@ class LongPressPopShareView: UIView {
             shareTypes.append(.wechat)
         }
         
-        let iconS: CGFloat = 28
-        let padding: CGFloat = 20
+        let iconS: CGFloat = 36
+        let padding: CGFloat = 16
         let spaceV: CGFloat = 12
         let count = shareTypes.count
         let totalW = CGFloat(count) * iconS + CGFloat(count - 1) * padding
@@ -47,12 +48,11 @@ class LongPressPopShareView: UIView {
         for i in 0..<count {
             
             let iconViewFrame = CGRect(x: beignOx, y: baseOriginY, width: iconS, height: iconS)
-            let iconView = UIImageView(frame: iconViewFrame)
+            let iconView = UILabel(iconCode: shareTypes[i].iconCode, color: UIColor.textTint, fontSize: 28)
+            iconView.frame = iconViewFrame
             beignOx += iconS + padding
             iconView.contentMode = .scaleAspectFit
-            
-            iconView.image = UIImage.iCon(ofCode: shareTypes[i].iconCode, size: CGSize(width: iconS, height: iconS), color: UIColor.textTint)
-            
+                        
             let iconTriggerRect = CGRect(x: iconViewFrame.minX - padding/2, y: baseOriginY, width: iconS+padding, height: cellRect.maxY - iconViewFrame.minY)
             iconTriggerRects.append(iconTriggerRect)
             
@@ -99,6 +99,7 @@ class LongPressPopShareView: UIView {
     }
     
     public func update(with offset: CGPoint) {
+        hasChanged = true
         
         let transfromS = CGAffineTransform(scaleX: 1.2, y: 1.2)
         let transformT = CGAffineTransform(translationX: 0, y: -12)
@@ -125,6 +126,8 @@ class LongPressPopShareView: UIView {
         }) { _ in
             self.removeFromSuperview()
         }
+        
+        guard hasChanged else { return nil }
         
         if let index = iconTriggerRects.index(where: { $0.contains(offset) }) {
             return shareTypes[index]

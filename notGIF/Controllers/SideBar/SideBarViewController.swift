@@ -8,24 +8,18 @@
 
 import UIKit
 import RealmSwift
-
-// 添加 Tag 时插入的位置
-private let newTagCellInsertIP = IndexPath(item: 1, section: 0)
+import IQKeyboardManagerSwift
 
 class SideBarViewController: UIViewController {
     
-    fileprivate var isEditingTag: Bool = false {
-        didSet {    // 编辑时禁止返回
-            guard let drawer = parent as? DrawerViewController else { return }
-            drawer.mainContainer.isUserInteractionEnabled = !isEditingTag
-        }
-    }
-    
-    fileprivate var tagList: [Tag] = []
     fileprivate var tagResult: Results<Tag>!
     fileprivate var notifiToken: NotificationToken?
     fileprivate var selectTag: Tag!
     
+    fileprivate var isEditingTag: Bool {
+        return IQKeyboardManager.sharedManager().keyboardShowing
+    }
+
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.tableFooterView = UIView()
@@ -33,9 +27,11 @@ class SideBarViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var addTagButton: UIButton! {
+    @IBOutlet weak var addTagTextField: CustomTextField! {
         didSet {
-            addTagButton.setTitle(String.trans_tag, for: .normal)
+            addTagTextField.addTagHandler = { name in
+                self.addTag(with: name)
+            }
         }
     }
     
@@ -45,9 +41,8 @@ class SideBarViewController: UIViewController {
         guard let realm = try? Realm() else { return }
         
         selectTag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTagID)
-        tagResult = realm.objects(Tag.self).sorted(byKeyPath: "createDate", ascending: false)
-        tagList.append(contentsOf: tagResult)
         
+        tagResult = realm.objects(Tag.self).sorted(byKeyPath: "createDate", ascending: false)
         notifiToken = tagResult.addNotificationBlock { [weak self] changes in
             guard let tableView = self?.tableView else { return }
             
@@ -57,48 +52,32 @@ class SideBarViewController: UIViewController {
                 
             case .update(_, let deletions, let insertions, let modifications):
                 tableView.beginUpdates()
-//                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .fade)
-                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .fade)
+                tableView.deleteRows(at: deletions.map{ IndexPath(row: $0, section: 0) }, with: .left)
+                tableView.insertRows(at: insertions.map{ IndexPath(row: $0, section: 0) }, with: .bottom)
+                tableView.reloadRows(at: modifications.map{ IndexPath(row: $0, section: 0) }, with: .fade)
                 tableView.endUpdates()
                 
             case .error(let err):
-                print(err.localizedDescription)
+                printLog(err.localizedDescription)
             }
         }
-    
     }
     
     deinit {
         notifiToken?.stop()
         notifiToken = nil
     }
-    
-    @IBAction func addTagButtonClicked(_ sender: UIButton) {
-        guard !isEditingTag, tagList.count > 0 else { return }
-        
-        UIView.animate(withDuration: 0.2, animations: { 
-            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            self.tableView.setEditing(false, animated: false)
-
-        }) { _ in
-            
-            self.isEditingTag = true
-            self.tagList.insert(Tag(name: ""), at: newTagCellInsertIP.item)
-            self.tableView.insertRows(at: [newTagCellInsertIP], with: .top)
-            self.beginEditTag(at: newTagCellInsertIP)
-        }
-    }
 }
 
 extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tagList.count
+        return tagResult == nil ? 0 : tagResult.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TagListCell = tableView.dequeueReusableCell()
-        let tag = tagList[indexPath.item]
+        let tag = tagResult[indexPath.item]
         cell.configure(with: tag, isSelected: tag.id == selectTag.id)
 
         cell.editDoneHandler = { [unowned self] text in
@@ -106,20 +85,8 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
                 let editIP = tableView.indexPath(for: cell) else { return }
             
             try? realm.write {
-                realm.add(self.tagList[editIP.item].update(with: text), update: true)
+                realm.add(self.tagResult[editIP.item].update(with: text), update: true)
             }
-        }
-        
-        cell.editCancelHandler = { [unowned self] in
-            let tag = self.tagList[indexPath.item]
-            if !self.tagResult.contains(tag) {  // 新建的 Tag
-                self.tagList.remove(at: indexPath.item)
-                tableView.deleteRows(at: [indexPath], with: .bottom)
-            }
-        }
-        
-        cell.endEditHandler = { [unowned self] in
-            self.isEditingTag = false
         }
         
         return cell
@@ -130,7 +97,7 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
         }
         
-        let tag = tagList[indexPath.item]
+        let tag = tagResult[indexPath.item]
         guard !isEditingTag, tag.id != selectTag.id else {
             return
         }
@@ -161,26 +128,38 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return !isEditingTag && tagList[indexPath.item].id != Config.defaultTagID
+        return !isEditingTag && tagResult[indexPath.item].id != Config.defaultTagID
     }
 }
+
+// MARK: - Helper Method
 
 extension SideBarViewController {
     
     fileprivate func beginEditTag(at indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TagListCell else { return }
-        isEditingTag = true
         tableView.setEditing(false, animated: true)
         cell.beginEdit()
     }
     
     fileprivate func deleteTag(at indexPath: IndexPath) {
         guard let realm = try? Realm() else { return }
-        try? realm.write {
-            realm.delete(tagList[indexPath.item])
-        }
         
-        tagList.remove(at: indexPath.item)
-        tableView.deleteRows(at: [indexPath], with: .left)
+        try? realm.write {
+            realm.delete(tagResult[indexPath.item])
+        }
+    }
+    
+    fileprivate func addTag(with name: String) {
+        guard let realm = try? Realm() else { return }
+
+        tableView.setEditing(false, animated: true)
+        tableView.setContentOffset(.zero, animated: true)
+
+        DispatchQueue.main.after(0.5) {
+            try? realm.write {
+                realm.add(Tag(name: name))
+            }
+        }
     }
 }
