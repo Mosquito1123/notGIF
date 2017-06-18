@@ -119,7 +119,7 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
         let deleteRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_delete"), bgColor: .deleteRed) { [unowned self] (_, rowActionIP) in
             
             self.tableView.setEditing(false, animated: true)
-            Alert.show(.confirmDeleteTag) {
+            Alert.show(.confirmDeleteTag(self.tagResult[indexPath.item].name)) {
                 self.deleteTag(at: rowActionIP)
             }
         }

@@ -25,15 +25,19 @@ class AddTagListCell: UITableViewCell {
         countLabel.text = nil
     }
     
-    public func configure(with tag: Tag) {
+    public func configure(with tag: Tag, isChoosed: Bool) {
         
         nameLabel.text = tag.localNameStr
         countLabel.text = "\(tag.gifs.count)"
         
         if tag.id == Config.defaultTagID {
-            accessoryType = .checkmark
+            accessoryType = .none
+            nameLabel.textColor = UIColor.lightText
+            countLabel.textColor = UIColor.lightText
         } else {
-            accessoryType = isSelected ? .checkmark : .none
+            accessoryType = isChoosed ? .checkmark : .none
+            nameLabel.textColor = .black
+            countLabel.textColor = .black
         }
     }
 }

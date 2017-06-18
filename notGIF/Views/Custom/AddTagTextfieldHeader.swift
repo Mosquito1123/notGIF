@@ -11,6 +11,7 @@ import SnapKit
 
 class AddTagTextfieldHeader: UIView, UITextFieldDelegate {
     
+    fileprivate var couldEndEdit: Bool = false
     fileprivate var addTagHandler: ((String) -> Void)?
     
     fileprivate lazy var textField: AddTagTextField = {
@@ -32,8 +33,6 @@ class AddTagTextfieldHeader: UIView, UITextFieldDelegate {
             self.editCancel()
         })
     }()
-    
-    fileprivate var couldEndEdit: Bool = false
     
     init(width: CGFloat, addTagHandler: @escaping (String) -> Void) {
         let textFieldH: CGFloat = 44, padding: CGFloat = 8
@@ -64,7 +63,7 @@ class AddTagTextfieldHeader: UIView, UITextFieldDelegate {
         textField.resignFirstResponder()
     }
     
-    fileprivate func editCancel() {
+    public func editCancel() {
         textField.text = nil
         couldEndEdit = true
         textField.resignFirstResponder()

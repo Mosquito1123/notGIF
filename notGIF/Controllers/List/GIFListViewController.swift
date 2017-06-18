@@ -31,6 +31,37 @@ class GIFListViewController: UIViewController {
         }
     }
     
+    fileprivate var isEditingGIFsTag: Bool = false
+    fileprivate var selectGIFIPs: Set<IndexPath> = [] {
+        didSet {
+            chooseCountItem.title = "\(selectGIFIPs.count) GIF"
+            addTagItem.isEnabled = !selectGIFIPs.isEmpty
+            removeTagItem.isEnabled = currentTag?.id != Config.defaultTagID && !selectGIFIPs.isEmpty
+        }
+    }
+    
+    @IBOutlet weak var addTagItem: UIBarButtonItem!
+    @IBOutlet weak var removeTagItem: UIBarButtonItem!
+    
+    @IBOutlet weak var chooseCountItem: UIBarButtonItem! {
+        didSet {
+            chooseCountItem.setTitleTextAttributes([NSFontAttributeName: UIFont.menlo(ofSize: 17)], for: .normal)
+        }
+    }
+    
+    fileprivate lazy var playControlItem: UIBarButtonItem = {
+        return UIBarButtonItem(barButtonSystemItem: .pause,
+                               target: self,
+                               action: #selector(GIFListViewController.autoplayItemClicked))
+    }()
+    
+    fileprivate lazy var cancalEditGIFTagItem: UIBarButtonItem = {
+        let buttonItem = UIBarButtonItem(title: String.trans_titleCancel, style: .plain, target: self, action: #selector(GIFListViewController.endEditGIFsTag(noReload:)))
+        buttonItem.setTitleTextAttributes([NSFontAttributeName: UIFont.menlo(ofSize: 17)], for: .normal)
+        buttonItem.tintColor = UIColor.textTint
+        return buttonItem
+    }()
+    
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             collectionView.registerFooterOf(GIFListFooter.self)
@@ -46,16 +77,12 @@ class GIFListViewController: UIViewController {
         return label
     }()
     
-    @IBAction func sideBarItemClicked(_ sender: UIBarButtonItem) {
-        if let drawer = navigationController?.parent as? DrawerViewController {
-            drawer.showOrDissmissSideBar()
-        }
-    }
-    
     fileprivate var notifiToken: NotificationToken?
     
     fileprivate var currentTag: Tag?
     fileprivate var manualPaused = false
+    
+    // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,9 +91,7 @@ class GIFListViewController: UIViewController {
         
         navigationItem.titleView = titleLabel
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .pause,
-                                                            target: self,
-                                                            action: #selector(autoplayItemClicked))
+        navigationItem.rightBarButtonItem = playControlItem
         navigationItem.rightBarButtonItem?.tintColor = .gray
         
         PHPhotoLibrary.requestAuthorization { status in
@@ -117,7 +142,15 @@ class GIFListViewController: UIViewController {
             detailVC.gifList = gifList
             
         case "showAddTag":
-            guard let popover = segue.destination.popoverPresentationController else { return }
+            guard let addTagVC = (segue.destination as? UINavigationController)?.topViewController as? AddTagListViewController ,
+                    let popover = segue.destination.popoverPresentationController else { return }
+            
+            addTagVC.fromTag = currentTag
+            addTagVC.toAddGIFs = sender as! [NotGIF]
+            addTagVC.addGIFTagCompletion = { [weak self] in
+                self?.endEditGIFsTag(noReload: false)
+            }
+            
             popover.sourceView = view
             popover.sourceRect = view.bounds
             popover.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
@@ -134,11 +167,34 @@ class GIFListViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    // MARK: - Button/Item Action
+    
     func autoplayItemClicked() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: shouldPlay ? .play : .pause, target: self, action: #selector(autoplayItemClicked))
         navigationItem.rightBarButtonItem?.tintColor = .gray
         manualPaused = shouldPlay
         shouldPlay = !shouldPlay
+    }
+    
+    @IBAction func sideBarItemClicked(_ sender: UIBarButtonItem) {
+        if let drawer = navigationController?.parent as? DrawerViewController {
+            drawer.showOrDissmissSideBar()
+        }
+    }
+    
+    @IBAction func addTagItemClicked(_ sender: UIBarButtonItem) {
+        guard !selectGIFIPs.isEmpty else { return }
+        
+        let selectGIFs = selectGIFIPs.map{ gifList[$0.item] }
+        performSegue(withIdentifier: "showAddTag", sender: selectGIFs)
+    }
+    
+    @IBAction func removeTagItemClicked(_ sender: UIBarButtonItem) {
+        guard !selectGIFIPs.isEmpty else { return }
+        
+        Alert.show(.confirmRemoveGIF(selectGIFIPs.count, currentTag?.localNameStr ?? ""), in: self) {
+            self.removeChoosedGIF()
+        }
     }
 }
 
@@ -154,15 +210,16 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: GIFListCell = collectionView.dequeueReusableCell(for: indexPath)
+        cell.update(isChoosed: selectGIFIPs.contains(indexPath), animate: false)
         
         cell.shareGIFHandler = { [weak self] type in
-            guard let sSelf = self, let shareIP = collectionView.indexPath(for: cell) else { return }
+            guard let sSelf = self, let cellIP = collectionView.indexPath(for: cell) else { return }
             
             if type == .tag {
-                sSelf.beginAddTag()
+                sSelf.beginEditGIFsTag(from: cellIP)
                 
             } else {
-                let gifID = sSelf.gifList[shareIP.item].id
+                let gifID = sSelf.gifList[cellIP.item].id
                 GIFShareManager.shareGIF(of: gifID, to: type)
             }
         }
@@ -188,9 +245,22 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
             collectionView.deselectItem(at: indexPath, animated: true)
         }
         
-        guard selectIndexPath == nil else { return }
-        selectIndexPath = indexPath
-        performSegue(withIdentifier: "showDetail", sender: indexPath)
+        if isEditingGIFsTag {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? GIFListCell else { return }
+            
+            if selectGIFIPs.contains(indexPath) {
+                selectGIFIPs.remove(indexPath)
+                cell.update(isChoosed: false, animate: true)
+            } else {
+                selectGIFIPs.insert(indexPath)
+                cell.update(isChoosed: true, animate: true)
+            }
+            
+        } else {
+            guard selectIndexPath == nil else { return }
+            selectIndexPath = indexPath
+            performSegue(withIdentifier: "showDetail", sender: indexPath)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -198,15 +268,6 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
         let type: GIFListFooterType = PHPhotoLibrary.authorizationStatus() == .authorized ? .showCount(currentTag) : .needAuthorize
         footer.update(with: type)
         return footer
-    }
-}
-
-// MARK: - Add Tag 
-
-extension GIFListViewController {
-    
-    fileprivate func beginAddTag() {
-        navigationController?.setToolbarHidden(false, animated: true)
     }
 }
 
@@ -258,8 +319,54 @@ extension GIFListViewController {
         guard let selectTag = noti.object as? Tag, selectTag.id != currentTag?.id
             else { return }
         
+        if isEditingGIFsTag {
+            endEditGIFsTag(noReload: false)
+        }
+        
         NGUserDefaults.lastSelectTagID = selectTag.id
         showGIFList(of: selectTag)
+    }
+}
+
+
+// MARK: - Edit Tag
+
+extension GIFListViewController {
+    
+    fileprivate func beginEditGIFsTag(from beginIP: IndexPath) {
+        let cell = collectionView.cellForItem(at: beginIP) as? GIFListCell
+        cell?.update(isChoosed: true, animate: true)
+        
+        isEditingGIFsTag = true
+        selectGIFIPs.insert(beginIP)
+        shouldPlay = false
+        
+        removeTagItem.isEnabled = currentTag?.id != Config.defaultTagID
+        navigationItem.rightBarButtonItem = cancalEditGIFTagItem
+        navigationController?.setToolbarHidden(false, animated: true)
+    }
+    
+    @objc fileprivate func endEditGIFsTag(noReload: Bool) {
+        isEditingGIFsTag = false
+        navigationItem.rightBarButtonItem = playControlItem
+        navigationController?.setToolbarHidden(true, animated: true)
+        
+        shouldPlay = true
+        selectGIFIPs.removeAll()
+        
+        if !noReload {
+            collectionView.reloadData()
+        }
+    }
+    
+    fileprivate func removeChoosedGIF() {
+        let gifs = selectGIFIPs.map{ gifList[$0.item] }
+                
+        try? Realm().write {
+            currentTag?.gifs.remove(objectsIn: gifs)
+        }
+
+        endEditGIFsTag(noReload: true)
     }
 }
 

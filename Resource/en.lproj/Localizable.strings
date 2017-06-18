@@ -39,11 +39,18 @@
 "title.cancel" = "Cancel";
 "title.confirm" = "Sure";
 
-"prompt.title_delete_tag" = "Are you sure to delete this tag?";
+"prompt.title_delete_tag_%@" = "Are you sure to delete \"%@\" ?";
 "prompt.message_delete_tag" = "GIFs under this tag will not be deleted";
+"title.delete_tag" = "Delete Tag";
 "prompt.gif_not_prepared" = "GIF haven't be prepared";
 
 "title.open_settings" = "OPEN SETTINGS";
 "prompt.need_photos_permission" = "Please Allow Photos Access";
 
 "prompt.updating" = "Updating";
+"prompt.title_remove_gif_%@" = "Are you sure to remove %d GIF from \"%@\" tag ?";
+
+"title.remove_gif_%@" = "Remove %d GIF";
+
+"title.choosed_gif_%@" = "Choose %d Tag";
+"title.add" = "Add";

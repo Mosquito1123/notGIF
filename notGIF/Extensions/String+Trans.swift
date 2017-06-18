@@ -66,6 +66,14 @@ extension String {
     static var trans_needPhotosPermission: String {
         return NSLocalizedString("prompt.need_photos_permission", comment: "")
     }
+    
+    static func trans_titleChoosedTag(_ count: Int) -> String {
+        return String(format: NSLocalizedString("title.choosed_gif_%@", comment: ""), count) 
+    }
+    
+    static var trans_titleAdd: String {
+        return NSLocalizedString("title.add", comment: "")
+    }
 }
 
 // MARK: - Toast
@@ -144,11 +152,23 @@ extension String {
         }
     }
     
-    static var trans_promptTitleDeleteTag: String {
-        return NSLocalizedString("prompt.title_delete_tag", comment: "")
+    static func trans_promptTitleDeleteTag(_ name: String) -> String {
+        return String(format: NSLocalizedString("prompt.title_delete_tag_%@", comment: ""), name)
+    }
+    
+    static func trans_promptTitleRemoveGIF(_ count: Int, from name: String) -> String {
+        return String(format: NSLocalizedString("prompt.title_remove_gif_%@", comment: ""), count, name)
+    }
+    
+    static func trans_titleRemoveGIF(_ count: Int) -> String {
+        return String(format: NSLocalizedString("title.remove_gif_%@", comment: ""), count)
     }
     
     static var trans_promptMessageDeleteTag: String {
         return NSLocalizedString("prompt.message_delete_tag", comment: "")
+    }
+    
+    static var trans_titleDeleteTag: String {
+        return NSLocalizedString("title.delete_tag", comment: "")
     }
 }

@@ -8,13 +8,29 @@
 
 import UIKit
 import RealmSwift
+import IQKeyboardManagerSwift
 
 private let width = kScreenWidth * 0.8
 
 class AddTagListViewController: UIViewController {
 
+    public var toAddGIFs: [NotGIF] = []
+    public var fromTag: Tag!
+    
+    public var addGIFTagCompletion: CommonCompletion?
+    
     fileprivate var tagResult: Results<Tag>!
     fileprivate var notifiToken: NotificationToken?
+    
+    fileprivate var selectedTags: [Tag] = [] {
+        didSet {
+            addItem.isEnabled = !selectedTags.isEmpty
+            navigationItem.title = String.trans_titleChoosedTag(selectedTags.count)
+        }
+    }
+    
+    @IBOutlet weak var cancelItem: UIBarButtonItem!
+    @IBOutlet weak var addItem: UIBarButtonItem!
     
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -29,9 +45,16 @@ class AddTagListViewController: UIViewController {
         })
     }()
     
+    // MARK: - Life Cycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         preferredContentSize = CGSize(width: width, height: kScreenHeight * 0.6)
+        cancelItem.title = String.trans_titleCancel
+        addItem.title = String.trans_titleAdd
+        
+        cancelItem.setTitleTextAttributes([NSFontAttributeName: UIFont.menlo(ofSize: 16)], for: .normal)
+        addItem.setTitleTextAttributes([NSFontAttributeName: UIFont.menlo(ofSize: 16)], for: .normal)
     }
     
     override func viewDidLoad() {
@@ -58,13 +81,33 @@ class AddTagListViewController: UIViewController {
             }
         }
     }
+    
+    deinit {
+        printLog(" deinited")
+        notifiToken?.stop()
+        notifiToken = nil
+    }
+    
+    // MARK: - Item Handler
 
     @IBAction func cancelItemClicked(_ sender: UIBarButtonItem) {
+        addTagHeader.editCancel()
         dismiss(animated: true, completion: nil)
     }
 
     @IBAction func addItemClicked(_ sender: UIBarButtonItem) {
+        guard !IQKeyboardManager.sharedManager().keyboardShowing, !selectedTags.isEmpty else { return }
+                
+        try? Realm().write {
+            selectedTags.forEach {
+                $0.gifs.add(objectsIn: toAddGIFs, update: true)
+            }
+        }
         
+        // TODO: - HUD
+        dismiss(animated: true) {
+            self.addGIFTagCompletion?()
+        }
     }
     
     fileprivate func addTag(with name: String) {
@@ -77,6 +120,8 @@ class AddTagListViewController: UIViewController {
     }
 }
 
+// MARK: - TableView Delegate
+
 extension AddTagListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -85,19 +130,24 @@ extension AddTagListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: AddTagListCell = tableView.dequeueReusableCell()
-        cell.configure(with: tagResult[indexPath.item])
+        let tag = tagResult[indexPath.item]
+        cell.configure(with: tag, isChoosed: selectedTags.contains(tag))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.accessoryType = .checkmark
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard tagResult[indexPath.item].id != Config.defaultTagID else { return }
+        defer { tableView.deselectRow(at: indexPath, animated: true) }
+        guard indexPath.item > 0 else { return }    // default Tag 禁止移除
         
         let cell = tableView.cellForRow(at: indexPath)
-        cell?.accessoryType = .none        
+        let tag = tagResult[indexPath.item]
+        
+        if selectedTags.contains(tag) {
+            selectedTags.remove(tag)
+            cell?.accessoryType = .none
+        } else {
+            selectedTags.append(tag)
+            cell?.accessoryType = .checkmark
+        }
     }
 }

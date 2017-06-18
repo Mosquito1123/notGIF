@@ -48,7 +48,8 @@ class LongPressPopShareView: UIView {
         for i in 0..<count {
             
             let iconViewFrame = CGRect(x: beignOx, y: baseOriginY, width: iconS, height: iconS)
-            let iconView = UILabel(iconCode: shareTypes[i].iconCode, color: UIColor.textTint, fontSize: 28)
+            let fontSize: CGFloat = shareTypes[i] == .tag ? 25 : 28
+            let iconView = UILabel(iconCode: shareTypes[i].iconCode, color: UIColor.textTint, fontSize: fontSize)
             iconView.frame = iconViewFrame
             beignOx += iconS + padding
             iconView.contentMode = .scaleAspectFit

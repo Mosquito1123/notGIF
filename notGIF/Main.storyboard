@@ -74,11 +74,23 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems>
-                        <barButtonItem title="Item" id="ZjC-Jt-FSP"/>
+                        <barButtonItem image="icon_add_tag" id="ZjC-Jt-FSP">
+                            <color key="tintColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                            <connections>
+                                <action selector="addTagItemClicked:" destination="edc-Gp-OY7" id="M6c-ej-cxj"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="qBB-BR-feD"/>
-                        <barButtonItem title="Item" id="XN4-bJ-xMW"/>
+                        <barButtonItem enabled="NO" title="0 GIF" id="XN4-bJ-xMW">
+                            <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="0wy-xh-A61"/>
-                        <barButtonItem title="Item" id="roQ-3C-zz3"/>
+                        <barButtonItem image="icon_add_tag" id="roQ-3C-zz3">
+                            <color key="tintColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                            <connections>
+                                <action selector="removeTagItemClicked:" destination="edc-Gp-OY7" id="QrU-Pt-brQ"/>
+                            </connections>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="jM6-ch-FJZ">
                         <barButtonItem key="backBarButtonItem" title=" " id="xaL-0U-v2o"/>
@@ -90,9 +102,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="black" translucent="NO"/>
                     <connections>
+                        <outlet property="addTagItem" destination="ZjC-Jt-FSP" id="FwW-qZ-pbg"/>
+                        <outlet property="chooseCountItem" destination="XN4-bJ-xMW" id="19Z-xA-bXe"/>
                         <outlet property="collectionView" destination="4tq-kG-Zrg" id="Nmk-Bz-wp1"/>
+                        <outlet property="removeTagItem" destination="roQ-3C-zz3" id="1h2-8H-qeC"/>
                         <segue destination="8h7-vK-F5a" kind="show" identifier="showDetail" id="ecy-ya-KXb"/>
                         <segue destination="rTw-D4-lHV" kind="popoverPresentation" identifier="showAddTag" popoverAnchorView="rKr-ti-5DR" id="uRg-0N-vrM">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
@@ -178,7 +193,7 @@
                                 <action selector="cancelItemClicked:" destination="Pbn-Pi-rmf" id="fBj-hD-SwO"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="添加 " id="DaS-qd-2wX">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="添加 " id="DaS-qd-2wX">
                             <connections>
                                 <action selector="addItemClicked:" destination="Pbn-Pi-rmf" id="dbv-mI-Mtw"/>
                             </connections>
@@ -189,6 +204,8 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="400"/>
                     <connections>
+                        <outlet property="addItem" destination="DaS-qd-2wX" id="0d9-Fo-W50"/>
+                        <outlet property="cancelItem" destination="rw4-Po-war" id="13x-VS-qVP"/>
                         <outlet property="tableView" destination="bUL-iW-diN" id="div-zG-SFl"/>
                     </connections>
                 </viewController>
@@ -205,11 +222,11 @@
                         <viewControllerLayoutGuide type="bottom" id="Ypc-Im-r6J"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2jg-nx-mwC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BGK-gc-eN4">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="FOA-zv-6jz">
                                     <size key="itemSize" width="368" height="591"/>
@@ -219,7 +236,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" reuseIdentifier="GIFDetailCell" id="q3U-VY-S5l" customClass="GIFDetailCell" customModule="notGIF" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="16" width="368" height="591"/>
+                                        <rect key="frame" x="0.0" y="38" width="368" height="591"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="368" height="591"/>
@@ -243,6 +260,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="BGK-gc-eN4" id="kyc-co-CkC"/>
                     </connections>
@@ -254,11 +272,11 @@
         <!--Base Navigation Controller-->
         <scene sceneID="wAT-8K-ijt">
             <objects>
-                <navigationController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="FjS-29-PrS" customClass="BaseNavigationController" customModule="notGIF" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="FjS-29-PrS" customClass="BaseNavigationController" customModule="notGIF" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="umF-ix-sdO">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="umF-ix-sdO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.98431372549999996" green="0.98431372549999996" blue="0.98431372549999996" alpha="0.5" colorSpace="deviceRGB"/>
@@ -267,6 +285,12 @@
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="2fe-ZN-FBV">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </toolbar>
                     <connections>
                         <segue destination="edc-Gp-OY7" kind="relationship" relationship="rootViewController" id="F0n-1q-S2t"/>
                     </connections>
@@ -473,11 +497,18 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rTw-D4-lHV" customClass="BaseNavigationController" customModule="notGIF" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="400"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3uk-a0-HUG">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="3uk-a0-HUG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="16"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -490,6 +521,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="icon_add_tag" width="18" height="22"/>
         <image name="icon_side_bar" width="22" height="19"/>
         <image name="logo.png" width="180" height="180"/>
     </resources>

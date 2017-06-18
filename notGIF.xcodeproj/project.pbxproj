@@ -64,6 +64,8 @@
 		C96561001EE7525C00BC3A87 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98159B3D1EE6945500341ACC /* HUD.swift */; };
 		C97BF3D21EF518DA00620E0E /* AddTagTextfieldHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97BF3D11EF518DA00620E0E /* AddTagTextfieldHeader.swift */; };
 		C9875BA71EF54D1A001ABCF4 /* CustomToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9875BA61EF54D1A001ABCF4 /* CustomToolBar.swift */; };
+		C9875BA91EF58315001ABCF4 /* Array+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9875BA81EF58315001ABCF4 /* Array+NG.swift */; };
+		C9875BAB1EF625BE001ABCF4 /* Realm+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9875BAA1EF625BE001ABCF4 /* Realm+NG.swift */; };
 		C994D9A61EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */; };
 		C994D9A71EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */; };
 		C99FB2C31EF4DD2200A31D0A /* AddTagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99FB2C21EF4DD2200A31D0A /* AddTagListViewController.swift */; };
@@ -189,6 +191,8 @@
 		C96561011EE753B600BC3A87 /* notGIFMessage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = notGIFMessage.entitlements; sourceTree = "<group>"; };
 		C97BF3D11EF518DA00620E0E /* AddTagTextfieldHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagTextfieldHeader.swift; sourceTree = "<group>"; };
 		C9875BA61EF54D1A001ABCF4 /* CustomToolBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomToolBar.swift; sourceTree = "<group>"; };
+		C9875BA81EF58315001ABCF4 /* Array+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+NG.swift"; sourceTree = "<group>"; };
+		C9875BAA1EF625BE001ABCF4 /* Realm+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+NG.swift"; sourceTree = "<group>"; };
 		C994D9A11EDBBFCA00A0D6A8 /* NotGIF_Bridging_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotGIF_Bridging_Header.h; sourceTree = "<group>"; };
 		C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadHelper.swift; sourceTree = "<group>"; };
 		C99FB2C21EF4DD2200A31D0A /* AddTagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagListViewController.swift; sourceTree = "<group>"; };
@@ -569,6 +573,8 @@
 				C95B7AD81EE75EC1008E20BB /* String+NG.swift */,
 				C9E3F1121EED392A0018943C /* String+Trans.swift */,
 				C9E3F11B1EED69140018943C /* UIImage+NG.swift */,
+				C9875BA81EF58315001ABCF4 /* Array+NG.swift */,
+				C9875BAA1EF625BE001ABCF4 /* Realm+NG.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -853,6 +859,7 @@
 				983547901EE954BD00D84274 /* PushDetailAnimator.swift in Sources */,
 				980B1F5D1EE8F12A00E48A2F /* Log.swift in Sources */,
 				98A9FD671EE68C2A001A761D /* NotGIFLibrary.swift in Sources */,
+				C9875BA91EF58315001ABCF4 /* Array+NG.swift in Sources */,
 				98A9FD661EE68C2A001A761D /* NotGIFImageView+Load.swift in Sources */,
 				C9E3F1131EED392A0018943C /* String+Trans.swift in Sources */,
 				C9C7DC2F1EE3FDBA002B26A0 /* PHAsset+NG.swift in Sources */,
@@ -873,6 +880,7 @@
 				C94D68101EED8C85004B8E5A /* StatusBarToast+NG.swift in Sources */,
 				98A9FD6C1EE68CFD001A761D /* GIFListLayout.swift in Sources */,
 				98FD09771EE7A6880078DEB0 /* UICollectionView+NG.swift in Sources */,
+				C9875BAB1EF625BE001ABCF4 /* Realm+NG.swift in Sources */,
 				C994D9A61EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */,
 				98557B211EE002C9007C7E22 /* DrawerViewController.swift in Sources */,
 				983547921EE954D500D84274 /* PopDetailAnimator.swift in Sources */,

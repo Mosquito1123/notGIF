@@ -19,6 +19,8 @@ public enum FontUnicode: String {
     case share   = "\u{f1e0}"
     case tag     = "\u{f02c}"
     
+    case checkO  = "\u{f05d}"   // f058
+    
     var string: String {
         return rawValue.substring(to: rawValue.characters.index(rawValue.startIndex, offsetBy: 1))
     }

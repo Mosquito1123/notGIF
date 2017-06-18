@@ -39,11 +39,17 @@
 "title.cancel" = "取消";
 "title.confirm" = "确定";
 
-"prompt.title_delete_tag" = "您确定删除该标签么 ?";
+"prompt.title_delete_tag_%@" = "您确定删除 \"%@\" 么 ?";
 "prompt.message_delete_tag" = "该标签下的 GIF 不会被删除";
+"title.delete_tag" = "删除标签";
 "prompt.gif_not_prepared" = "GIF 还未准备好";
 
 "title.open_settings" = "打开设置";
 "prompt.need_photos_permission" = "notGIF 需要照片访问权限";
 
 "prompt.updating" = "更新中";
+"prompt.title_remove_gif_%@" = "您确定将 %d 张 GIF 从 \"%@\" 标签下移除么 ?";
+"title.remove_gif_%@" = "移除 %d 张 GIF";
+
+"title.choosed_gif_%@" = "选中 %d 个标签";
+"title.add" = "添加";
