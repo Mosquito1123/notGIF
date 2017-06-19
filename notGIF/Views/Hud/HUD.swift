@@ -26,7 +26,7 @@ class HUD {
     
     class func show(to view: UIView? = nil, _ scene: HUDShowScene) {
         guard let superView = view ?? UIApplication.shared.keyWindow else { return }
-
+        
         let hud = MBProgressHUD.showAdded(to: superView, animated: true)
         
         hud.removeFromSuperViewOnHide = true
@@ -47,6 +47,8 @@ class HUD {
     
     class func hide(in view: UIView? = nil) {
         guard let superView = view ?? UIApplication.shared.keyWindow else { return }
-        MBProgressHUD.hide(for: superView, animated: true)
+        DispatchQueue.main.async {
+            MBProgressHUD.hide(for: superView, animated: true)
+        }
     }
 }

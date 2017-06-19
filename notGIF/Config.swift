@@ -34,6 +34,10 @@ extension UIColor {
     static let darkText     = UIColor.hex(0x666666)
     static let lightText    = UIColor.hex(0x999999)     // 0x7f8c8d
     static let bgColor      = UIColor.hex(0x1d1d1d)
+    
+    static var isChinese: Bool {
+        return Locale.current.languageCode == "zh"
+    }
 }
 
 extension UIFont {
@@ -55,4 +59,5 @@ extension UIFont {
 
 public typealias CommonHandler = (() -> Void)
 public typealias CommonCompletion = () -> Void
+
 

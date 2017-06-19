@@ -28,7 +28,7 @@ extension StatusBarToast {
         switch scene {
         case .posting:
             message = String.trans_sending
-            duration = 7.0
+            duration = 60
             StatusBarToast.backgroundColor = UIColor.bgColor
             
         case .postSuccess:

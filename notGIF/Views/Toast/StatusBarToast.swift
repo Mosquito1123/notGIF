@@ -1,5 +1,5 @@
 //
-//  StatusAlert.swift
+//  StatusBarToast.swift
 //  notGIF
 //
 //  Created by Atuooo on 14/10/2016.

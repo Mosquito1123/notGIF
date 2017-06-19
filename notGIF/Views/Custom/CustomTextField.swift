@@ -24,8 +24,18 @@ class CustomTextField: UITextField {
         })
     }()
     
+    fileprivate lazy var attPlaceHolder: NSAttributedString = {
+        let att: [String : Any] = [
+            NSFontAttributeName: UIFont.menlo(ofSize: 17),
+            NSForegroundColorAttributeName: UIColor.textTint
+        ]
+        return NSAttributedString(string: String.trans_tag, attributes: att)
+    }()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        tintColor = UIColor.textTint
         
         let leftImageView = UIImageView(image: #imageLiteral(resourceName: "icon_add_tag"))
         leftImageView.tintColor = UIColor.textTint
@@ -35,12 +45,14 @@ class CustomTextField: UITextField {
         leftView = leftImageView
         leftViewMode = .always
         
-        let att: [String : Any] = [
-            NSFontAttributeName: UIFont.menlo(ofSize: 17),
-            NSForegroundColorAttributeName: UIColor.textTint
-        ]
+//        let att: [String : Any] = [
+//            NSFontAttributeName: UIFont.menlo(ofSize: 17),
+//            NSForegroundColorAttributeName: UIColor.textTint
+//        ]
+//        
+//        attributedPlaceholder = NSAttributedString(string: String.trans_tag, attributes: att)
         
-        attributedPlaceholder = NSAttributedString(string: String.trans_tag, attributes: att)
+        attributedPlaceholder = attPlaceHolder
         
         textColor = UIColor.textTint
         inputAccessoryView = toolBar
@@ -67,13 +79,7 @@ class CustomTextField: UITextField {
     // MARK: - Custom Layout
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        var textWidth: CGFloat
-        if let attPlaceHolder = attributedPlaceholder {
-            textWidth = attPlaceHolder.size().width
-        } else {
-            let str = String.trans_tag
-            textWidth = str.size(attributes: defaultTextAttributes).width
-        }
+        let textWidth = attPlaceHolder.size().width
         
         let originX = bounds.width/2-textWidth/2+padding/2+leftViewSize/2
         return CGRect(x: originX, y: 0, width: textWidth, height: bounds.height)
@@ -86,16 +92,9 @@ class CustomTextField: UITextField {
     override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
         if isEditing {
             return CGRect(x: 0, y: 0, width: leftViewSize, height: bounds.height)
-        } else {
             
-            var textWidth: CGFloat
-            if let attPlaceHolder = attributedPlaceholder {
-                textWidth = attPlaceHolder.size().width
-            } else {
-                let str = String.trans_tag
-                textWidth = str.size(attributes: defaultTextAttributes).width
-            }
-
+        } else {
+            let textWidth = attPlaceHolder.size().width
             let originX = (bounds.width-textWidth-padding-leftViewSize)/2
             return CGRect(x: originX, y: 0, width: leftViewSize, height: bounds.height)
         }
@@ -105,6 +104,10 @@ class CustomTextField: UITextField {
 // MARK: - Delegate
 
 extension CustomTextField: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        attributedPlaceholder = nil
+        return true
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         editDone()
@@ -116,6 +119,7 @@ extension CustomTextField: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        attributedPlaceholder = attPlaceHolder
         couldEndEdit = false
     }
 }

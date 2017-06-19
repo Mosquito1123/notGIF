@@ -74,10 +74,10 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems>
-                        <barButtonItem image="icon_add_tag" id="ZjC-Jt-FSP">
+                        <barButtonItem image="icon_remove_tag" id="roQ-3C-zz3">
                             <color key="tintColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                             <connections>
-                                <action selector="addTagItemClicked:" destination="edc-Gp-OY7" id="M6c-ej-cxj"/>
+                                <action selector="removeTagItemClicked:" destination="edc-Gp-OY7" id="QrU-Pt-brQ"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="qBB-BR-feD"/>
@@ -85,10 +85,10 @@
                             <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="0wy-xh-A61"/>
-                        <barButtonItem image="icon_add_tag" id="roQ-3C-zz3">
+                        <barButtonItem image="icon_add_tag" id="ZjC-Jt-FSP">
                             <color key="tintColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                             <connections>
-                                <action selector="removeTagItemClicked:" destination="edc-Gp-OY7" id="QrU-Pt-brQ"/>
+                                <action selector="addTagItemClicked:" destination="edc-Gp-OY7" id="M6c-ej-cxj"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
@@ -276,7 +276,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="umF-ix-sdO">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="umF-ix-sdO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.98431372549999996" green="0.98431372549999996" blue="0.98431372549999996" alpha="0.5" colorSpace="deviceRGB"/>
@@ -380,21 +380,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="270" height="667"/>
                                 <subviews>
                                     <view alpha="0.45000000000000001" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="XmL-AU-IaS" userLabel="separator">
-                                        <rect key="frame" x="16" y="162" width="238" height="1"/>
+                                        <rect key="frame" x="16" y="156" width="238" height="1"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="0.59999999999999998" id="DuI-Sp-tEc"/>
                                         </constraints>
                                     </view>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="T5d-9l-Wh0">
-                                        <rect key="frame" x="90" y="12" width="90" height="90"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="90" id="H1R-QA-SvE"/>
-                                            <constraint firstAttribute="width" secondItem="T5d-9l-Wh0" secondAttribute="height" multiplier="1:1" id="Rao-YQ-cVk"/>
-                                        </constraints>
-                                    </imageView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="93e-9K-TFr">
-                                        <rect key="frame" x="0.0" y="175" width="270" height="452"/>
+                                        <rect key="frame" x="0.0" y="169" width="270" height="458"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TagListCell" rowHeight="68" id="nN9-78-aZ6" customClass="TagListCell" customModule="notGIF" customModuleProvider="target">
@@ -448,7 +441,7 @@
                                         </connections>
                                     </tableView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="标签" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Dqo-rq-Psi" customClass="CustomTextField" customModule="notGIF" customModuleProvider="target">
-                                        <rect key="frame" x="16" y="122" width="238" height="40"/>
+                                        <rect key="frame" x="16" y="116" width="238" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="8TS-An-tEJ"/>
@@ -457,20 +450,27 @@
                                         <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_logo" translatesAutoresizingMaskIntoConstraints="NO" id="c7s-2m-dkq">
+                                        <rect key="frame" x="99" y="20" width="72" height="72"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="72" id="Ilf-Vi-frK"/>
+                                            <constraint firstAttribute="width" secondItem="c7s-2m-dkq" secondAttribute="height" multiplier="1:1" id="O9R-Op-wY7"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="T5d-9l-Wh0" firstAttribute="centerX" secondItem="8uo-Ub-S3K" secondAttribute="centerX" id="GF6-rF-Yvw"/>
                                     <constraint firstAttribute="trailing" secondItem="93e-9K-TFr" secondAttribute="trailing" id="JMs-D2-LBv"/>
                                     <constraint firstItem="XmL-AU-IaS" firstAttribute="centerX" secondItem="Dqo-rq-Psi" secondAttribute="centerX" id="Kcr-81-gHw"/>
                                     <constraint firstItem="XmL-AU-IaS" firstAttribute="top" secondItem="Dqo-rq-Psi" secondAttribute="bottom" id="NrU-LC-k7Y"/>
-                                    <constraint firstItem="Dqo-rq-Psi" firstAttribute="top" secondItem="T5d-9l-Wh0" secondAttribute="bottom" constant="20" id="Qcs-ai-u5a"/>
-                                    <constraint firstItem="T5d-9l-Wh0" firstAttribute="top" secondItem="8uo-Ub-S3K" secondAttribute="top" constant="12" id="hMH-iv-fs0"/>
+                                    <constraint firstItem="Dqo-rq-Psi" firstAttribute="top" secondItem="c7s-2m-dkq" secondAttribute="bottom" constant="24" id="RH6-Gd-igV"/>
+                                    <constraint firstItem="c7s-2m-dkq" firstAttribute="top" secondItem="8uo-Ub-S3K" secondAttribute="top" constant="20" id="WBk-f9-FWV"/>
                                     <constraint firstItem="Dqo-rq-Psi" firstAttribute="centerX" secondItem="8uo-Ub-S3K" secondAttribute="centerX" id="htb-8W-Bmn"/>
                                     <constraint firstItem="93e-9K-TFr" firstAttribute="top" secondItem="XmL-AU-IaS" secondAttribute="bottom" constant="12" id="hzm-uf-c8v"/>
                                     <constraint firstItem="Dqo-rq-Psi" firstAttribute="width" secondItem="8uo-Ub-S3K" secondAttribute="width" multiplier="0.88" id="kmD-uZ-sCq"/>
                                     <constraint firstItem="XmL-AU-IaS" firstAttribute="width" secondItem="8uo-Ub-S3K" secondAttribute="width" multiplier="0.88" id="pdU-PG-2eE"/>
                                     <constraint firstItem="93e-9K-TFr" firstAttribute="leading" secondItem="8uo-Ub-S3K" secondAttribute="leading" id="tYP-fV-uiS"/>
+                                    <constraint firstItem="c7s-2m-dkq" firstAttribute="centerX" secondItem="8uo-Ub-S3K" secondAttribute="centerX" id="udD-L3-gBa"/>
                                     <constraint firstAttribute="bottom" secondItem="93e-9K-TFr" secondAttribute="bottom" constant="40" id="xKn-qu-Ag8"/>
                                 </constraints>
                             </view>
@@ -501,7 +501,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="400"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="3uk-a0-HUG">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3uk-a0-HUG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -521,8 +521,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_add_tag" width="18" height="22"/>
+        <image name="icon_add_tag" width="19" height="19"/>
+        <image name="icon_logo" width="110" height="110"/>
+        <image name="icon_remove_tag" width="20" height="20"/>
         <image name="icon_side_bar" width="22" height="19"/>
-        <image name="logo.png" width="180" height="180"/>
     </resources>
 </document>

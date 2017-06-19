@@ -47,7 +47,6 @@ final class SLRequestManager {
             postRequest.addMultipartData(gifData, withName: "pic", type: "image/gif", filename: nil)
             
             postRequest.perform { result in
-                
                 switch result {
                 case .success:
                     StatusBarToast.show(.postSuccess)

@@ -10,6 +10,7 @@ import Foundation
 
 private let haveFetchedKey      = "notGIF_have_fetched"
 private let lastSelectTagIDKey  = "notGIF_last_select_tag_id"
+private let playControlStateKey = "notGIF_play_control_state"
 
 final public class NGUserDefaults {
     
@@ -30,6 +31,15 @@ final public class NGUserDefaults {
         }
         get {
             return defaults.string(forKey: lastSelectTagIDKey) ?? Config.defaultTagID
+        }
+    }
+    
+    static var shouldAutoPause: Bool {
+        set {
+            defaults.set(newValue, forKey: playControlStateKey)
+        }
+        get {
+            return defaults.bool(forKey: playControlStateKey)
         }
     }
 }

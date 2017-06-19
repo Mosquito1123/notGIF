@@ -53,57 +53,12 @@ class GIFListCell: GIFBaseCell {
         }
         
         if animate {
-            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.4, options: [.allowAnimatedContent, .curveEaseInOut], animations: {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.4, options: [.allowAnimatedContent, .curveEaseInOut], animations: {
                 update()
             }, completion: nil)
         } else {
             update()
         }
-
-//        if isChoosed {
-//            
-//            
-//        } else {
-//            
-//            
-//        }
-//        
-//        if isEditing {
-//            guard isAddingTag != isEditing || self.isChoosed != isChoosed else { return }
-//            isAddingTag = isEditing; self.isChoosed = isChoosed
-//            
-//            let change = {
-//                if isChoosed {
-//                    self.transform = CGAffineTransform(scaleX: 0.96, y: 0.96)
-//                    self.contentView.alpha = 0.3
-//                    self.addSubview(self.chooseIndicator)
-//                } else {
-//                    self.transform = .identity
-//                    self.contentView.alpha = 1
-//                    self.chooseIndicator.removeFromSuperview()
-//                }
-//            }
-//            
-//            if animate {
-//                UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.4, options: [.allowAnimatedContent, .curveEaseInOut], animations: {
-//                    change()
-//                }, completion: nil)
-//            } else {
-//                change()
-//            }
-//            
-//        } else {
-//            guard isAddingTag != isEditing else { return }
-//            
-//            transform = .identity
-//            contentView.alpha = 1
-//            
-//            if self.isChoosed {
-//                chooseIndicator.removeFromSuperview()
-//            }
-//            isAddingTag = false
-//            self.isChoosed = false
-//        }
     }
     
     func longPressGesHandler(ges: UILongPressGestureRecognizer) {        

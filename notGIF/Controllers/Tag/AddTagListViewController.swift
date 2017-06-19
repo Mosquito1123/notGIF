@@ -82,10 +82,16 @@ class AddTagListViewController: UIViewController {
         }
     }
     
-    deinit {
-        printLog(" deinited")
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
         notifiToken?.stop()
         notifiToken = nil
+    }
+    
+    deinit {
+        // TODO: - not call
+        printLog("deinited")
     }
     
     // MARK: - Item Handler

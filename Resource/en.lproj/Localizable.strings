@@ -32,6 +32,7 @@
 "title.weibo" = "Sina Weibo";
 "title.twitter" = "Twitter";
 "title.unknow_type" = "Unkown Type";
+"title.updating" = "Updating";
 
 "tag.all" = "All";
 "title.tag" = "Tag";

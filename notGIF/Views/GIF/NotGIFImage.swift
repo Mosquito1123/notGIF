@@ -5,6 +5,8 @@
 //  Created by ooatuoo on 2017/5/13.
 //  Copyright © 2017年 xyz. All rights reserved.
 //
+//  The NotGIFImage and NotGIFImageView is a modified Swift version of
+//  some classes from Flipboard's FLAnimatedImage project (https://github.com/Flipboard/FLAnimatedImage)
 
 import UIKit
 import ImageIO

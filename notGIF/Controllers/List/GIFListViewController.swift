@@ -26,10 +26,17 @@ class GIFListViewController: UIViewController {
             guard _shouldPlay !=  oldValue else { return }
             
             collectionView.visibleCells
-            .flatMap { $0 as? GIFListCell }
-            .forEach { $0.animating(enable: _shouldPlay) }
+                .flatMap { $0 as? GIFListCell }
+                .forEach { $0.animating(enable: _shouldPlay) }
         }
     }
+    
+    fileprivate var manualPaused = false {
+        didSet { shouldPlay = !manualPaused }
+    }
+    
+    fileprivate var currentTag: Tag?
+    fileprivate var notifiToken: NotificationToken?
     
     fileprivate var isEditingGIFsTag: Bool = false
     fileprivate var selectGIFIPs: Set<IndexPath> = [] {
@@ -50,9 +57,10 @@ class GIFListViewController: UIViewController {
     }
     
     fileprivate lazy var playControlItem: UIBarButtonItem = {
-        return UIBarButtonItem(barButtonSystemItem: .pause,
-                               target: self,
-                               action: #selector(GIFListViewController.autoplayItemClicked))
+        let conrolButton = PlayControlButton(showPlay: self.manualPaused) { showPlay in
+            self.manualPaused = showPlay
+        }
+        return UIBarButtonItem(customView: conrolButton)
     }()
     
     fileprivate lazy var cancalEditGIFTagItem: UIBarButtonItem = {
@@ -62,54 +70,39 @@ class GIFListViewController: UIViewController {
         return buttonItem
     }()
     
+    fileprivate lazy var titleView: LoadingTitleView = {
+        return LoadingTitleView()
+    }()
+    
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             collectionView.registerFooterOf(GIFListFooter.self)
         }
     }
-
-    fileprivate lazy var titleLabel: UILabel = {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-        label.text = "/jif/"
-        label.font = UIFont.kenia(ofSize: 26)
-        label.textColor = .textTint
-        label.textAlignment = .center
-        return label
-    }()
-    
-    fileprivate var notifiToken: NotificationToken?
-    
-    fileprivate var currentTag: Tag?
-    fileprivate var manualPaused = false
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.titleView = titleView
         navigationController?.setToolbarHidden(true, animated: false)
         
-        navigationItem.titleView = titleLabel
-        
+        manualPaused = NGUserDefaults.shouldAutoPause
         navigationItem.rightBarButtonItem = playControlItem
-        navigationItem.rightBarButtonItem?.tintColor = .gray
         
+        HUD.show(.fetchGIF)
         PHPhotoLibrary.requestAuthorization { status in
-            guard status == .authorized else { return }
+            guard status == .authorized else { HUD.hide(); return }
             
             DispatchQueue.main.safeAsync {
-                
-                HUD.show(.fetchGIF)
-                
                 NotGIFLibrary.shared.prepare(completion: { (lastTag, needBgUpdate) in
-                    self.showGIFList(of: lastTag)
                     HUD.hide()
+                    self.showGIFList(of: lastTag)
+                    if needBgUpdate { self.titleView.update(isLoading: true) }
                     
-                    if needBgUpdate {
-                        
-                    }
                 }, bgUpdateCompletion: {
-                    
+                    self.titleView.update(isLoading: false)
                 })
             }
         }
@@ -127,7 +120,6 @@ class GIFListViewController: UIViewController {
         setDrawerPanGes(enable: true)
 
         selectIndexPath = nil
-        // fix delegate
         navigationController?.delegate = self
     }
     
@@ -168,13 +160,6 @@ class GIFListViewController: UIViewController {
     }
     
     // MARK: - Button/Item Action
-    
-    func autoplayItemClicked() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: shouldPlay ? .play : .pause, target: self, action: #selector(autoplayItemClicked))
-        navigationItem.rightBarButtonItem?.tintColor = .gray
-        manualPaused = shouldPlay
-        shouldPlay = !shouldPlay
-    }
     
     @IBAction func sideBarItemClicked(_ sender: UIBarButtonItem) {
         if let drawer = navigationController?.parent as? DrawerViewController {
@@ -316,8 +301,11 @@ extension GIFListViewController: UIPopoverPresentationControllerDelegate {
 extension GIFListViewController {
     
     func checkToUpdateGIFList(with noti: Notification) {
-        guard let selectTag = noti.object as? Tag, selectTag.id != currentTag?.id
-            else { return }
+        guard let selectTag = noti.object as? Tag else { return }
+        
+        if let currentTag = currentTag, !currentTag.isInvalidated, currentTag.id == selectTag.id {
+            return
+        }
         
         if isEditingGIFsTag {
             endEditGIFsTag(noReload: false)

@@ -25,7 +25,8 @@
 		983547921EE954D500D84274 /* PopDetailAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983547911EE954D500D84274 /* PopDetailAnimator.swift */; };
 		9850BE321EEA50DE00D6CE88 /* String+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B7AD81EE75EC1008E20BB /* String+NG.swift */; };
 		98540F231EF3CBDE002EC443 /* LongPressPopShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98540F221EF3CBDE002EC443 /* LongPressPopShareView.swift */; };
-		98557AFA1EDE77EF007C7E22 /* StatusBarLoadingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AF21EDE77EF007C7E22 /* StatusBarLoadingLayer.swift */; };
+		98540F481EF7DABB002EC443 /* ThrottleTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98540F471EF7DABB002EC443 /* ThrottleTimer.swift */; };
+		98540F4A1EF7DB15002EC443 /* PlayControlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98540F491EF7DB15002EC443 /* PlayControlButton.swift */; };
 		98557AFB1EDE77EF007C7E22 /* StatusBarToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557AF41EDE77EF007C7E22 /* StatusBarToast.swift */; };
 		98557B211EE002C9007C7E22 /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557B201EE002C9007C7E22 /* DrawerViewController.swift */; };
 		98557B241EE003CD007C7E22 /* SideBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98557B231EE003CD007C7E22 /* SideBarViewController.swift */; };
@@ -66,6 +67,7 @@
 		C9875BA71EF54D1A001ABCF4 /* CustomToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9875BA61EF54D1A001ABCF4 /* CustomToolBar.swift */; };
 		C9875BA91EF58315001ABCF4 /* Array+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9875BA81EF58315001ABCF4 /* Array+NG.swift */; };
 		C9875BAB1EF625BE001ABCF4 /* Realm+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9875BAA1EF625BE001ABCF4 /* Realm+NG.swift */; };
+		C9875BAD1EF819AC001ABCF4 /* LoadingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9875BAC1EF819AB001ABCF4 /* LoadingTitleView.swift */; };
 		C994D9A61EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */; };
 		C994D9A71EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */; };
 		C99FB2C31EF4DD2200A31D0A /* AddTagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99FB2C21EF4DD2200A31D0A /* AddTagListViewController.swift */; };
@@ -78,7 +80,6 @@
 		C9BDEC811EE2A0FC00EF99A8 /* NGWeakProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC7F1EE2A0FC00EF99A8 /* NGWeakProxy.swift */; };
 		C9BDEC871EE2A4E200EF99A8 /* UIColor+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC861EE2A4E200EF99A8 /* UIColor+NG.swift */; };
 		C9BDEC881EE2A4E200EF99A8 /* UIColor+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC861EE2A4E200EF99A8 /* UIColor+NG.swift */; };
-		C9BDEC8D1EE2D25A00EF99A8 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C9BDEC8C1EE2D25A00EF99A8 /* logo.png */; };
 		C9BDEC8F1EE2D83600EF99A8 /* TagListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC8E1EE2D83600EF99A8 /* TagListCell.swift */; };
 		C9BDEC911EE2FBC300EF99A8 /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC901EE2FBC300EF99A8 /* FontAwesome.swift */; };
 		C9BDEC921EE2FBC300EF99A8 /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BDEC901EE2FBC300EF99A8 /* FontAwesome.swift */; };
@@ -160,7 +161,8 @@
 		9835478F1EE954BD00D84274 /* PushDetailAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushDetailAnimator.swift; sourceTree = "<group>"; };
 		983547911EE954D500D84274 /* PopDetailAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopDetailAnimator.swift; sourceTree = "<group>"; };
 		98540F221EF3CBDE002EC443 /* LongPressPopShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LongPressPopShareView.swift; sourceTree = "<group>"; };
-		98557AF21EDE77EF007C7E22 /* StatusBarLoadingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarLoadingLayer.swift; sourceTree = "<group>"; };
+		98540F471EF7DABB002EC443 /* ThrottleTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThrottleTimer.swift; sourceTree = "<group>"; };
+		98540F491EF7DB15002EC443 /* PlayControlButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayControlButton.swift; sourceTree = "<group>"; };
 		98557AF41EDE77EF007C7E22 /* StatusBarToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarToast.swift; sourceTree = "<group>"; };
 		98557B201EE002C9007C7E22 /* DrawerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
 		98557B231EE003CD007C7E22 /* SideBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarViewController.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 		C9875BA61EF54D1A001ABCF4 /* CustomToolBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomToolBar.swift; sourceTree = "<group>"; };
 		C9875BA81EF58315001ABCF4 /* Array+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+NG.swift"; sourceTree = "<group>"; };
 		C9875BAA1EF625BE001ABCF4 /* Realm+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+NG.swift"; sourceTree = "<group>"; };
+		C9875BAC1EF819AB001ABCF4 /* LoadingTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingTitleView.swift; sourceTree = "<group>"; };
 		C994D9A11EDBBFCA00A0D6A8 /* NotGIF_Bridging_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotGIF_Bridging_Header.h; sourceTree = "<group>"; };
 		C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadHelper.swift; sourceTree = "<group>"; };
 		C99FB2C21EF4DD2200A31D0A /* AddTagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagListViewController.swift; sourceTree = "<group>"; };
@@ -201,7 +204,6 @@
 		C9BDEC761EE2A0CE00EF99A8 /* NotGIFImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIFImageView.swift; sourceTree = "<group>"; };
 		C9BDEC7F1EE2A0FC00EF99A8 /* NGWeakProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGWeakProxy.swift; sourceTree = "<group>"; };
 		C9BDEC861EE2A4E200EF99A8 /* UIColor+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+NG.swift"; sourceTree = "<group>"; };
-		C9BDEC8C1EE2D25A00EF99A8 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		C9BDEC8E1EE2D83600EF99A8 /* TagListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListCell.swift; sourceTree = "<group>"; };
 		C9BDEC901EE2FBC300EF99A8 /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
 		C9C7DC2E1EE3FDBA002B26A0 /* PHAsset+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PHAsset+NG.swift"; sourceTree = "<group>"; };
@@ -266,10 +268,12 @@
 			isa = PBXGroup;
 			children = (
 				980566D81EEE7E4B009B86C8 /* CustomLabel.swift */,
+				C9875BAC1EF819AB001ABCF4 /* LoadingTitleView.swift */,
 				98088E891EE8026000ECED6C /* CustomRowAction.swift */,
 				C9875BA61EF54D1A001ABCF4 /* CustomToolBar.swift */,
 				98088E8A1EE8026000ECED6C /* CustomTextField.swift */,
 				C97BF3D11EF518DA00620E0E /* AddTagTextfieldHeader.swift */,
+				98540F491EF7DB15002EC443 /* PlayControlButton.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -345,7 +349,6 @@
 		98557AEA1EDE77EF007C7E22 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				98557AF21EDE77EF007C7E22 /* StatusBarLoadingLayer.swift */,
 				C9BDEC721EE2A0CE00EF99A8 /* GIF */,
 				C9BDEC671EE2A01500EF99A8 /* Cell */,
 				C92880031EF072E000FB5115 /* Footer */,
@@ -377,7 +380,6 @@
 		98557B221EE003C0007C7E22 /* SideBar */ = {
 			isa = PBXGroup;
 			children = (
-				C9BDEC8C1EE2D25A00EF99A8 /* logo.png */,
 				98557B231EE003CD007C7E22 /* SideBarViewController.swift */,
 			);
 			path = SideBar;
@@ -515,6 +517,7 @@
 		C994D9A41EDD7F9A00A0D6A8 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				98540F471EF7DABB002EC443 /* ThrottleTimer.swift */,
 				C994D9A51EDD7FAD00A0D6A8 /* ThreadHelper.swift */,
 				C9BDEC7F1EE2A0FC00EF99A8 /* NGWeakProxy.swift */,
 				C9BDEC901EE2FBC300EF99A8 /* FontAwesome.swift */,
@@ -749,7 +752,6 @@
 				C947E0971DAA279900625B72 /* Assets.xcassets in Resources */,
 				C9E3F10D1EED36CD0018943C /* Localizable.strings in Resources */,
 				9811341B1EDE76FF00D4097D /* Main.storyboard in Resources */,
-				C9BDEC8D1EE2D25A00EF99A8 /* logo.png in Resources */,
 				C9E3F0EA1EED363B0018943C /* FontAwesome.otf in Resources */,
 				C9E3F0EE1EED363B0018943C /* Shojumaru-Regular.ttf in Resources */,
 			);
@@ -876,7 +878,7 @@
 				C92880051EF0730400FB5115 /* GIFListFooter.swift in Sources */,
 				C90B9CB01EEC2F3D00C971C1 /* BaseNavigationController.swift in Sources */,
 				C90D1AD21EEC234500862CF5 /* CGGeometry+NG.swift in Sources */,
-				98557AFA1EDE77EF007C7E22 /* StatusBarLoadingLayer.swift in Sources */,
+				98540F4A1EF7DB15002EC443 /* PlayControlButton.swift in Sources */,
 				C94D68101EED8C85004B8E5A /* StatusBarToast+NG.swift in Sources */,
 				98A9FD6C1EE68CFD001A761D /* GIFListLayout.swift in Sources */,
 				98FD09771EE7A6880078DEB0 /* UICollectionView+NG.swift in Sources */,
@@ -886,6 +888,7 @@
 				983547921EE954D500D84274 /* PopDetailAnimator.swift in Sources */,
 				981134141EDE766600D4097D /* ComposeViewController.swift in Sources */,
 				C9E9AD681ED8544700C34DF4 /* Config.swift in Sources */,
+				C9875BAD1EF819AC001ABCF4 /* LoadingTitleView.swift in Sources */,
 				C9E3F0D01EED31BD0018943C /* OpenShare.swift in Sources */,
 				C92880011EEEDC3F00FB5115 /* GIFShareBar.swift in Sources */,
 				C97BF3D21EF518DA00620E0E /* AddTagTextfieldHeader.swift in Sources */,
@@ -900,6 +903,7 @@
 				9827EDD41EEA9F170043288F /* GIFBaseCell.swift in Sources */,
 				C9E3F0D31EED32C80018943C /* FPSLabel.swift in Sources */,
 				C9BDEC911EE2FBC300EF99A8 /* FontAwesome.swift in Sources */,
+				98540F481EF7DABB002EC443 /* ThrottleTimer.swift in Sources */,
 				C9E3F0D11EED31BD0018943C /* SLRequestManger.swift in Sources */,
 				C91E0FA41EE4697700F56737 /* RealmConfig.swift in Sources */,
 				98088E8C1EE8026000ECED6C /* CustomTextField.swift in Sources */,
@@ -1085,6 +1089,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
@@ -1144,6 +1149,7 @@
 				INFOPLIST_FILE = notGIF/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D CONTAINER_TARGET";
 				PRODUCT_BUNDLE_IDENTIFIER = atuo.xyz.notGIF;
 				PRODUCT_NAME = "$(TARGET_NAME)";

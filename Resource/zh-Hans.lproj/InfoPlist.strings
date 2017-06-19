@@ -6,4 +6,4 @@
   Copyright © 2017 xyz. All rights reserved.
 */
 
-"NSPhotoLibraryUsageDescription" = "Send or save photos, set avatar";
+"NSPhotoLibraryUsageDescription" = "notGIF 需要照片访问权限";

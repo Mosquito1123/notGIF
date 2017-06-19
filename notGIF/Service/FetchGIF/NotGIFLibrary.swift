@@ -28,11 +28,11 @@ class NotGIFLibrary: NSObject {
         return PHAsset.fetchAssets(with: .image, options: fetchOptions)
     }()
     
-    fileprivate lazy var bgFetchQueue: DispatchQueue = {
-        return DispatchQueue(label: "com.notGIF.bgFetch", qos: .background)
+    fileprivate lazy var bgFetchQueue: DispatchQueue = {    // TODO: - Concurrent
+        return DispatchQueue(label: "com.notGIF.bgFetch", qos: .utility)
     }()
     
-    fileprivate lazy var queuePool: DispatchQueuePool = {   // to use more kernel
+    fileprivate lazy var queuePool: DispatchQueuePool = {
         return DispatchQueuePool(name: "com.notGIF.getGIF", qos: .utility, queueCount: 6)
     }()
     
@@ -41,8 +41,13 @@ class NotGIFLibrary: NSObject {
             let realm = try Realm()
             
             let completionHandler: (Bool) -> Void = { needBgUpdate in
-                let selectTag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTagID)
-                completion(selectTag, needBgUpdate)
+                if let selectTag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTagID) {
+                    completion(selectTag, needBgUpdate)
+                } else {
+                    let defaultTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID)
+                    NGUserDefaults.lastSelectTagID = Config.defaultTagID
+                    completion(defaultTag, needBgUpdate)
+                }
             }
             
             if NGUserDefaults.haveFetched { // 直接从 Realm 中获取 GIF 信息
@@ -68,7 +73,9 @@ class NotGIFLibrary: NSObject {
                 // 后台更新 GIF Library
                 bgFetchQueue.async { [unowned self] in
                     self.updateGIFLibrary(with: Set<PHAsset>(tempAllGIFAessts))
-                    bgUpdateCompletion?()
+                    DispatchQueue.main.async {
+                        bgUpdateCompletion?()
+                    }
                 }
                 
             } else {    // 从 Photos 中获取 GIF

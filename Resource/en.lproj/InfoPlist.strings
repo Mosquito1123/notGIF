@@ -6,4 +6,4 @@
   Copyright © 2017 xyz. All rights reserved.
 */
 
-"NSPhotoLibraryUsageDescription" = "Send or save photos, set avatar";
+"NSPhotoLibraryUsageDescription" = "Displays GIFs to demonstrate the Photos framework.";

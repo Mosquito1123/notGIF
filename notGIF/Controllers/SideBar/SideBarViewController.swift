@@ -40,7 +40,12 @@ class SideBarViewController: UIViewController {
         
         guard let realm = try? Realm() else { return }
         
-        selectTag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTagID)
+        if let tag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTagID) {
+            selectTag = tag
+        } else {
+            selectTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID)
+            NGUserDefaults.lastSelectTagID = Config.defaultTagID
+        }
         
         tagResult = realm.objects(Tag.self).sorted(byKeyPath: "createDate", ascending: false)
         notifiToken = tagResult.addNotificationBlock { [weak self] changes in
@@ -52,8 +57,8 @@ class SideBarViewController: UIViewController {
                 
             case .update(_, let deletions, let insertions, let modifications):
                 tableView.beginUpdates()
-                tableView.deleteRows(at: deletions.map{ IndexPath(row: $0, section: 0) }, with: .left)
                 tableView.insertRows(at: insertions.map{ IndexPath(row: $0, section: 0) }, with: .bottom)
+                tableView.deleteRows(at: deletions.map{ IndexPath(row: $0, section: 0) }, with: .left)
                 tableView.reloadRows(at: modifications.map{ IndexPath(row: $0, section: 0) }, with: .fade)
                 tableView.endUpdates()
                 
@@ -78,7 +83,7 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TagListCell = tableView.dequeueReusableCell()
         let tag = tagResult[indexPath.item]
-        cell.configure(with: tag, isSelected: tag.id == selectTag.id)
+        cell.configure(with: tag, isSelected: selectTag.isInvalidated ? false : tag.id == selectTag.id)
 
         cell.editDoneHandler = { [unowned self] text in
             guard let realm = try? Realm(),
@@ -97,16 +102,13 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
         }
         
-        let tag = tagResult[indexPath.item]
-        guard !isEditingTag, tag.id != selectTag.id else {
-            return
-        }
+        guard !isEditingTag else { return }
         
-        selectTag = tag
+        selectTag = tagResult[indexPath.item]
         tableView.reloadData()
         
         (parent as? DrawerViewController)?.dismissSideBar()
-        NotificationCenter.default.post(name: .didSelectTag, object: tag)
+        NotificationCenter.default.post(name: .didSelectTag, object: selectTag)
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -118,7 +120,6 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
         
         let deleteRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_delete"), bgColor: .deleteRed) { [unowned self] (_, rowActionIP) in
             
-            self.tableView.setEditing(false, animated: true)
             Alert.show(.confirmDeleteTag(self.tagResult[indexPath.item].name)) {
                 self.deleteTag(at: rowActionIP)
             }
@@ -145,8 +146,15 @@ extension SideBarViewController {
     fileprivate func deleteTag(at indexPath: IndexPath) {
         guard let realm = try? Realm() else { return }
         
+        let tag = tagResult[indexPath.item]
+        if tag.id == selectTag.id { // 若删除当前选中 Tag，则将 gif 列表更新至默认标签
+            selectTag = tagResult[0]
+            tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
+            NotificationCenter.default.post(name: .didSelectTag, object: selectTag)
+        }
+        
         try? realm.write {
-            realm.delete(tagResult[indexPath.item])
+            realm.delete(tag)
         }
     }
     
