@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import SnapKit
 import RealmSwift
 import MBProgressHUD
 
@@ -59,13 +60,15 @@ class GIFListViewController: UIViewController {
     fileprivate lazy var playControlItem: UIBarButtonItem = {
         let conrolButton = PlayControlButton(showPlay: self.manualPaused) { showPlay in
             self.manualPaused = showPlay
+            NGUserDefaults.shouldAutoPause = showPlay
         }
         return UIBarButtonItem(customView: conrolButton)
     }()
     
     fileprivate lazy var cancalEditGIFTagItem: UIBarButtonItem = {
         let buttonItem = UIBarButtonItem(title: String.trans_titleCancel, style: .plain, target: self, action: #selector(GIFListViewController.endEditGIFsTag(noReload:)))
-        buttonItem.setTitleTextAttributes([NSFontAttributeName: UIFont.menlo(ofSize: 17)], for: .normal)
+        let font = Config.isChinese ? UIFont.systemFont(ofSize: 17, weight: 20) : UIFont.menlo(ofSize: 17)
+        buttonItem.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
         buttonItem.tintColor = UIColor.textTint
         return buttonItem
     }()
@@ -74,9 +77,18 @@ class GIFListViewController: UIViewController {
         return LoadingTitleView()
     }()
     
+    fileprivate lazy var sloganView: UIImageView = {
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "slogan"))
+        imageView.frame = CGRect(x: 0, y: -90, width: kScreenWidth, height: 40)
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = UIColor.lightGray
+        return imageView
+    }()
+    
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             collectionView.registerFooterOf(GIFListFooter.self)
+            collectionView.addSubview(sloganView)
         }
     }
     
@@ -90,14 +102,16 @@ class GIFListViewController: UIViewController {
         
         manualPaused = NGUserDefaults.shouldAutoPause
         navigationItem.rightBarButtonItem = playControlItem
+                
+        let hudView = navigationController?.view
+        HUD.show(to: hudView, .fetchGIF)
         
-        HUD.show(.fetchGIF)
         PHPhotoLibrary.requestAuthorization { status in
-            guard status == .authorized else { HUD.hide(); return }
+            guard status == .authorized else { HUD.hide(in: hudView); return }
             
             DispatchQueue.main.safeAsync {
                 NotGIFLibrary.shared.prepare(completion: { (lastTag, needBgUpdate) in
-                    HUD.hide()
+                    HUD.hide(in: hudView)
                     self.showGIFList(of: lastTag)
                     if needBgUpdate { self.titleView.update(isLoading: true) }
                     
@@ -223,6 +237,7 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? GIFListCell else { return }
         cell.imageView.cancelTask()
+        cell.imageView.stopAnimating()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

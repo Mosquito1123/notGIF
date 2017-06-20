@@ -16,6 +16,6 @@ func println(_ item: @autoclosure () -> Any) {
 
 func printLog<T>(_ message: T, file: String = #file, method: String = #function, line: Int = #line) {
     #if DEBUG
-    print("\n\((file as NSString).lastPathComponent)[\(line)]: \n - \(method): \(message)\n")
+    print("\n\((file as NSString).lastPathComponent)[\(line)]: - \(method): \(message)\n")
     #endif
 }

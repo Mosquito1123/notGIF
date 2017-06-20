@@ -30,9 +30,14 @@ class GIFListCell: GIFBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        timeLabel.text = nil
         
         let longPressGes = UILongPressGestureRecognizer(target: self, action: #selector(GIFListCell.longPressGesHandler(ges:)))
         addGestureRecognizer(longPressGes)
+    }
+    
+    deinit {
+        printLog("deinited")
     }
     
     public func update(isChoosed: Bool, animate: Bool) {

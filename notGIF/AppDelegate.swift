@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setIQKeyboardManager()
         
-        Realm.Configuration.defaultConfiguration = realmConfig()
         prepareRealm()
         
         return true

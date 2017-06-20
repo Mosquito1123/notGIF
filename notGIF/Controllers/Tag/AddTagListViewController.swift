@@ -110,6 +110,8 @@ class AddTagListViewController: UIViewController {
             }
         }
         
+        HUD.show(text: String.trans_titleAddDone)
+        
         // TODO: - HUD
         dismiss(animated: true) {
             self.addGIFTagCompletion?()

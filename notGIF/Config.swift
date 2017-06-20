@@ -17,6 +17,10 @@ final public class Config {
     static let urlScheme    = "notGIF://"
     
     static let sideBarWidth = 0.72 * kScreenWidth    // -> Main.storybord
+    
+    static var isChinese: Bool {
+        return Locale.current.languageCode == "zh"
+    }
 }
 
 extension Notification.Name {
@@ -33,11 +37,7 @@ extension UIColor {
     
     static let darkText     = UIColor.hex(0x666666)
     static let lightText    = UIColor.hex(0x999999)     // 0x7f8c8d
-    static let bgColor      = UIColor.hex(0x1d1d1d)
-    
-    static var isChinese: Bool {
-        return Locale.current.languageCode == "zh"
-    }
+    static let bgColor      = UIColor.hex(0x181818)
 }
 
 extension UIFont {

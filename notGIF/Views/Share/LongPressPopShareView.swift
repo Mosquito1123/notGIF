@@ -12,7 +12,7 @@ class LongPressPopShareView: UIView {
 
     fileprivate var iconViews: [UIView] = []
     fileprivate var iconTriggerRects: [CGRect] = []
-    fileprivate var shareTypes: [ShareType] = [.more, .twitter, .weibo, .tag]
+    fileprivate var shareTypes: [ShareType] = [.more, .twitter, .weibo, .wechat, .tag]
     fileprivate var hasChanged: Bool = false
     
     fileprivate var cellMaskRect: CGRect = .zero
@@ -23,8 +23,8 @@ class LongPressPopShareView: UIView {
         
         cellMaskRect = cellRect
 
-        if OpenShare.canOpen(.wechat) {
-            shareTypes.append(.wechat)
+        if !OpenShare.canOpen(.wechat) {
+            shareTypes.remove(.wechat)
         }
         
         let iconS: CGFloat = 36

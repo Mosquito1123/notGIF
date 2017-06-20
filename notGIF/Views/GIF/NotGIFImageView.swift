@@ -71,6 +71,7 @@ class NotGIFImageView: UIImageView {
     deinit {
         displayLink?.invalidate()
         displayLink = nil
+        printLog("deinited")
     }
     
     // MARK: - Animating Image

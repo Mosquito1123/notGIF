@@ -9,5 +9,7 @@
 import UIKit
 
 class GIFDetailCell: GIFBaseCell {
-
+    deinit {
+        printLog("deinited")
+    }
 }

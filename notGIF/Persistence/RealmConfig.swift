@@ -27,14 +27,15 @@ public func realmConfig(readOnly: Bool = false) -> Realm.Configuration {
 }
 
 public func prepareRealm() {
+    Realm.Configuration.defaultConfiguration = realmConfig()
     guard let realm = try? Realm() else { return }
     
     if let _ = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID) {
         
     } else {
         
-        // 创建于 100 年后
-        let date = Date(timeIntervalSinceNow: 3153600000) 
+        // 创建于 1000 年以后
+        let date = Date(timeIntervalSinceNow: 31536000000)
         let defaultTag = Tag(id: Config.defaultTagID, name: "所有", date: date)
 
         try? realm.write {

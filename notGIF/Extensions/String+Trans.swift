@@ -78,6 +78,10 @@ extension String {
     static var trans_titleUpdating: String {
         return NSLocalizedString("title.updating", comment: "")
     }
+    
+    static var trans_titleAddDone: String {
+        return NSLocalizedString("title.add_done", comment: "")
+    }
 }
 
 // MARK: - Toast

@@ -183,7 +183,6 @@
 		C947E08C1DAA279900625B72 /* notGIF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notGIF.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C947E08F1DAA279900625B72 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C947E0961DAA279900625B72 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C947E0991DAA279900625B72 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C947E09B1DAA279900625B72 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C94D680F1EED8C85004B8E5A /* StatusBarToast+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StatusBarToast+NG.swift"; sourceTree = "<group>"; };
 		C95B7AD81EE75EC1008E20BB /* String+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+NG.swift"; sourceTree = "<group>"; };
@@ -208,6 +207,7 @@
 		C9BDEC901EE2FBC300EF99A8 /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
 		C9C7DC2E1EE3FDBA002B26A0 /* PHAsset+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PHAsset+NG.swift"; sourceTree = "<group>"; };
 		C9C7DC301EE3FDDE002B26A0 /* ScreenSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenSize.swift; sourceTree = "<group>"; };
+		C9D03E8B1EF96B280060C699 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9E3F0CB1EED2F650018943C /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		C9E3F0CE1EED31BD0018943C /* OpenShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenShare.swift; sourceTree = "<group>"; };
 		C9E3F0CF1EED31BD0018943C /* SLRequestManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLRequestManger.swift; sourceTree = "<group>"; };
@@ -267,12 +267,12 @@
 		98088E881EE8026000ECED6C /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				C97BF3D11EF518DA00620E0E /* AddTagTextfieldHeader.swift */,
 				980566D81EEE7E4B009B86C8 /* CustomLabel.swift */,
 				C9875BAC1EF819AB001ABCF4 /* LoadingTitleView.swift */,
 				98088E891EE8026000ECED6C /* CustomRowAction.swift */,
 				C9875BA61EF54D1A001ABCF4 /* CustomToolBar.swift */,
 				98088E8A1EE8026000ECED6C /* CustomTextField.swift */,
-				C97BF3D11EF518DA00620E0E /* AddTagTextfieldHeader.swift */,
 				98540F491EF7DB15002EC443 /* PlayControlButton.swift */,
 			);
 			path = Custom;
@@ -968,7 +968,7 @@
 		C947E0981DAA279900625B72 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C947E0991DAA279900625B72 /* Base */,
+				C9D03E8B1EF96B280060C699 /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

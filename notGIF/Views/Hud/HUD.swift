@@ -38,9 +38,9 @@ class HUD {
         hud.backgroundView.color = .clear
         
         if scene == .fetchGIF {
-            hud.offset = CGPoint(x: 0, y: -kScreenHeight / 4)
+            hud.offset = CGPoint(x: 0, y: -superView.frame.height/4)
         }
-        
+                
         hud.label.text = scene.message
         hud.label.font = UIFont.menlo(ofSize: 12)
     }
@@ -50,5 +50,20 @@ class HUD {
         DispatchQueue.main.async {
             MBProgressHUD.hide(for: superView, animated: true)
         }
+    }
+    
+    class func show(to view: UIView? = nil, text: String, delay: TimeInterval = 1) {
+        guard let superView = view ?? UIApplication.shared.keyWindow else { return }
+        
+        let hud = MBProgressHUD.showAdded(to: superView, animated: true)
+        hud.mode = .text
+        hud.margin = 10
+        hud.contentColor = .textTint
+        hud.bezelView.color = .bgColor
+//        hud.bezelView.style = .solidColor
+        hud.label.text = text
+        hud.label.font = UIFont.menlo(ofSize: 15)
+        
+        hud.hide(animated: true, afterDelay: delay)
     }
 }

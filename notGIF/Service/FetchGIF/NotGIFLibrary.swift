@@ -71,8 +71,8 @@ class NotGIFLibrary: NSObject {
                 completionHandler(true)
                 
                 // 后台更新 GIF Library
-                bgFetchQueue.async { [unowned self] in
-                    self.updateGIFLibrary(with: Set<PHAsset>(tempAllGIFAessts))
+                bgFetchQueue.async { [weak self] in
+                    self?.updateGIFLibrary(with: Set<PHAsset>(tempAllGIFAessts))
                     DispatchQueue.main.async {
                         bgUpdateCompletion?()
                     }
@@ -185,12 +185,12 @@ class NotGIFLibrary: NSObject {
             let workItem = DispatchWorkItem(flags: [.inheritQoS, .detached], block: {
                 PHImageManager.default().requestImageData(for: gifAsset,
                                                           options: requestOptions,
-                                                          resultHandler: { [unowned self] (data, UTI, _, _) in
+                                                          resultHandler: { [weak self] (data, UTI, _, _) in
                                                             
                     if let uti = UTI, UTTypeConformsTo(uti as CFString, kUTTypeGIF),
                         let gifData = data, let gif = NotGIFImage(gifData: gifData) {
                         
-                        self.gifPool[id] = gif
+                        self?.gifPool[id] = gif
                         completionHandler(gif, id, true)
                     }
                 })

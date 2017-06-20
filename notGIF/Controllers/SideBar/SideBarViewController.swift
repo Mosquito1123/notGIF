@@ -85,12 +85,12 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
         let tag = tagResult[indexPath.item]
         cell.configure(with: tag, isSelected: selectTag.isInvalidated ? false : tag.id == selectTag.id)
 
-        cell.editDoneHandler = { [unowned self] text in
-            guard let realm = try? Realm(),
+        cell.editDoneHandler = { [weak self] text in
+            guard let realm = try? Realm(), let sSelf = self,
                 let editIP = tableView.indexPath(for: cell) else { return }
             
             try? realm.write {
-                realm.add(self.tagResult[editIP.item].update(with: text), update: true)
+                realm.add(sSelf.tagResult[editIP.item].update(with: text), update: true)
             }
         }
         
@@ -113,15 +113,15 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let actionSize = CGSize(width: 40, height: TagListCell.height)
-        let editRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_edit"), bgColor: .editYellow) { [unowned self] (_, rowActionIP) in
+        let editRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_edit"), bgColor: .editYellow) { [weak self] (_, rowActionIP) in
             
-            self.beginEditTag(at: rowActionIP)
+            self?.beginEditTag(at: rowActionIP)
         }
         
-        let deleteRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_delete"), bgColor: .deleteRed) { [unowned self] (_, rowActionIP) in
-            
-            Alert.show(.confirmDeleteTag(self.tagResult[indexPath.item].name)) {
-                self.deleteTag(at: rowActionIP)
+        let deleteRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_delete"), bgColor: .deleteRed) { [weak self] (_, rowActionIP) in
+            guard let sSelf = self else { return }
+            Alert.show(.confirmDeleteTag(sSelf.tagResult[indexPath.item].name)) {
+                self?.deleteTag(at: rowActionIP)
             }
         }
         
