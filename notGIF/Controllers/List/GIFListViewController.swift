@@ -97,19 +97,23 @@ class GIFListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if !NGUserDefaults.haveShowIntro {
+            performSegue(withIdentifier: "showIntro", sender: nil)
+        }
+        
         navigationItem.titleView = titleView
         navigationController?.setToolbarHidden(true, animated: false)
         
         manualPaused = NGUserDefaults.shouldAutoPause
         navigationItem.rightBarButtonItem = playControlItem
-                
-        let hudView = navigationController?.view
-        HUD.show(to: hudView, .fetchGIF)
         
+        let hudView = navigationController?.view
         PHPhotoLibrary.requestAuthorization { status in
-            guard status == .authorized else { HUD.hide(in: hudView); return }
+            guard status == .authorized else { return }
             
-            DispatchQueue.main.safeAsync {
+            DispatchQueue.main.async {
+                HUD.show(to: hudView, .fetchGIF)
+
                 NotGIFLibrary.shared.prepare(completion: { (lastTag, needBgUpdate) in
                     HUD.hide(in: hudView)
                     self.showGIFList(of: lastTag)
@@ -124,7 +128,7 @@ class GIFListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(GIFListViewController.checkToUpdateGIFList(with:)), name: .didSelectTag, object: nil)
         
         #if DEBUG
-            view.addSubview(FPSLabel())
+//            view.addSubview(FPSLabel())
         #endif
     }
     

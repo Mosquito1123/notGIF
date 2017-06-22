@@ -24,12 +24,17 @@ public enum HUDShowScene {
 
 class HUD {
     
+    init(scene: HUDShowScene) {
+        
+        
+    }
+
     class func show(to view: UIView? = nil, _ scene: HUDShowScene) {
         guard let superView = view ?? UIApplication.shared.keyWindow else { return }
         
+//        DispatchQueue.main.async {
         let hud = MBProgressHUD.showAdded(to: superView, animated: true)
-        
-        hud.removeFromSuperViewOnHide = true
+        hud.removeFromSuperViewOnHide = false
         hud.mode = .indeterminate
         hud.animationType = .fade
         hud.contentColor = .textTint
@@ -40,9 +45,12 @@ class HUD {
         if scene == .fetchGIF {
             hud.offset = CGPoint(x: 0, y: -superView.frame.height/4)
         }
-                
+        
         hud.label.text = scene.message
         hud.label.font = UIFont.menlo(ofSize: 12)
+        hud.layer.zPosition = 1
+        
+//        }
     }
     
     class func hide(in view: UIView? = nil) {

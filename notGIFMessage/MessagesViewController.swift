@@ -36,11 +36,10 @@ class MessagesViewController: MSMessagesAppViewController {
         
         prepareRealm()
         
-        HUD.show(to: self.collectionView, .fetchGIF)
-
         PHPhotoLibrary.requestAuthorization { status in
             guard status == .authorized else { HUD.hide(in: self.collectionView) ; return }
             
+            HUD.show(to: self.collectionView, .fetchGIF)
             DispatchQueue.main.safeAsync {
                 NotGIFLibrary.shared.prepare(completion: { (_, _) in
                     self.showAllGIF()

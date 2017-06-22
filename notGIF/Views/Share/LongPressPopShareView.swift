@@ -24,7 +24,7 @@ class LongPressPopShareView: UIView {
         cellMaskRect = cellRect
 
         if !OpenShare.canOpen(.wechat) {
-            shareTypes.remove(.wechat)
+//            shareTypes.remove(.wechat)
         }
         
         let iconS: CGFloat = 36
@@ -96,7 +96,7 @@ class LongPressPopShareView: UIView {
         let context = UIGraphicsGetCurrentContext()
         context?.setFillColor(UIColor.clear.cgColor)
         context?.setBlendMode(.clear)
-        context?.fillEllipse(in: cellMaskRect.insetBy(dx: 2, dy: 2))
+        context?.fillEllipse(in: cellMaskRect.insetBy(dx: 4, dy: 2))
     }
     
     public func update(with offset: CGPoint) {

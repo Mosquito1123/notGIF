@@ -37,6 +37,10 @@ class GIFListLayout: UICollectionViewLayout {
         return cachedAttributes[indexPath.item]
     }
     
+    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        return cachedAttributes.last
+    }
+    
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return false
     }

@@ -32,7 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.sharedManager().enableAutoToolbar = false
         IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = false
         IQKeyboardManager.sharedManager().keyboardDistanceFromTextField = 20
-        IQKeyboardManager.sharedManager().toolbarDoneBarButtonItemText = "完成"
         IQKeyboardManager.sharedManager().shouldShowTextFieldPlaceholder = false
     }
 

@@ -13,7 +13,7 @@ private let itemSize = CGFloat(58)
 class GIFShareBar: UIView {
     var shareHandler: ((ShareType) -> Void)?
     
-    private var shareTypes: [ShareType] = [.more, .twitter, .weibo, .message]
+    private var shareTypes: [ShareType] = [.more, .twitter, .weibo, .wechat, .message]
     private var shareButtons = [UIButton]()
     private var showedIndex = 0
     
@@ -28,8 +28,8 @@ class GIFShareBar: UIView {
     init() {
         super.init(frame: CGRect(x: 0, y: kScreenHeight - itemSize, width: kScreenWidth, height: itemSize))
         
-        if OpenShare.canOpen(.wechat) {
-            shareTypes.append(.wechat)
+        if !OpenShare.canOpen(.wechat) {
+//            shareTypes.remove(.wechat)
         }
         
         for i in 0 ..< shareTypes.count {

@@ -30,13 +30,20 @@ class DrawerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mainContainer.layer.shadowColor = UIColor.black.cgColor
+        mainContainer.layer.shadowOffset = CGSize(width: -2.0, height: -2.0)
+        mainContainer.layer.shadowOpacity = 0.33
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     // MARK: - Gesture Handler
     
     @IBAction func sidePanGesHandler(_ sender: UIPanGestureRecognizer) {
         let transitionX = sender.translation(in: view).x
-        let offsetX = gesBeginOffsetX + transitionX
+        let offsetX = max(min(kScreenWidth, gesBeginOffsetX + transitionX), 0)
         
         switch sender.state {
         case .began:
@@ -77,13 +84,14 @@ class DrawerViewController: UIViewController {
         
         UIView.animate(withDuration: animDuration,
                        delay: 0,
-                       usingSpringWithDamping: 0.7,
+                       usingSpringWithDamping: 0.6,
                        initialSpringVelocity: velocity,
-                       options: [],
+                       options: [.curveEaseIn],
                        animations: {
                         
             self.mainContainer.transform = CGAffineTransform(translationX: sideBarWidth, y: 0)
                                             .scaledBy(x: 1, y: finalScale)
+            
         }) { _ in
             
             self.mainContainer.isUserInteractionEnabled = false
@@ -95,7 +103,7 @@ class DrawerViewController: UIViewController {
         
         let velocity = offset == 0 ? 0 : abs(velocityX) / abs(offset)
         
-        UIView.animate(withDuration: animDuration,
+        UIView.animate(withDuration: animDuration*0.8,
                        delay: 0,
                        usingSpringWithDamping: 1,
                        initialSpringVelocity: velocity,
