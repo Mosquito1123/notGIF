@@ -22,6 +22,7 @@ class SideBarViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
+            tableView.registerNibOf(TagListCell.self)
             tableView.tableFooterView = UIView()
             tableView.rowHeight = TagListCell.height
         }

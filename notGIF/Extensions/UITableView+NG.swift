@@ -9,6 +9,12 @@
 import UIKit
 
 extension UITableView {
+    
+    func registerNibOf<T: UITableViewCell>(_: T.Type) where T: Reusable, T: NibLoadable {
+        let nib = UINib(nibName: T.ng_nibName, bundle: nil)
+        register(nib, forCellReuseIdentifier: T.ng_reuseIdentifier)
+    }
+    
     func registerClassOf<T: UITableViewCell>(_: T.Type) where T: Reusable {
         register(T.self, forCellReuseIdentifier: T.ng_reuseIdentifier)
     }

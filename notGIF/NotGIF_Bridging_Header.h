@@ -9,6 +9,5 @@
 #ifndef NotGIF_Bridging_Header_h
 #define NotGIF_Bridging_Header_h
 
-//#import <YYDispatchQueuePool/YYDispatchQueuePool.h>
 
 #endif /* NotGIF_Bridging_Header_h */

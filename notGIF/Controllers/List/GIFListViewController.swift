@@ -100,9 +100,10 @@ class GIFListViewController: UIViewController {
         if !NGUserDefaults.haveShowIntro {
             performSegue(withIdentifier: "showIntro", sender: nil)
         }
-        
+
         navigationItem.titleView = titleView
         navigationController?.setToolbarHidden(true, animated: false)
+        navigationController?.toolbar.isHidden = true
         
         manualPaused = NGUserDefaults.shouldAutoPause
         navigationItem.rightBarButtonItem = playControlItem
@@ -350,6 +351,7 @@ extension GIFListViewController {
         
         removeTagItem.isEnabled = currentTag?.id != Config.defaultTagID
         navigationItem.rightBarButtonItem = cancalEditGIFTagItem
+        navigationController?.toolbar.isHidden = false
         navigationController?.setToolbarHidden(false, animated: true)
     }
     
@@ -357,6 +359,7 @@ extension GIFListViewController {
         isEditingGIFsTag = false
         navigationItem.rightBarButtonItem = playControlItem
         navigationController?.setToolbarHidden(true, animated: true)
+        navigationController?.toolbar.isHidden = true
         
         shouldPlay = true
         selectGIFIPs.removeAll()

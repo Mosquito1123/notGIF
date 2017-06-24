@@ -53,6 +53,13 @@
 		C947E0901DAA279900625B72 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947E08F1DAA279900625B72 /* AppDelegate.swift */; };
 		C94D68101EED8C85004B8E5A /* StatusBarToast+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D680F1EED8C85004B8E5A /* StatusBarToast+NG.swift */; };
 		C95B7AD91EE75EC1008E20BB /* String+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B7AD81EE75EC1008E20BB /* String+NG.swift */; };
+		C96268511EFE0FD800930A89 /* NewIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96268501EFE0FD800930A89 /* NewIntroViewController.swift */; };
+		C962685A1EFE586400930A89 /* IntroShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96268591EFE586400930A89 /* IntroShareView.swift */; };
+		C962685C1EFE587000930A89 /* IntroTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962685B1EFE587000930A89 /* IntroTagView.swift */; };
+		C962685E1EFE592500930A89 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962685D1EFE592500930A89 /* NibLoadable.swift */; };
+		C962685F1EFE5AE500930A89 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962685D1EFE592500930A89 /* NibLoadable.swift */; };
+		C96268611EFE683E00930A89 /* TagListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C96268601EFE683E00930A89 /* TagListCell.xib */; };
+		C96268631EFE9CB800930A89 /* IntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96268621EFE9CB800930A89 /* IntroView.swift */; };
 		C963F77E1ED85044004405EB /* NotGIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963F77D1ED85044004405EB /* NotGIF.swift */; };
 		C963F77F1ED85044004405EB /* NotGIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963F77D1ED85044004405EB /* NotGIF.swift */; };
 		C963F7811ED8504E004405EB /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C963F7801ED8504E004405EB /* Tag.swift */; };
@@ -188,6 +195,12 @@
 		C947E09B1DAA279900625B72 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C94D680F1EED8C85004B8E5A /* StatusBarToast+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StatusBarToast+NG.swift"; sourceTree = "<group>"; };
 		C95B7AD81EE75EC1008E20BB /* String+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+NG.swift"; sourceTree = "<group>"; };
+		C96268501EFE0FD800930A89 /* NewIntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewIntroViewController.swift; sourceTree = "<group>"; };
+		C96268591EFE586400930A89 /* IntroShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroShareView.swift; sourceTree = "<group>"; };
+		C962685B1EFE587000930A89 /* IntroTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroTagView.swift; sourceTree = "<group>"; };
+		C962685D1EFE592500930A89 /* NibLoadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibLoadable.swift; sourceTree = "<group>"; };
+		C96268601EFE683E00930A89 /* TagListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagListCell.xib; sourceTree = "<group>"; };
+		C96268621EFE9CB800930A89 /* IntroView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroView.swift; sourceTree = "<group>"; };
 		C963F77D1ED85044004405EB /* NotGIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIF.swift; sourceTree = "<group>"; };
 		C963F7801ED8504E004405EB /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		C96560FC1EE7509400BC3A87 /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
@@ -359,6 +372,7 @@
 				C9BDEC671EE2A01500EF99A8 /* Cell */,
 				C92880031EF072E000FB5115 /* Footer */,
 				C9287FFF1EEEDC0F00FB5115 /* Share */,
+				C96268541EFE581600930A89 /* Intro */,
 				98159B3C1EE693E400341ACC /* Hud */,
 				98557AF31EDE77EF007C7E22 /* Toast */,
 				98A9FD6A1EE68CFD001A761D /* Layout */,
@@ -421,6 +435,7 @@
 			isa = PBXGroup;
 			children = (
 				98FD09701EE7A1160078DEB0 /* Reusable.swift */,
+				C962685D1EFE592500930A89 /* NibLoadable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -499,6 +514,16 @@
 			name = Supporthings;
 			sourceTree = "<group>";
 		};
+		C96268541EFE581600930A89 /* Intro */ = {
+			isa = PBXGroup;
+			children = (
+				C96268621EFE9CB800930A89 /* IntroView.swift */,
+				C962685B1EFE587000930A89 /* IntroTagView.swift */,
+				C96268591EFE586400930A89 /* IntroShareView.swift */,
+			);
+			path = Intro;
+			sourceTree = "<group>";
+		};
 		C963F77B1ED85008004405EB /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
@@ -554,6 +579,7 @@
 			isa = PBXGroup;
 			children = (
 				C9BDEC8E1EE2D83600EF99A8 /* TagListCell.swift */,
+				C96268601EFE683E00930A89 /* TagListCell.xib */,
 				C99FB2C41EF4DD6900A31D0A /* AddTagListCell.swift */,
 			);
 			path = Tag;
@@ -591,6 +617,7 @@
 			isa = PBXGroup;
 			children = (
 				C9D03E941EFC02AB0060C699 /* IntroViewController.swift */,
+				C96268501EFE0FD800930A89 /* NewIntroViewController.swift */,
 				C9D03E921EFBFEBC0060C699 /* Intro.storyboard */,
 			);
 			path = Intro;
@@ -760,6 +787,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C96268611EFE683E00930A89 /* TagListCell.xib in Resources */,
 				C9E3F1081EED36C40018943C /* InfoPlist.strings in Resources */,
 				C9E3F0EC1EED363B0018943C /* Kenia-Regular.ttf in Resources */,
 				C9E3F10D1EED36CD0018943C /* Localizable.strings in Resources */,
@@ -871,6 +899,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9BDEC871EE2A4E200EF99A8 /* UIColor+NG.swift in Sources */,
+				C962685E1EFE592500930A89 /* NibLoadable.swift in Sources */,
 				980566D91EEE7E4B009B86C8 /* CustomLabel.swift in Sources */,
 				983547901EE954BD00D84274 /* PushDetailAnimator.swift in Sources */,
 				980B1F5D1EE8F12A00E48A2F /* Log.swift in Sources */,
@@ -891,6 +920,8 @@
 				C99FB2C51EF4DD6900A31D0A /* AddTagListCell.swift in Sources */,
 				9827EDD71EEA9F500043288F /* GIFDetailCell.swift in Sources */,
 				C92880051EF0730400FB5115 /* GIFListFooter.swift in Sources */,
+				C962685C1EFE587000930A89 /* IntroTagView.swift in Sources */,
+				C962685A1EFE586400930A89 /* IntroShareView.swift in Sources */,
 				C90B9CB01EEC2F3D00C971C1 /* BaseNavigationController.swift in Sources */,
 				C90D1AD21EEC234500862CF5 /* CGGeometry+NG.swift in Sources */,
 				C9D03E971EFC02E90060C699 /* UIStoryBoard+NG.swift in Sources */,
@@ -912,6 +943,7 @@
 				98AFCB541ED928EB00D64FBE /* UserDefaults.swift in Sources */,
 				98557AFB1EDE77EF007C7E22 /* StatusBarToast.swift in Sources */,
 				C9BDEC801EE2A0FC00EF99A8 /* NGWeakProxy.swift in Sources */,
+				C96268511EFE0FD800930A89 /* NewIntroViewController.swift in Sources */,
 				C9E3F0CC1EED2F650018943C /* Alert.swift in Sources */,
 				C9875BA71EF54D1A001ABCF4 /* CustomToolBar.swift in Sources */,
 				98159B3E1EE6945500341ACC /* HUD.swift in Sources */,
@@ -931,6 +963,7 @@
 				C963F77E1ED85044004405EB /* NotGIF.swift in Sources */,
 				9827EDD81EEA9F500043288F /* GIFLisCell.swift in Sources */,
 				98540F231EF3CBDE002EC443 /* LongPressPopShareView.swift in Sources */,
+				C96268631EFE9CB800930A89 /* IntroView.swift in Sources */,
 				98088E8B1EE8026000ECED6C /* CustomRowAction.swift in Sources */,
 				98FD09741EE7A1D30078DEB0 /* UITableView+NG.swift in Sources */,
 				981134151EDE766600D4097D /* GIFDetailViewController.swift in Sources */,
@@ -944,6 +977,7 @@
 				C994D9A71EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */,
 				C9F861A91DBD1046006B1221 /* MGIFLisViewCell.swift in Sources */,
 				98A9FD6E1EE68DF1001A761D /* NotGIFLibrary.swift in Sources */,
+				C962685F1EFE5AE500930A89 /* NibLoadable.swift in Sources */,
 				C9C7DC321EE3FDDE002B26A0 /* ScreenSize.swift in Sources */,
 				98AFCB551ED928F500D64FBE /* UserDefaults.swift in Sources */,
 				980B1F5E1EE8F12A00E48A2F /* Log.swift in Sources */,

@@ -10,13 +10,13 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--IntroViewController-->
+        <!--NewIntroViewController-->
         <scene sceneID="DOF-VJ-irk">
             <objects>
-                <viewControllerPlaceholder storyboardName="Intro" referencedIdentifier="IntroViewController" id="BLu-Ag-fZa" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Intro" referencedIdentifier="NewIntroViewController" id="BLu-Ag-fZa" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hz7-5h-Nnk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="306" y="264"/>
+            <point key="canvasLocation" x="313" y="240"/>
         </scene>
         <!--GIF List View Controller-->
         <scene sceneID="1F1-ap-wNd">
@@ -120,7 +120,7 @@
                         <segue destination="rTw-D4-lHV" kind="popoverPresentation" identifier="showAddTag" popoverAnchorView="rKr-ti-5DR" id="uRg-0N-vrM">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
-                        <segue destination="BLu-Ag-fZa" kind="presentation" identifier="showIntro" animates="NO" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="HFx-Hh-JlM"/>
+                        <segue destination="BLu-Ag-fZa" kind="presentation" identifier="showIntro" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="IBc-mo-KiQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9RG-hR-HZm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -294,7 +294,7 @@
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="2fe-ZN-FBV">
+                    <toolbar key="toolbar" hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="2fe-ZN-FBV">
                         <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -371,7 +371,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-1004" y="-169"/>
+            <point key="canvasLocation" x="-1004" y="-169.56521739130437"/>
         </scene>
         <!--Side Bar View Controller-->
         <scene sceneID="Nht-2u-AWW">
@@ -398,51 +398,6 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="68" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="93e-9K-TFr">
                                         <rect key="frame" x="0.0" y="169" width="270" height="458"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TagListCell" rowHeight="68" id="nN9-78-aZ6" customClass="TagListCell" customModule="notGIF" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="270" height="68"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nN9-78-aZ6" id="8mK-fv-84s">
-                                                    <rect key="frame" x="0.0" y="0.0" width="270" height="68"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <subviews>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="Funny" textAlignment="center" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zxU-vf-hGf">
-                                                            <rect key="frame" x="16" y="21" width="238" height="26"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="26" id="5La-ol-PEm"/>
-                                                            </constraints>
-                                                            <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="deviceRGB"/>
-                                                            <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
-                                                            <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
-                                                            <connections>
-                                                                <outlet property="delegate" destination="nN9-78-aZ6" id="3NG-od-ZGK"/>
-                                                            </connections>
-                                                        </textField>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Pe-Iv-ASC">
-                                                            <rect key="frame" x="38" y="49" width="194" height="12"/>
-                                                            <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="10"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="zxU-vf-hGf" firstAttribute="width" secondItem="8mK-fv-84s" secondAttribute="width" multiplier="0.88" id="0rS-mY-EM7"/>
-                                                        <constraint firstItem="zxU-vf-hGf" firstAttribute="centerY" secondItem="8mK-fv-84s" secondAttribute="centerY" id="1YN-Cn-Ph9"/>
-                                                        <constraint firstItem="1Pe-Iv-ASC" firstAttribute="centerX" secondItem="8mK-fv-84s" secondAttribute="centerX" id="7Eg-cm-kzm"/>
-                                                        <constraint firstItem="zxU-vf-hGf" firstAttribute="centerX" secondItem="8mK-fv-84s" secondAttribute="centerX" id="Qrx-p4-dR7"/>
-                                                        <constraint firstItem="1Pe-Iv-ASC" firstAttribute="top" secondItem="zxU-vf-hGf" secondAttribute="bottom" constant="2" id="dMm-LQ-OJO"/>
-                                                        <constraint firstItem="1Pe-Iv-ASC" firstAttribute="width" secondItem="8mK-fv-84s" secondAttribute="width" multiplier="0.72" id="vAG-Sv-yOQ"/>
-                                                    </constraints>
-                                                </tableViewCellContentView>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <connections>
-                                                    <outlet property="countLabel" destination="1Pe-Iv-ASC" id="ajx-OD-KuJ"/>
-                                                    <outlet property="nameField" destination="zxU-vf-hGf" id="l3Y-zW-Z7x"/>
-                                                </connections>
-                                            </tableViewCell>
-                                        </prototypes>
                                         <sections/>
                                         <connections>
                                             <outlet property="dataSource" destination="Iza-AK-gFD" id="2Uq-qY-aJi"/>

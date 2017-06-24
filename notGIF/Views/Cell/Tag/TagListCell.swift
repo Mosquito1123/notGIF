@@ -16,8 +16,6 @@ class TagListCell: UITableViewCell {
     
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var countLabel: UILabel!
-    @IBOutlet weak var leftMark: UIImageView!
-    @IBOutlet weak var rightMark: UIImageView!
     
     fileprivate var couldEndEdit: Bool = false
     
@@ -34,6 +32,8 @@ class TagListCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         nameField.inputAccessoryView = toolBar
+        nameField.textColor = UIColor.textTint
+        countLabel.textColor = UIColor.textTint
         nameField.text = nil
         countLabel.text = nil
         

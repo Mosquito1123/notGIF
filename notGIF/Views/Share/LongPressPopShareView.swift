@@ -16,10 +16,14 @@ class LongPressPopShareView: UIView {
     fileprivate var hasChanged: Bool = false
     
     fileprivate var cellMaskRect: CGRect = .zero
+    fileprivate var isForIntro: Bool = false
     
-    init(popOrigin: CGPoint, cellRect: CGRect) {
-        super.init(frame: UIScreen.main.bounds)
-        backgroundColor = UIColor.clear
+    init(popOrigin: CGPoint, cellRect: CGRect, frame: CGRect = UIScreen.main.bounds, isForIntro: Bool = false) {
+        super.init(frame: frame)
+        backgroundColor = UIColor.red.withAlphaComponent(0.7)
+        alpha = 0
+        
+        self.isForIntro = isForIntro
         
         cellMaskRect = cellRect
 
@@ -53,46 +57,63 @@ class LongPressPopShareView: UIView {
             iconView.frame = iconViewFrame
             beignOx += iconS + padding
             iconView.contentMode = .scaleAspectFit
+            iconView.alpha = 0
                         
             let iconTriggerRect = CGRect(x: iconViewFrame.minX - padding/2, y: baseOriginY, width: iconS+padding, height: cellRect.maxY - iconViewFrame.minY)
             iconTriggerRects.append(iconTriggerRect)
+            iconViews.append(iconView)
+            addSubview(iconView)
+        }
+        
+        restore()
+    }
+    
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        
+        if !isForIntro {
+            animate()
+        }
+    }
+    
+    public func animate() {
+        let duration = isForIntro ? 1.2 : 0.6
+
+        UIView.animate(withDuration: 10) {
+            self.alpha = 1
+//            self.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        }
+        
+        UIView.animate(withDuration: 10, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.curveEaseOut], animations: {
+            self.iconViews.forEach { $0.alpha = 1 ; $0.transform = .identity }
+        }, completion: nil)
+    }
+    
+    public func restore() {
+        backgroundColor = UIColor.black.withAlphaComponent(0)
+        
+        for i in 0..<iconViews.count {
+            let iconView = iconViews[i]
+            iconView.alpha = 0
             
             if i % 2 == 0 {
-                let transformT = CGAffineTransform(translationX: 0, y: iconS)
+                let transformT = CGAffineTransform(translationX: 0, y: iconView.frame.width)
                 let transformR = CGAffineTransform(rotationAngle: CGFloat.pi * 0.3)
                 let transfromS = CGAffineTransform(scaleX: 0.2, y: 0.2)
                 
                 iconView.transform = transformT.concatenating(transfromS).concatenating(transformR)
                 
             } else {
-                let transformT = CGAffineTransform(translationX: 0, y: -iconS)
+                let transformT = CGAffineTransform(translationX: 0, y: -iconView.frame.width)
                 let transformR = CGAffineTransform(rotationAngle: CGFloat.pi * 0.7)
                 let transfromS = CGAffineTransform(scaleX: 0.3, y: 0.3)
                 
                 iconView.transform = transformT.concatenating(transfromS).concatenating(transformR)
             }
-            
-            iconViews.append(iconView)
-            addSubview(iconView)
         }
-    }
-    
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        
-        UIView.animate(withDuration: 0.3) {
-            self.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-        }
-        
-        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [.curveEaseIn], animations: {
-            self.iconViews.forEach { $0.transform = .identity }
-        }, completion: nil)
     }
     
     override func draw(_ rect: CGRect) {
-//        UIColor.clear.setFill()
-//        UIRectFill(cellMaskRect)
-
         let context = UIGraphicsGetCurrentContext()
         context?.setFillColor(UIColor.clear.cgColor)
         context?.setBlendMode(.clear)
