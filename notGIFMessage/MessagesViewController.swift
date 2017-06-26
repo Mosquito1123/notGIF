@@ -35,19 +35,12 @@ class MessagesViewController: MSMessagesAppViewController {
         super.viewDidLoad()
         
         prepareRealm()
+        prepareGIFLibrary()
         
-        PHPhotoLibrary.requestAuthorization { status in
-            guard status == .authorized else { HUD.hide(in: self.collectionView) ; return }
-            
-            HUD.show(to: self.collectionView, .fetchGIF)
-            DispatchQueue.main.safeAsync {
-                NotGIFLibrary.shared.prepare(completion: { (_, _) in
-                    self.showAllGIF()
-                    HUD.hide(in: self.collectionView)
-                })
-            }
-        }
+        observeGIFLibraryState()
     }
+    
+    // MARK: - Fetch GIF
     
     fileprivate func showAllGIF() {
         guard let realm = try? Realm() else { return }
@@ -75,7 +68,37 @@ class MessagesViewController: MSMessagesAppViewController {
             }
         }
     }
+    
+    fileprivate func observeGIFLibraryState() {
+        updateUI(with: NotGIFLibrary.shared.state)
+        
+        NotGIFLibrary.shared.stateChangeHandler = { [weak self] state in
+            DispatchQueue.main.async {
+                self?.updateUI(with: state)
+            }
+        }
+    }
+    
+    fileprivate func updateUI(with state: NotGIFLibraryState) {
+        switch state {
+        case .preparing:
+            HUD.show(to: collectionView, .fetchGIF)
+
+        case .startBgUpdate, .fetchDoneFromPhotos:
+            HUD.hide(in: collectionView)
+            showAllGIF()
+
+        case .accessDenied:
+            HUD.hide(in: collectionView)
+            collectionView.reloadData()
+             
+        case .bgUpdateDone:
+            break
+        }
+    }
 }
+
+// MARK: - UICollectionView Delegate 
 
 extension MessagesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -90,8 +113,13 @@ extension MessagesViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let footer: GIFListFooter = collectionView.dequeueReusableFooter(for: indexPath)
-        let type: GIFListFooterType = PHPhotoLibrary.authorizationStatus() == .authorized ? .showCount(allTag) : .needAuthorize
-        footer.update(with: type)
+        let authorizationStatus = PHPhotoLibrary.authorizationStatus()
+        
+        if authorizationStatus != .notDetermined {
+            let type: GIFListFooterType = authorizationStatus == .authorized ? .showCount(allTag) : .needAuthorize
+            footer.update(with: type)
+        }
+        
         return footer
     }
     

@@ -13,7 +13,7 @@ public func realmConfig(readOnly: Bool = false) -> Realm.Configuration {
     
     let directory: URL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Config.appGroupID)!
     let realmFileURL = directory.appendingPathComponent("notGIF.realm")
-    print(realmFileURL)
+    printLog(realmFileURL)
     
     var config = Realm.Configuration()
     config.fileURL = realmFileURL

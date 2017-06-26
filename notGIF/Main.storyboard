@@ -10,14 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--NewIntroViewController-->
-        <scene sceneID="DOF-VJ-irk">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Intro" referencedIdentifier="NewIntroViewController" id="BLu-Ag-fZa" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Hz7-5h-Nnk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="313" y="240"/>
-        </scene>
         <!--GIF List View Controller-->
         <scene sceneID="1F1-ap-wNd">
             <objects>
@@ -120,7 +112,6 @@
                         <segue destination="rTw-D4-lHV" kind="popoverPresentation" identifier="showAddTag" popoverAnchorView="rKr-ti-5DR" id="uRg-0N-vrM">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
-                        <segue destination="BLu-Ag-fZa" kind="presentation" identifier="showIntro" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="IBc-mo-KiQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9RG-hR-HZm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -197,7 +188,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="标签" id="tAP-mf-0Rh">
-                        <barButtonItem key="leftBarButtonItem" title=" 取消" id="rw4-Po-war">
+                        <barButtonItem key="leftBarButtonItem" title=" 取消" width="40" style="done" id="rw4-Po-war">
                             <connections>
                                 <action selector="cancelItemClicked:" destination="Pbn-Pi-rmf" id="fBj-hD-SwO"/>
                             </connections>
@@ -285,7 +276,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="umF-ix-sdO">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="umF-ix-sdO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.98431372549999996" green="0.98431372549999996" blue="0.98431372549999996" alpha="0.5" colorSpace="deviceRGB"/>
@@ -311,7 +302,7 @@
         <!--Drawer View Controller-->
         <scene sceneID="QU3-Jj-Szn">
             <objects>
-                <viewController id="iUd-N1-Fjz" customClass="DrawerViewController" customModule="notGIF" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DrawerViewController" id="iUd-N1-Fjz" customClass="DrawerViewController" customModule="notGIF" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GGs-Z1-mKP"/>
                         <viewControllerLayoutGuide type="bottom" id="5PV-H1-EoW"/>
@@ -414,7 +405,7 @@
                                         <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_logo" translatesAutoresizingMaskIntoConstraints="NO" id="c7s-2m-dkq">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_logo_white" translatesAutoresizingMaskIntoConstraints="NO" id="c7s-2m-dkq">
                                         <rect key="frame" x="99" y="20" width="72" height="72"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="72" id="Ilf-Vi-frK"/>
@@ -456,36 +447,6 @@
             </objects>
             <point key="canvasLocation" x="-1004" y="550.97451274362822"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="rfc-wl-xSA">
-            <objects>
-                <viewController id="Kov-KH-2K9" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="CWT-Lk-oJx"/>
-                        <viewControllerLayoutGuide type="bottom" id="ehj-lF-gf4"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Llo-U6-SIh">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Oh-2G-yyc">
-                                <rect key="frame" x="239.5" y="40" width="135.5" height="587"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" red="0.2666377425" green="0.26668754220000002" blue="0.26662713290000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="8Oh-2G-yyc" secondAttribute="bottom" constant="40" id="0zr-PC-hXw"/>
-                            <constraint firstItem="8Oh-2G-yyc" firstAttribute="top" secondItem="Llo-U6-SIh" secondAttribute="top" constant="40" id="IWS-RR-GdN"/>
-                            <constraint firstItem="8Oh-2G-yyc" firstAttribute="width" secondItem="Llo-U6-SIh" secondAttribute="width" multiplier="0.36" constant="0.35999999999999999" id="UPV-Ik-2lY"/>
-                            <constraint firstAttribute="trailing" secondItem="8Oh-2G-yyc" secondAttribute="trailing" id="lr3-tN-hXd"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pq5-dz-98Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-231.19999999999999" y="535.68215892053979"/>
-        </scene>
         <!--Base Navigation Controller-->
         <scene sceneID="tri-Xm-7H3">
             <objects>
@@ -495,7 +456,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="400"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="3uk-a0-HUG">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3uk-a0-HUG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -516,7 +477,7 @@
     </scenes>
     <resources>
         <image name="icon_add_tag" width="19" height="19"/>
-        <image name="icon_logo" width="110" height="110"/>
+        <image name="icon_logo_white" width="120" height="120"/>
         <image name="icon_remove_tag" width="20" height="20"/>
         <image name="icon_side_bar" width="22" height="19"/>
     </resources>

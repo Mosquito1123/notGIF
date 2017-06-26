@@ -26,7 +26,7 @@ class LoadingTitleView: UIView {
         
         let label = UILabel()
         label.text = String.trans_titleUpdating
-        label.font = Config.isChinese ? UIFont.systemFont(ofSize: 18, weight: 20) : UIFont.menlo(ofSize: 18)
+        label.font = UIFont.localized(ofSize: 18)
         label.textColor = .textTint
         label.textAlignment = .center
         label.sizeToFit()

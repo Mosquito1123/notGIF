@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.atuo-xyz.notGIF</string>
+		<string>group.xyz.atuo.notGIF</string>
 	</array>
 </dict>
 </plist>

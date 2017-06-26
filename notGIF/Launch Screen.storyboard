@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="icon_logo_white" translatesAutoresizingMaskIntoConstraints="NO" id="IRc-yh-N5v">
-                                <rect key="frame" x="137" y="283" width="101" height="101"/>
+                                <rect key="frame" x="137" y="203" width="101" height="101"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="IRc-yh-N5v" secondAttribute="height" multiplier="1:1" id="kb2-j4-q60"/>
                                 </constraints>
@@ -31,7 +31,7 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
-                            <constraint firstItem="IRc-yh-N5v" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="LZN-QN-Y24"/>
+                            <constraint firstItem="IRc-yh-N5v" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-80" id="LZN-QN-Y24"/>
                             <constraint firstItem="IRc-yh-N5v" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="a3t-ag-2c3"/>
                             <constraint firstItem="IRc-yh-N5v" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.27" id="aLA-vz-t0A"/>
                         </constraints>

@@ -8,9 +8,9 @@
 
 import UIKit
 
-class IntroTagView: UIImageView, Intro, UITableViewDelegate, UITableViewDataSource {
+class IntroTagView: UIView, Intro, UITableViewDelegate, UITableViewDataSource {
 
-    fileprivate let imageSacle: CGFloat = 0.8
+    fileprivate let imageSacle: CGFloat = 0.82
     fileprivate var tagStrs: [String] = []
     fileprivate var tagCounts = [29, 8, 3, 5, 13]
     fileprivate var animated: Bool = false
@@ -19,7 +19,7 @@ class IntroTagView: UIImageView, Intro, UITableViewDelegate, UITableViewDataSour
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.registerNibOf(TagListCell.self)
-        tableView.rowHeight = 60
+        tableView.rowHeight = 56
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.clear
         tableView.isUserInteractionEnabled = false
@@ -29,7 +29,7 @@ class IntroTagView: UIImageView, Intro, UITableViewDelegate, UITableViewDataSour
     }()
     
     fileprivate lazy var logoView: UIImageView = {
-        let imageView = UIImageView(image: #imageLiteral(resourceName: "icon_logo"))
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "icon_logo_white"))
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -46,19 +46,37 @@ class IntroTagView: UIImageView, Intro, UITableViewDelegate, UITableViewDataSour
         return button
     }()
     
+    fileprivate lazy var imageView: UIImageView = {
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "intro_tag_plain"))
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    fileprivate lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = String.trans_titleIntroTag
+        label.font = UIFont.systemFont(ofSize: 24, weight: 16)
+        label.textAlignment = .center
+        label.textColor = UIColor.textTint
+        return label
+    }()
+    
+    fileprivate lazy var messageLabel: UILabel = {
+        let label = UILabel()
+        label.text = String.trans_titleIntroTagMessage
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textAlignment = .center
+        label.textColor = UIColor.lightText
+        return label
+    }()
+    
     fileprivate var animateViews: [UIView] = []
     fileprivate var waitAnimate: Bool = true
     
     init() {
-        // 750 * 1334
-        let imageW = kScreenWidth * imageSacle
-        let imageH = imageW / 750 * 1334
+        super.init(frame: UIScreen.main.bounds)
         
-        let rect = CGRect(x: 0, y: 100, width: kScreenWidth, height: imageH)
-        
-        super.init(frame: rect)
-        image = #imageLiteral(resourceName: "intro_tag_plain")
-        contentMode = .scaleAspectFit
+        backgroundColor = UIColor.black
         
         if Config.isChinese {
             tagStrs = [String.trans_tagAll, "这很经典👏", "哦哦嗷🤖嗷嗯嗯", "秋名山违章图集💊", "😶弯的four"]
@@ -86,11 +104,11 @@ class IntroTagView: UIImageView, Intro, UITableViewDelegate, UITableViewDataSour
         
         var delay: TimeInterval = 0
         for cell in cells {
-            UIView.animate(withDuration: 0.5, delay: delay, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
+            UIView.animate(withDuration: 0.8, delay: delay, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [], animations: {
                 cell.contentView.transform = .identity
                 cell.contentView.alpha = 1
             }, completion: nil)
-            delay += 0.02
+            delay += 0.03
         }
     }
     
@@ -124,12 +142,32 @@ class IntroTagView: UIImageView, Intro, UITableViewDelegate, UITableViewDataSour
     
     fileprivate func makeUI() {
         
-        addSubview(logoView)
-        addSubview(addTagView)
-        addSubview(tableView)
+        // 750 * 1334
+        let imageW = kScreenWidth * imageSacle
+        let imageH = imageW / 750 * 1334
+        
+        let rect = CGRect(x: 0, y: kScreenHeight*0.24, width: kScreenWidth, height: imageH)
+        imageView.frame = rect
+        
+        addSubview(titleLabel)
+        addSubview(messageLabel)
+        addSubview(imageView)
+        imageView.addSubview(logoView)
+        imageView.addSubview(addTagView)
+        imageView.addSubview(tableView)
         
         let originX = kScreenWidth*(0.5-imageSacle/2)
         let containerW = imageSacle * Config.sideBarWidth
+        
+        titleLabel.snp.makeConstraints { make in
+            make.right.left.equalTo(0)
+            make.top.equalTo(kScreenHeight*0.08)
+        }
+        
+        messageLabel.snp.makeConstraints { make in
+            make.right.left.equalTo(0)
+            make.top.equalTo(titleLabel.snp.bottom).offset(6)
+        }
         
         logoView.snp.makeConstraints { make in
             make.size.equalTo(50)
@@ -169,6 +207,8 @@ class IntroTagView: UIImageView, Intro, UITableViewDelegate, UITableViewDataSour
             make.bottom.equalTo(0)
         }
     }
+    
+    // MARK: - TableView Delagate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tagStrs.count

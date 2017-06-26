@@ -20,7 +20,7 @@ class LongPressPopShareView: UIView {
     
     init(popOrigin: CGPoint, cellRect: CGRect, frame: CGRect = UIScreen.main.bounds, isForIntro: Bool = false) {
         super.init(frame: frame)
-        backgroundColor = UIColor.red.withAlphaComponent(0.7)
+        backgroundColor = UIColor.black.withAlphaComponent(0.7)
         alpha = 0
         
         self.isForIntro = isForIntro
@@ -28,7 +28,7 @@ class LongPressPopShareView: UIView {
         cellMaskRect = cellRect
 
         if !OpenShare.canOpen(.wechat) {
-//            shareTypes.remove(.wechat)
+            shareTypes.remove(.wechat)
         }
         
         let iconS: CGFloat = 36
@@ -79,18 +79,17 @@ class LongPressPopShareView: UIView {
     public func animate() {
         let duration = isForIntro ? 1.2 : 0.6
 
-        UIView.animate(withDuration: 10) {
+        UIView.animate(withDuration: 0.3) {
             self.alpha = 1
-//            self.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         }
         
-        UIView.animate(withDuration: 10, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.curveEaseOut], animations: {
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.curveEaseIn], animations: {
             self.iconViews.forEach { $0.alpha = 1 ; $0.transform = .identity }
         }, completion: nil)
     }
     
     public func restore() {
-        backgroundColor = UIColor.black.withAlphaComponent(0)
+        alpha = 0
         
         for i in 0..<iconViews.count {
             let iconView = iconViews[i]

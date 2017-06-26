@@ -15,9 +15,25 @@ typealias GIFDataInfo = (data: Data, thumbnail: UIImage)
 
 public typealias GIFRetrieveCompletion = (_ image: NotGIFImage, _ localID: String, _ withTransition: Bool) -> ()
 
+internal enum NotGIFLibraryState {
+    case startBgUpdate
+    case fetchDoneFromPhotos
+    case bgUpdateDone
+    case accessDenied
+    case preparing
+}
+
 class NotGIFLibrary: NSObject {
     
     static let shared = NotGIFLibrary()
+    
+    public var state: NotGIFLibraryState = .preparing {
+        didSet {
+            stateChangeHandler?(state)
+        }
+    }
+    
+    public var stateChangeHandler: ((NotGIFLibraryState) -> Void)?
     
     fileprivate lazy var gifPool: [String: NotGIFImage] = [:]
     fileprivate lazy var gifAssetPool: [String: PHAsset] = [:]
@@ -35,20 +51,12 @@ class NotGIFLibrary: NSObject {
     fileprivate lazy var queuePool: DispatchQueuePool = {
         return DispatchQueuePool(name: "com.notGIF.getGIF", qos: .utility, queueCount: 6)
     }()
-    
-    public func prepare(completion: @escaping ((Tag?, Bool) -> Void), bgUpdateCompletion: CommonCompletion? = nil) {
+        
+    public func prepare() {
+        guard PHPhotoLibrary.authorizationStatus() == .authorized else { return }
+        
         do {
             let realm = try Realm()
-            
-            let completionHandler: (Bool) -> Void = { needBgUpdate in
-                if let selectTag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTagID) {
-                    completion(selectTag, needBgUpdate)
-                } else {
-                    let defaultTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID)
-                    NGUserDefaults.lastSelectTagID = Config.defaultTagID
-                    completion(defaultTag, needBgUpdate)
-                }
-            }
             
             if NGUserDefaults.haveFetched { // 直接从 Realm 中获取 GIF 信息
                 
@@ -68,24 +76,16 @@ class NotGIFLibrary: NSObject {
                     realm.delete( notGIFs.filter { !tmpAllGIFIDs.contains($0.id) } )
                 }
                 
-                completionHandler(true)
+                state = .startBgUpdate
                 
                 // 后台更新 GIF Library
                 bgFetchQueue.async { [weak self] in
                     self?.updateGIFLibrary(with: Set<PHAsset>(tempAllGIFAessts))
-                    DispatchQueue.main.async {
-                        bgUpdateCompletion?()
-                    }
+                    self?.state = .bgUpdateDone
                 }
                 
-            } else {    // 从 Photos 中获取 GIF
+            } else {     // 从 Photos 中获取 GIF
                 
-                let fetchOptions = PHFetchOptions()
-                fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-                
-                allImageFetchResult = PHAsset.fetchAssets(with: fetchOptions)
-                
-                // TODO: - multithread
                 let allGIFAssets = fetchAllGIFAssetsFromPhotos()
                 let defaultTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID)
                 
@@ -100,11 +100,8 @@ class NotGIFLibrary: NSObject {
                 
                 try? realm.commitWrite()
                 
-                if PHPhotoLibrary.authorizationStatus() == .authorized {
-                    NGUserDefaults.haveFetched = true
-                }
-                
-                completionHandler(false)
+                state = .fetchDoneFromPhotos
+                NGUserDefaults.haveFetched = true
             }
             
         } catch let err {
@@ -115,7 +112,7 @@ class NotGIFLibrary: NSObject {
     fileprivate func fetchAllGIFAssetsFromPhotos() -> Set<PHAsset> {
         var assetSet = Set<PHAsset>()
         
-        allImageFetchResult.enumerateObjects(options: .concurrent, using: {(asset, index, _) in
+        allImageFetchResult.enumerateObjects(options: .concurrent, using: {(asset, _, _) in
             if asset.isGIF {
                 assetSet.insert(asset)
             }
@@ -227,6 +224,10 @@ class NotGIFLibrary: NSObject {
     override init() {
         super.init()
         PHPhotoLibrary.shared().register(self)
+
+        if PHPhotoLibrary.authorizationStatus() == .denied {
+            state = .accessDenied
+        }
     }
     
     deinit {
@@ -269,6 +270,22 @@ extension NotGIFLibrary: PHPhotoLibraryChangeObserver {
             
             if let defaultTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID) {
                 defaultTag.gifs.append(objectsIn: toInsertGIFs)
+            }
+        }
+    }
+}
+
+public func prepareGIFLibrary() {
+    DispatchQueue.global().async {
+        PHPhotoLibrary.requestAuthorization { status in
+            guard status == .authorized else {
+                NotGIFLibrary.shared.state = .accessDenied
+                return
+            }
+    
+            let queue = DispatchQueue(label: "prepareGIF", qos: .userInitiated, attributes: [])
+            queue.async {
+                NotGIFLibrary.shared.prepare()
             }
         }
     }

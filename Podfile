@@ -4,15 +4,15 @@ use_frameworks!
 
 def groupPods
     
-    pod 'ReachabilitySwift'
     pod 'MBProgressHUD'
     pod 'RealmSwift'
-    pod 'SnapKit'
 
 end
 
 def mainPods
 	
+    pod 'SnapKit'
+    pod 'ReachabilitySwift'
 	pod 'IQKeyboardManagerSwift', '~> 4.0.8'
 
 end

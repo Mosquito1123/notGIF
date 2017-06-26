@@ -39,6 +39,10 @@ class DrawerViewController: UIViewController {
         return .lightContent
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return false
+    }
+    
     // MARK: - Gesture Handler
     
     @IBAction func sidePanGesHandler(_ sender: UIPanGestureRecognizer) {
@@ -70,10 +74,19 @@ class DrawerViewController: UIViewController {
     // MARK: - Show & Dismiss
     
     fileprivate func endMoveSideBar(with offset: CGFloat, velocityX: CGFloat) {
-        if offset >= sideBarWidth * 0.3 {
-            showSideBar(with: offset, velocityX: velocityX)
+        if isShowing {
+            if offset <= sideBarWidth*0.7 || velocityX < -500 {
+                dismissSideBar(with: offset, velocityX: velocityX)
+            } else {
+                showSideBar(with: offset, velocityX: velocityX)
+            }
+            
         } else {
-            dismissSideBar(with: offset, velocityX: velocityX)
+            if offset >= sideBarWidth*0.3 || velocityX > 500 {
+                showSideBar(with: offset, velocityX: velocityX)
+            } else {
+                dismissSideBar(with: offset, velocityX: velocityX)
+            }
         }
     }
     

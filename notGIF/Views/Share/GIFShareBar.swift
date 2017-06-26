@@ -29,7 +29,7 @@ class GIFShareBar: UIView {
         super.init(frame: CGRect(x: 0, y: kScreenHeight - itemSize, width: kScreenWidth, height: itemSize))
         
         if !OpenShare.canOpen(.wechat) {
-//            shareTypes.remove(.wechat)
+            shareTypes.remove(.wechat)
         }
         
         for i in 0 ..< shareTypes.count {

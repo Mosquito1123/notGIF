@@ -56,3 +56,12 @@
 "title.choosed_gif_%@" = "Choose %d Tag";
 "title.add" = "Add";
 "title.add_done" = "Add done";
+
+"title_intro_tag" = "Look Up & Tag GIF";
+"title_intro_tag_messge" = "Automatic Updates from Photos";
+
+"title_intro_share" = "Play & Share GIF";
+"title_intro_share_message" = "Never worry about Dead GIF";
+
+"title_prepareing" = "preparing...";
+"title_fetching" = "fetching GIFs...";

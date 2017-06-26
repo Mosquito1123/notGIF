@@ -82,6 +82,22 @@ extension String {
     static var trans_titleAddDone: String {
         return NSLocalizedString("title.add_done", comment: "")
     }
+    
+    static var trans_titleIntroTag: String {
+        return NSLocalizedString("title_intro_tag", comment: "")
+    }
+    
+    static var trans_titleIntroTagMessage: String {
+        return NSLocalizedString("title_intro_tag_messge", comment: "")
+    }
+    
+    static var trans_titleIntroShare: String {
+        return NSLocalizedString("title_intro_share", comment: "")
+    }
+    
+    static var trans_titleIntroShareMessage: String {
+        return NSLocalizedString("title_intro_share_message", comment: "")
+    }
 }
 
 // MARK: - Toast
@@ -106,6 +122,14 @@ extension String {
     
     static var trans_gifNotPrepared: String {
         return NSLocalizedString("prompt.gif_not_prepared", comment: "")
+    }
+    
+    static var trans_titlePreparing: String {
+        return NSLocalizedString("title_prepareing", comment: "")
+    }
+    
+    static var trans_titleFetching: String {
+        return NSLocalizedString("title_fetching", comment: "")
     }
 }
 

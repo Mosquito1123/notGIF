@@ -15,24 +15,18 @@ public enum HUDShowScene {
     var message: String {
         switch self {
         case .fetchGIF:
-            return "fetching GIFs..."
+            return String.trans_titleFetching
         case .requestData:
-            return "preparing..."
+            return String.trans_titlePreparing
         }
     }
 }
 
 class HUD {
-    
-    init(scene: HUDShowScene) {
-        
-        
-    }
 
     class func show(to view: UIView? = nil, _ scene: HUDShowScene) {
         guard let superView = view ?? UIApplication.shared.keyWindow else { return }
         
-//        DispatchQueue.main.async {
         let hud = MBProgressHUD.showAdded(to: superView, animated: true)
         hud.removeFromSuperViewOnHide = false
         hud.mode = .indeterminate
@@ -43,21 +37,19 @@ class HUD {
         hud.backgroundView.color = .clear
         
         if scene == .fetchGIF {
-            hud.offset = CGPoint(x: 0, y: -superView.frame.height/4)
+            hud.offset = CGPoint(x: 0, y: -superView.frame.height/5)
         }
         
         hud.label.text = scene.message
-        hud.label.font = UIFont.menlo(ofSize: 12)
+        hud.label.font = UIFont.menlo(ofSize: 13)
         hud.layer.zPosition = 1
         
-//        }
+        hud.hide(animated: true, afterDelay: 6)
     }
     
     class func hide(in view: UIView? = nil) {
         guard let superView = view ?? UIApplication.shared.keyWindow else { return }
-        DispatchQueue.main.async {
-            MBProgressHUD.hide(for: superView, animated: true)
-        }
+        MBProgressHUD.hide(for: superView, animated: true)
     }
     
     class func show(to view: UIView? = nil, text: String, delay: TimeInterval = 1) {
@@ -68,7 +60,6 @@ class HUD {
         hud.margin = 10
         hud.contentColor = .textTint
         hud.bezelView.color = .bgColor
-//        hud.bezelView.style = .solidColor
         hud.label.text = text
         hud.label.font = UIFont.menlo(ofSize: 15)
         

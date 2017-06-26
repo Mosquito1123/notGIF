@@ -18,15 +18,7 @@ extension UIStoryboard {
         return pa_intro.instantiateViewController(withIdentifier: "IntroViewController") as! IntroViewController
     }
     
-    static var introA: UIViewController {
-        return pa_intro.instantiateViewController(withIdentifier: "IntroAViewController")
-    }
-    
-    static var introB: UIViewController {
-        return pa_intro.instantiateViewController(withIdentifier: "IntroBViewController")
-    }
-
-    static var introC: UIViewController {
-        return pa_intro.instantiateViewController(withIdentifier: "IntroCViewController")
+    static var main: DrawerViewController {
+        return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DrawerViewController") as! DrawerViewController
     }
 }

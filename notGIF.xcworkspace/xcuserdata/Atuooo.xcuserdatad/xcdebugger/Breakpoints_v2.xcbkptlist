@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "notGIF/Views/Hud/HUD.swift"
-            timestampString = "519763770.062662"
+            filePath = "notGIF/Views/Share/LongPressPopShareView.swift"
+            timestampString = "520025490.735372"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "show(to:_:)"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "draw(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

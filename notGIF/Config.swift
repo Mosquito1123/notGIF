@@ -10,7 +10,7 @@ import UIKit
 
 final public class Config {
 
-    static let appGroupID = "group.atuo-xyz.notGIF"
+    static let appGroupID = "group.xyz.atuo.notGIF"
     
     static let defaultTagID = "not.all.gif.tagId"
     
@@ -54,6 +54,10 @@ extension UIFont {
     
     class func menlo(ofSize size: CGFloat) -> UIFont {
         return UIFont(name: "Menlo", size: size) ?? UIFont.systemFont(ofSize: size)
+    }
+    
+    class func localized(ofSize size: CGFloat) -> UIFont {
+        return Config.isChinese ? UIFont.systemFont(ofSize: size, weight: 20) : menlo(ofSize: size)
     }
 }
 

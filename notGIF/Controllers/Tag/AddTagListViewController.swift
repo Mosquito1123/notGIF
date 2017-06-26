@@ -50,8 +50,8 @@ class AddTagListViewController: UIViewController {
     override func awakeFromNib() {
         super.awakeFromNib()
         preferredContentSize = CGSize(width: width, height: kScreenHeight * 0.6)
-        cancelItem.title = String.trans_titleCancel
-        addItem.title = String.trans_titleAdd
+        cancelItem.title = " " + String.trans_titleCancel
+        addItem.title = String.trans_titleAdd + " "
         
         cancelItem.setTitleTextAttributes([NSFontAttributeName: UIFont.menlo(ofSize: 16)], for: .normal)
         addItem.setTitleTextAttributes([NSFontAttributeName: UIFont.menlo(ofSize: 16)], for: .normal)

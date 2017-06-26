@@ -22,6 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setIQKeyboardManager()
         
         prepareRealm()
+        prepareGIFLibrary()
+
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = NGUserDefaults.haveShowIntro ? UIStoryboard.main : UIStoryboard.intro
+        window?.makeKeyAndVisible()
         
         return true
     }

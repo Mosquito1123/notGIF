@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 enum GIFListFooterType {
     case showCount(Tag?)
