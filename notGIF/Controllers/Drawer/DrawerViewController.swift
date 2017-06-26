@@ -92,7 +92,8 @@ class DrawerViewController: UIViewController {
     
     public func showSideBar(with offset: CGFloat = 0, velocityX: CGFloat = 0) {
         let xDiff = abs(offset - sideBarWidth)
-        let velocity = xDiff == 0 ? 0 : abs(velocityX) / xDiff
+        var velocity = xDiff == 0 ? 0 : abs(velocityX) / xDiff
+        if velocity < 10 { velocity = 0.6 }
         let finalScale = 1 - (sideBarWidth / kScreenWidth) * scaleFactor
         
         UIView.animate(withDuration: animDuration,

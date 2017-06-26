@@ -165,7 +165,7 @@ extension SideBarViewController {
         tableView.setEditing(false, animated: true)
         tableView.setContentOffset(.zero, animated: true)
 
-        DispatchQueue.main.after(0.5) {
+        DispatchQueue.main.after(0.3) {
             try? realm.write {
                 realm.add(Tag(name: name))
             }

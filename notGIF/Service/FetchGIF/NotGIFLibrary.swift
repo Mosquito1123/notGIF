@@ -94,7 +94,7 @@ class NotGIFLibrary: NSObject {
                 allGIFAssets.forEach {
                     gifAssetPool[$0.localIdentifier] = $0
                     let notGIF = NotGIF(asset: $0)
-                    realm.add(notGIF)
+                    realm.add(notGIF, update: true)
                     defaultTag?.gifs.append(notGIF)
                 }
                 
@@ -252,6 +252,8 @@ extension NotGIFLibrary: PHPhotoLibraryChangeObserver {
         guard !removedGIFIDs.isEmpty || !insertedGIFAssets.isEmpty,
             let realm = try? Realm() else { return }
         
+        state = .startBgUpdate
+        
         let toDeleteGIFs = realm.objects(NotGIF.self).filter{ removedGIFIDs.contains($0.id) }
         removedGIFIDs.forEach { gifID in
             gifAssetPool.removeValue(forKey: gifID)
@@ -272,6 +274,8 @@ extension NotGIFLibrary: PHPhotoLibraryChangeObserver {
                 defaultTag.gifs.append(objectsIn: toInsertGIFs)
             }
         }
+        
+        state = .bgUpdateDone
     }
 }
 

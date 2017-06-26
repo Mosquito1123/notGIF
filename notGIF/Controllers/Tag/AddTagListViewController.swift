@@ -123,7 +123,7 @@ class AddTagListViewController: UIViewController {
         
         let newTag = Tag(name: name)
         try? realm.write {
-            realm.add(newTag)
+            realm.add(newTag, update: true)
         }
     }
 }

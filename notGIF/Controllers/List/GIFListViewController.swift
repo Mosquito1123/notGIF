@@ -38,6 +38,7 @@ class GIFListViewController: UIViewController {
     
     fileprivate var currentTag: Tag?
     fileprivate var notifiToken: NotificationToken?
+    fileprivate var couldShowList: Bool = false
     
     fileprivate var isEditingGIFsTag: Bool = false
     fileprivate var selectGIFIPs: Set<IndexPath> = [] {
@@ -186,7 +187,7 @@ class GIFListViewController: UIViewController {
 extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if PHPhotoLibrary.authorizationStatus() == .authorized {
-            return gifList != nil ? gifList.count : 0
+            return (gifList == nil || !couldShowList) ? 0 : gifList.count
         } else {
             return 0
         }
@@ -387,7 +388,7 @@ extension GIFListViewController {
             }
         }
         
-        guard let tag = theTag else { return }
+        guard let tag = theTag, tag.id != currentTag?.id else { return }
         
         notifiToken?.stop()
         notifiToken = nil
@@ -400,6 +401,7 @@ extension GIFListViewController {
             switch changes {
                 
             case .initial:
+                self?.couldShowList = true
                 collectionView.reloadData()
                 
             case .update(_, let deletions, let insertions, let modifications):
@@ -439,6 +441,7 @@ extension GIFListViewController {
             
         case .bgUpdateDone:
             titleView.update(isLoading: false)
+            showGIFList()
             
         case .fetchDoneFromPhotos:
             HUD.hide(in: navigationController?.view)
