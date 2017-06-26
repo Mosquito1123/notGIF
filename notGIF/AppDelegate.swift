@@ -7,25 +7,37 @@
 //
 
 import UIKit
+import Photos
+import RealmSwift
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
-        let naviationVC = UINavigationController(rootViewController: GIFListViewController())
-        naviationVC.navigationBar.barTintColor = .tintBar
-        naviationVC.navigationBar.tintColor = .tintColor
         
+        setIQKeyboardManager()
+        
+        prepareRealm()
+        prepareGIFLibrary()
+
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = naviationVC
+        window?.rootViewController = NGUserDefaults.haveShowIntro ? UIStoryboard.main : UIStoryboard.intro
         window?.makeKeyAndVisible()
         
         return true
+    }
+    
+    fileprivate func setIQKeyboardManager() {
+        IQKeyboardManager.sharedManager().enable = true
+        IQKeyboardManager.sharedManager().disabledDistanceHandlingClasses = [AddTagListViewController.self]
+        IQKeyboardManager.sharedManager().enableAutoToolbar = false
+        IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = false
+        IQKeyboardManager.sharedManager().keyboardDistanceFromTextField = 20
+        IQKeyboardManager.sharedManager().shouldShowTextFieldPlaceholder = false
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -49,7 +61,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 

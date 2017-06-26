@@ -2,21 +2,38 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 use_frameworks!
 
-def pods
-    pod 'SnapKit'
-    pod 'ReachabilitySwift'
+def groupPods
+    
     pod 'MBProgressHUD'
+    pod 'RealmSwift'
+
 end
 
-target ‘notGIF’ do
+def mainPods
+	
+    pod 'SnapKit'
+    pod 'ReachabilitySwift'
+	pod 'IQKeyboardManagerSwift', '~> 4.0.8'
+
+end
+
+target 'notGIF' do
     
-    pods
+    groupPods
+    mainPods
 
 end
 
 target 'notGIFMessage' do
     
-    pods
-    
+    groupPods
+
 end
 
+#post_install do |installer|
+#    installer.pods_project.targets.each do |target|
+#        target.build_configurations.each do |config|
+#            config.build_settings['SWIFT_VERSION'] = '3.0'
+#        end
+#    end
+#end

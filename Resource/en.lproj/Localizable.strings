@@ -1,0 +1,67 @@
+/* 
+  Localizable.strings
+  notGIF
+
+  Created by Atuooo on 11/06/2017.
+  Copyright © 2017 xyz. All rights reserved.
+*/
+
+"prompt.account_no_access_weibo" = "notGIF Can't Access Your Weibo Account";
+"prompt.account_no_access_twitter" = "notGIF Can't Access Your Twitter Account";
+"prompt.account_h2_authorize_twitter" = "You can set in \n 'Settings' > 'Privacy' > 'Twitter' \n";
+"prompt.account_h2_authorize_weibo" = "You can set in \n 'Settings' > 'Privacy' > 'Sina Weibo' \n";
+
+"prompt.no_weibo_account" = "No Weibo Account Found";
+"prompt.no_twitter_account" = "No Twitter Account Found";
+"prompt.h2_add_weibo_account" = "You can add or create Sina Weibo account in \n 'Settings' > 'Sina Weibo'";
+"prompt.h2_add_twitter_account" = "You can add or create Twitter account in \n 'Settings' > 'Twitter'";
+
+"prompt.bad_network" = "Network connection is not good !";
+"prompt.message_unsupport" = "Message Unsupport GIF !";
+
+"prompt.sending" = "sending...";
+"prompt.post_failed" = "failed: ";
+"prompt.post_success" = "~ send successfully ~";
+"prompt.request_failed" = "request failed";
+
+"prompt.get_it" = "OK";
+"title.account" = "Account";
+
+"prompt.error" = "error";
+
+"title.weibo" = "Sina Weibo";
+"title.twitter" = "Twitter";
+"title.unknow_type" = "Unkown Type";
+"title.updating" = "Updating";
+
+"tag.all" = "All";
+"title.tag" = "Tag";
+"title.done" = "OK";
+"title.cancel" = "Cancel";
+"title.confirm" = "Sure";
+
+"prompt.title_delete_tag_%@" = "Are you sure to delete \"%@\" ?";
+"prompt.message_delete_tag" = "GIFs under this tag will not be deleted";
+"title.delete_tag" = "Delete Tag";
+"prompt.gif_not_prepared" = "GIF haven't be prepared";
+
+"title.open_settings" = "OPEN SETTINGS";
+"prompt.need_photos_permission" = "Please Allow Photos Access";
+
+"prompt.updating" = "Updating";
+"prompt.title_remove_gif_%@" = "Are you sure to remove %d GIF from \"%@\" tag ?";
+
+"title.remove_gif_%@" = "Remove %d GIF";
+
+"title.choosed_gif_%@" = "Choose %d Tag";
+"title.add" = "Add";
+"title.add_done" = "Add done";
+
+"title_intro_tag" = "Look Up & Tag GIF";
+"title_intro_tag_messge" = "Automatic Updates from Photos";
+
+"title_intro_share" = "Play & Share GIF";
+"title_intro_share_message" = "Never worry about Dead GIF";
+
+"title_prepareing" = "preparing...";
+"title_fetching" = "fetching GIFs...";

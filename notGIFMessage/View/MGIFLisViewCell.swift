@@ -7,30 +7,13 @@
 //
 
 import UIKit
-import SnapKit
 
 class MGIFListViewCell: UICollectionViewCell {
-    var imageView: NotGIFImageView!
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        imageView = NotGIFImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(imageView)
-        
-        imageView.snp.makeConstraints { make in
-            make.edges.equalTo(contentView)
-        }
-    }
+
+    @IBOutlet weak var imageView: NotGIFImageView!
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
-        imageView.stopAnimating()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        imageView.animateImage = nil
     }
 }

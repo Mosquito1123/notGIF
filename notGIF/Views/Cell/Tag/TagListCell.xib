@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E154a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="67" id="Zb2-r3-gJX" customClass="TagListCell" customModule="notGIF" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="67"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zb2-r3-gJX" id="nnh-r1-gPA">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="66.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="Funny" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lhd-Cn-O3l">
+                        <rect key="frame" x="22.5" y="20.5" width="330" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="26" id="B9q-H6-UMg"/>
+                        </constraints>
+                        <color key="textColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rI1-T7-g7g">
+                        <rect key="frame" x="52" y="48.5" width="270" height="12"/>
+                        <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="10"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="Lhd-Cn-O3l" firstAttribute="centerX" secondItem="nnh-r1-gPA" secondAttribute="centerX" id="0AQ-uG-bPT"/>
+                    <constraint firstItem="Lhd-Cn-O3l" firstAttribute="width" secondItem="nnh-r1-gPA" secondAttribute="width" multiplier="0.88" id="4fa-Yz-KAY"/>
+                    <constraint firstItem="rI1-T7-g7g" firstAttribute="centerX" secondItem="nnh-r1-gPA" secondAttribute="centerX" id="U1n-kr-0s1"/>
+                    <constraint firstItem="rI1-T7-g7g" firstAttribute="top" secondItem="Lhd-Cn-O3l" secondAttribute="bottom" constant="2" id="WqI-1V-n9B"/>
+                    <constraint firstItem="rI1-T7-g7g" firstAttribute="width" secondItem="nnh-r1-gPA" secondAttribute="width" multiplier="0.72" id="fqX-6H-q9b"/>
+                    <constraint firstItem="Lhd-Cn-O3l" firstAttribute="centerY" secondItem="nnh-r1-gPA" secondAttribute="centerY" id="teN-2g-wO2"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="countLabel" destination="rI1-T7-g7g" id="KCO-CG-5Kt"/>
+                <outlet property="nameField" destination="Lhd-Cn-O3l" id="D7e-MU-D3m"/>
+            </connections>
+            <point key="canvasLocation" x="67.5" y="-69.5"/>
+        </tableViewCell>
+    </objects>
+</document>
