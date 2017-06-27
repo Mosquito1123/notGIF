@@ -12,6 +12,8 @@ import SnapKit
 import RealmSwift
 import MBProgressHUD
 
+fileprivate var theContext: Void?
+
 class GIFListViewController: UIViewController {
     
     public var gifList: Results<NotGIF>!
@@ -104,9 +106,8 @@ class GIFListViewController: UIViewController {
         
         manualPaused = NGUserDefaults.shouldAutoPause
         navigationItem.rightBarButtonItem = playControlItem
-        
-        observeGIFLibraryState()
-        
+                
+        NotGIFLibrary.shared.addObserver(self, forKeyPath: #keyPath(NotGIFLibrary.stateStatus), options: [.initial, .new], context: &theContext)
         NotificationCenter.default.addObserver(self, selector: #selector(GIFListViewController.checkToUpdateGIFList(with:)), name: .didSelectTag, object: nil)
         
         #if DEBUG
@@ -156,6 +157,8 @@ class GIFListViewController: UIViewController {
     deinit {
         notifiToken?.stop()
         notifiToken = nil
+        
+        removeObserver(self, forKeyPath: #keyPath(NotGIFLibrary.stateStatus))
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -271,58 +274,6 @@ extension GIFListViewController: GIFListLayoutDelegate {
     }
 }
 
-// MARK: - Navigation Delegate
-
-extension GIFListViewController: UINavigationControllerDelegate {
-    
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        if operation == .push, toVC is GIFDetailViewController {
-            return PushDetailAnimator()
-        }
-        
-        return nil
-    }
-    
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        setDrawerPanGes(enable: false)
-    }
-}
-
-// MARK: - Popover Delegate
-
-extension GIFListViewController: UIPopoverPresentationControllerDelegate {
-    
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .none
-    }
-    
-    func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
-        return false
-    }
-}
-
-// MARK: - Notification Handler 
-
-extension GIFListViewController {
-    
-    func checkToUpdateGIFList(with noti: Notification) {
-        guard let selectTag = noti.object as? Tag else { return }
-        
-        if let currentTag = currentTag, !currentTag.isInvalidated, currentTag.id == selectTag.id {
-            return
-        }
-        
-        if isEditingGIFsTag {
-            endEditGIFsTag(noReload: false)
-        }
-        
-        NGUserDefaults.lastSelectTagID = selectTag.id
-        showGIFList(of: selectTag)
-    }
-}
-
-
 // MARK: - Edit Tag
 
 extension GIFListViewController {
@@ -357,12 +308,104 @@ extension GIFListViewController {
     
     fileprivate func removeChoosedGIF() {
         let gifs = selectGIFIPs.map{ gifList[$0.item] }
-                
+        
         try? Realm().write {
             currentTag?.gifs.remove(objectsIn: gifs)
         }
-
+        
         endEditGIFsTag(noReload: true)
+    }
+}
+
+// MARK: - Notification Handler
+
+extension GIFListViewController {
+    
+    func checkToUpdateGIFList(with noti: Notification) {
+        guard let selectTag = noti.object as? Tag else { return }
+        
+        if let currentTag = currentTag, !currentTag.isInvalidated, currentTag.id == selectTag.id {
+            return
+        }
+        
+        if isEditingGIFsTag {
+            endEditGIFsTag(noReload: false)
+        }
+        
+        NGUserDefaults.lastSelectTagID = selectTag.id
+        showGIFList(of: selectTag)
+    }
+}
+
+// MARK: - Observe
+
+extension GIFListViewController {
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        
+        guard context == &theContext, keyPath == #keyPath(NotGIFLibrary.stateStatus),
+            let stateRawValue = change?[.newKey] as? Int,
+            let state = NotGIFLibraryState(rawValue: stateRawValue) else { return }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.updateUI(with: state)
+        }
+    }
+    
+    fileprivate func updateUI(with state: NotGIFLibraryState) {
+        switch state {
+            
+        case .preparing:
+            HUD.show(.fetchGIF)
+            
+        case .startBgUpdate:
+            HUD.hide(in: navigationController?.view)
+            titleView.update(isLoading: true)
+            showGIFList()
+            
+        case .bgUpdateDone:
+            titleView.update(isLoading: false)
+            showGIFList()
+            
+        case .fetchDoneFromPhotos:
+            HUD.hide(in: navigationController?.view)
+            showGIFList()
+            
+        case .accessDenied:
+            HUD.hide(in: navigationController?.view)
+            collectionView.reloadData()
+        }
+    }
+}
+
+// MARK: - Navigation Delegate
+
+extension GIFListViewController: UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        if operation == .push, toVC is GIFDetailViewController {
+            return PushDetailAnimator()
+        }
+        
+        return nil
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        setDrawerPanGes(enable: false)
+    }
+}
+
+// MARK: - Popover Delegate
+
+extension GIFListViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    
+    func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        return false
     }
 }
 
@@ -415,41 +458,6 @@ extension GIFListViewController {
             case .error(let err):
                 println(err.localizedDescription)
             }
-        }
-    }
-    
-    fileprivate func observeGIFLibraryState() {
-        updateUI(with: NotGIFLibrary.shared.state)
-        
-        NotGIFLibrary.shared.stateChangeHandler = { [weak self] state in
-            DispatchQueue.main.async {
-                self?.updateUI(with: state)
-            }
-        }
-    }
-    
-    fileprivate func updateUI(with state: NotGIFLibraryState) {
-        switch state {
-            
-        case .preparing:
-            HUD.show(to: navigationController?.view, .fetchGIF)
-
-        case .startBgUpdate:
-            HUD.hide(in: navigationController?.view)
-            titleView.update(isLoading: true)
-            showGIFList()
-            
-        case .bgUpdateDone:
-            titleView.update(isLoading: false)
-            showGIFList()
-            
-        case .fetchDoneFromPhotos:
-            HUD.hide(in: navigationController?.view)
-            showGIFList()
-            
-        case .accessDenied:
-            HUD.hide(in: navigationController?.view)
-            collectionView.reloadData()
         }
     }
     

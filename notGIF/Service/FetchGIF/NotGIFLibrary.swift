@@ -15,8 +15,8 @@ typealias GIFDataInfo = (data: Data, thumbnail: UIImage)
 
 public typealias GIFRetrieveCompletion = (_ image: NotGIFImage, _ localID: String, _ withTransition: Bool) -> ()
 
-internal enum NotGIFLibraryState {
-    case startBgUpdate
+@objc enum NotGIFLibraryState: Int {
+    case startBgUpdate = 1
     case fetchDoneFromPhotos
     case bgUpdateDone
     case accessDenied
@@ -27,13 +27,11 @@ class NotGIFLibrary: NSObject {
     
     static let shared = NotGIFLibrary()
     
-    public var state: NotGIFLibraryState = .preparing {
-        didSet {
-            stateChangeHandler?(state)
-        }
-    }
+    dynamic var stateStatus: Int = NotGIFLibraryState.preparing.rawValue
     
-    public var stateChangeHandler: ((NotGIFLibraryState) -> Void)?
+    fileprivate var state: NotGIFLibraryState = .preparing {
+        willSet { stateStatus = newValue.rawValue }
+    }
     
     fileprivate lazy var gifPool: [String: NotGIFImage] = [:]
     fileprivate lazy var gifAssetPool: [String: PHAsset] = [:]
@@ -101,6 +99,7 @@ class NotGIFLibrary: NSObject {
                 try? realm.commitWrite()
                 
                 state = .fetchDoneFromPhotos
+                
                 NGUserDefaults.haveFetched = true
             }
             

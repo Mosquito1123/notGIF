@@ -11,11 +11,14 @@ import Photos
 import Messages
 import RealmSwift
 
+fileprivate var theContext: Void?
+
 class MessagesViewController: MSMessagesAppViewController {
     
     fileprivate var allTag: Tag?
     fileprivate var gifList: Results<NotGIF>!
     fileprivate var notifiToken: NotificationToken?
+    fileprivate var couldShowList: Bool = false
     
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
@@ -37,7 +40,11 @@ class MessagesViewController: MSMessagesAppViewController {
         prepareRealm()
         prepareGIFLibrary()
         
-        observeGIFLibraryState()
+        NotGIFLibrary.shared.addObserver(self, forKeyPath: #keyPath(NotGIFLibrary.stateStatus), options: [.initial, .new], context: &theContext)
+    }
+    
+    deinit {
+        removeObserver(self, forKeyPath: #keyPath(NotGIFLibrary.stateStatus))
     }
     
     // MARK: - Fetch GIF
@@ -53,6 +60,7 @@ class MessagesViewController: MSMessagesAppViewController {
             switch changes {
                 
             case .initial:
+                self?.couldShowList = true
                 collectionView.reloadData()
                 
             case .update(_, let deletions, let insertions, let modifications):
@@ -69,13 +77,16 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
     
-    fileprivate func observeGIFLibraryState() {
-        updateUI(with: NotGIFLibrary.shared.state)
+    // MARK: - Observe
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
-        NotGIFLibrary.shared.stateChangeHandler = { [weak self] state in
-            DispatchQueue.main.async {
-                self?.updateUI(with: state)
-            }
+        guard context == &theContext, keyPath == #keyPath(NotGIFLibrary.stateStatus),
+            let stateRawValue = change?[.newKey] as? Int,
+            let state = NotGIFLibraryState(rawValue: stateRawValue) else { return }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.updateUI(with: state)
         }
     }
     
@@ -103,7 +114,7 @@ class MessagesViewController: MSMessagesAppViewController {
 extension MessagesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gifList != nil ? gifList.count : 0
+        return (gifList == nil || !couldShowList) ? 0 : gifList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -149,12 +160,5 @@ extension MessagesViewController: UICollectionViewDelegate, UICollectionViewData
                 }
             }
         }
-    }
-}
-
-extension MessagesViewController {
-    
-    func sendGIF(with url: URL) {
-        
     }
 }
