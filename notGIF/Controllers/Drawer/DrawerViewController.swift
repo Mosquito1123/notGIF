@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 fileprivate let sideBarWidth: CGFloat = Config.sideBarWidth
 fileprivate let scaleFactor:  CGFloat = 80 / kScreenHeight
@@ -142,6 +143,8 @@ class DrawerViewController: UIViewController {
 extension DrawerViewController: UIGestureRecognizerDelegate {
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard !IQKeyboardManager.sharedManager().keyboardShowing else { return false}
+        
         if gestureRecognizer === sidePanGes {
             if isShowing {
                 let location = sidePanGes.location(in: view)

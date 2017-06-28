@@ -39,6 +39,10 @@ class TagListCell: UITableViewCell {
         
         nameField.font = UIFont.menlo(ofSize: 17)
     }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -81,7 +85,6 @@ extension TagListCell {
     
     fileprivate func editCancel() {
         nameField.text = tagName
-        
         couldEndEdit = true
         nameField.resignFirstResponder()
     }

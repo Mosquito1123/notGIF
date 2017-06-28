@@ -114,12 +114,12 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let actionSize = CGSize(width: 40, height: TagListCell.height)
-        let editRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_edit"), bgColor: .editYellow) { [weak self] (_, rowActionIP) in
+        let editRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_edit"), bgColor: .clear) { [weak self] (_, rowActionIP) in
             
             self?.beginEditTag(at: rowActionIP)
         }
         
-        let deleteRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_delete"), bgColor: .deleteRed) { [weak self] (_, rowActionIP) in
+        let deleteRowAction = UITableViewRowAction(size: actionSize, image: #imageLiteral(resourceName: "icon_tag_delete"), bgColor: .clear) { [weak self] (_, rowActionIP) in
             guard let sSelf = self else { return }
             Alert.show(.confirmDeleteTag(sSelf.tagResult[indexPath.item].name)) {
                 self?.deleteTag(at: rowActionIP)
