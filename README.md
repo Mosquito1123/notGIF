@@ -6,6 +6,12 @@
 <img src="/images/screenshots.png" alt="notGIF" title="sreenshots"/>
 </p>
 
+## Demo:
+
+<p align="left">
+<img src="/images/demo.gif"/>
+</p>
+
 ## Requirements
 - iOS 9.0+
 - Xcode 8.0 
@@ -16,4 +22,4 @@
 Warmly welcome to submit a pull request. If you find an issue, just [open a ticket](https://github.com/atuooo/notGIF/issues/new). 
 
 ## License
-notGIF is available under the MIT license, see the LICENSE file for more information
+notGIF is available under the MIT license, see the [LICENSE](LICENSE) file for more information
