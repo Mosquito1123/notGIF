@@ -10,6 +10,7 @@ import UIKit
 import Photos
 import SnapKit
 import RealmSwift
+import StoreKit
 import MBProgressHUD
 
 fileprivate var theContext: Void?
@@ -122,6 +123,12 @@ class GIFListViewController: UIViewController {
 
         selectIndexPath = nil
         navigationController?.delegate = self
+        
+        if #available(iOS 10.3, *) {
+            SKStoreReviewController.requestReview()
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
