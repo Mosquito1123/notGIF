@@ -50,8 +50,10 @@
 
 "prompt.updating" = "Updating";
 "prompt.title_remove_gif_%@" = "Are you sure to remove %d GIF from \"%@\" tag ?";
-
 "title.remove_gif_%@" = "Remove %d GIF";
+
+"prompt.title_delete_gif_%@" = "Are you sure to delete %d GIF from album ?";
+"title.delete_gif_%@" = "Delete %d GIF";
 
 "title.choosed_gif_%@" = "Choose %d Tag";
 "title.add" = "Add";

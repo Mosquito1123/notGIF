@@ -196,6 +196,14 @@ extension String {
         return String(format: NSLocalizedString("title.remove_gif_%@", comment: ""), count)
     }
     
+    static func trans_promptTitleDeleteGIF(_ count: Int) -> String {
+        return String(format: NSLocalizedString("prompt.title_delete_gif_%@", comment: ""), count)
+    }
+    
+    static func trans_titleDeleteGIF(_ count: Int) -> String {
+        return String(format: NSLocalizedString("title.delete_gif_%@", comment: ""), count)
+    }
+    
     static var trans_promptMessageDeleteTag: String {
         return NSLocalizedString("prompt.message_delete_tag", comment: "")
     }

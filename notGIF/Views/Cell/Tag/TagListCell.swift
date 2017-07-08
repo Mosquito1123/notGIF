@@ -38,6 +38,7 @@ class TagListCell: UITableViewCell {
         countLabel.text = nil
         
         nameField.font = UIFont.menlo(ofSize: 17)
+        nameField.isEnabled = false
     }
     
     override var canBecomeFirstResponder: Bool {

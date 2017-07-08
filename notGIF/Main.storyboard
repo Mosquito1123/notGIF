@@ -140,7 +140,7 @@
                                         <rect key="frame" x="0.0" y="28" width="300" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eAh-uM-Ood" id="jmN-mT-mNZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="261" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="261" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Funny" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HJ9-UJ-YCr">
@@ -276,7 +276,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="umF-ix-sdO">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" translucent="NO" id="umF-ix-sdO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.98431372549999996" green="0.98431372549999996" blue="0.98431372549999996" alpha="0.5" colorSpace="deviceRGB"/>
@@ -456,7 +456,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="400"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3uk-a0-HUG">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="3uk-a0-HUG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -478,7 +478,7 @@
     <resources>
         <image name="icon_add_tag" width="19" height="19"/>
         <image name="icon_logo_white" width="120" height="120"/>
-        <image name="icon_remove_tag" width="20" height="20"/>
+        <image name="icon_remove_tag" width="19" height="19"/>
         <image name="icon_side_bar" width="22" height="19"/>
     </resources>
 </document>

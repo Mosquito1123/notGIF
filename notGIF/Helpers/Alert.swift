@@ -19,6 +19,8 @@ public enum AlertShowScene {
     
     case confirmDeleteTag(String)
     case confirmRemoveGIF(Int, String)
+    
+    case confirmDeleteGIF(Int)
 }
 
 typealias Completion = (() -> Void)
@@ -61,6 +63,12 @@ final class Alert {
         case .confirmRemoveGIF(let count, let name):
             title = String.trans_promptTitleRemoveGIF(count, from: name)
             confirmTitle = String.trans_titleRemoveGIF(count)
+            style = .actionSheet
+            showCancel = true
+            
+        case .confirmDeleteGIF(let count):
+            title = String.trans_promptTitleDeleteGIF(count)
+            confirmTitle = String.trans_titleDeleteGIF(count)
             style = .actionSheet
             showCancel = true
         }

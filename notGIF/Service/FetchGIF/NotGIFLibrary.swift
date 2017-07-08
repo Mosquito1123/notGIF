@@ -159,7 +159,7 @@ class NotGIFLibrary: NSObject {
             return PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options: nil).firstObject
         }
     }
-    
+        
     public func getGIFInfoStr(of gif: NotGIF) -> String? {
         return gifPool[gif.id]?.info ?? nil
     }
