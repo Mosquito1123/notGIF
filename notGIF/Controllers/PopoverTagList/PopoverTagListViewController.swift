@@ -12,7 +12,7 @@ import IQKeyboardManagerSwift
 
 private let width = kScreenWidth * 0.8
 
-class AddTagListViewController: UIViewController {
+class PopoverTagListViewController: UIViewController {
 
     public var toAddGIFs: [NotGIF] = []
     public var fromTag: Tag!
@@ -130,7 +130,7 @@ class AddTagListViewController: UIViewController {
 
 // MARK: - TableView Delegate
 
-extension AddTagListViewController: UITableViewDelegate, UITableViewDataSource {
+extension PopoverTagListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return  tagResult == nil ? 0 : tagResult.count

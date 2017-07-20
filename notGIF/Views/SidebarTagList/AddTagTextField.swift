@@ -11,13 +11,13 @@ import UIKit
 fileprivate let leftViewSize: CGFloat = 20
 fileprivate let padding: CGFloat = 10
 
-class CustomTextField: UITextField {
+class AddTagTextField: UITextField {
     
     public var addTagHandler: ((String) -> Void)?
     fileprivate var couldEndEdit: Bool = false
     
-    fileprivate lazy var toolBar: CustomToolBar = {
-        return CustomToolBar(doneHandler: {
+    fileprivate lazy var toolBar: InputAccessoryToolBar = {
+        return InputAccessoryToolBar(doneHandler: {
             self.editDone()
         }, cancelHandler: {
             self.editCancel()
@@ -44,14 +44,7 @@ class CustomTextField: UITextField {
         leftImageView.contentMode = .scaleAspectFit
         leftView = leftImageView
         leftViewMode = .always
-        
-//        let att: [String : Any] = [
-//            NSFontAttributeName: UIFont.menlo(ofSize: 17),
-//            NSForegroundColorAttributeName: UIColor.textTint
-//        ]
-//        
-//        attributedPlaceholder = NSAttributedString(string: String.trans_tag, attributes: att)
-        
+
         attributedPlaceholder = attPlaceHolder
         
         textColor = UIColor.textTint
@@ -103,7 +96,7 @@ class CustomTextField: UITextField {
 
 // MARK: - Delegate
 
-extension CustomTextField: UITextFieldDelegate {
+extension AddTagTextField: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         attributedPlaceholder = nil
         return true

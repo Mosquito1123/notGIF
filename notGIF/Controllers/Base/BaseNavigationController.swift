@@ -16,7 +16,7 @@ class BaseNavigationController: UINavigationController {
         let bottmLine = getBottomLineView(in: navigationBar)
         bottmLine?.isHidden = true
     }
-    
+        
     func getBottomLineView(in view: UIView) -> UIImageView? {
         if view is UIImageView && view.bounds.size.height <= 1.0 {
             return view as? UIImageView

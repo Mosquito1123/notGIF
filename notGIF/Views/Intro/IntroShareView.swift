@@ -13,7 +13,7 @@ class IntroShareView: UIView, Intro {
     public var goMainHandler: CommonHandler?
     
     fileprivate var animated = false
-    fileprivate var popShareView: LongPressPopShareView!
+    fileprivate var popShareView: GIFListActionView!
     
     fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -61,7 +61,7 @@ class IntroShareView: UIView, Intro {
         addSubview(imageView)
         
         let imageRect = CGRect(x: (0.5-imageScale/2)*kScreenWidth, y: imageH*0.338, width: imageW*0.57, height: imageH*0.285)
-        popShareView = LongPressPopShareView(popOrigin: CGPoint(x: imageRect.midX, y: imageRect.minY), cellRect: imageRect, frame: CGRect(origin: .zero, size: rect.size), isForIntro: true)
+        popShareView = GIFListActionView(popOrigin: CGPoint(x: imageRect.midX, y: imageRect.minY), cellRect: imageRect, frame: CGRect(origin: .zero, size: rect.size), isForIntro: true)
         popShareView.isUserInteractionEnabled = false
         
         imageView.addSubview(popShareView)

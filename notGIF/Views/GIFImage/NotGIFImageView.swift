@@ -30,6 +30,7 @@ class NotGIFImageView: UIImageView {
     public var animateImage: NotGIFImage! {
         didSet {
             guard animateImage != oldValue else { return }
+            resetSpeed()
             
             if animateImage != nil {
                 super.image = nil
@@ -39,7 +40,7 @@ class NotGIFImageView: UIImageView {
                 currentFrame = animateImage.posterImage
                 currentFrameIndex = animateImage.currentIndexForContinue
                 
-                accumulator = 0.0
+                timeSinceLastFrameChange = 0.0
                 
                 updateShouldAnimate()
                 
@@ -57,7 +58,9 @@ class NotGIFImageView: UIImageView {
         }
     }
     
-    private var accumulator: TimeInterval = 0.0
+    private var manualSpeed: TimeInterval?
+    
+    private var timeSinceLastFrameChange: TimeInterval = 0.0
     private var displayLink: CADisplayLink?
     
     private var shouldAnimate: Bool = false
@@ -74,15 +77,38 @@ class NotGIFImageView: UIImageView {
         printLog("deinited")
     }
     
+    // MARK: - Change Speed
+    public func updateSpeed(_ speed: TimeInterval) {
+        guard manualSpeed != speed else { return }
+        if #available(iOS 10.0, *) {
+            displayLink?.preferredFramesPerSecond = speed < 0.02 ? 200 : 60
+        } else {
+            displayLink?.frameInterval = speed < 0.02 ? 4 : 1
+        }
+        
+        manualSpeed = speed
+        layer.setNeedsDisplay()
+    }
+    
+    public func resetSpeed() {
+        manualSpeed = nil
+        if #available(iOS 10.0, *) {
+            displayLink?.preferredFramesPerSecond = 60
+        } else {
+            displayLink?.frameInterval = 1
+        }
+    }
+    
     // MARK: - Animating Image
     
     func displayDidRefresh(dpLink: CADisplayLink) {
         
         guard animateImage != nil, shouldAnimate else { return }
-        
         defer { animateImage.currentIndexForContinue = currentFrameIndex }
         
-        if let deleyTimeNumber = animateImage.delayTimesForIndexes[currentFrameIndex] {
+        let delay = manualSpeed ?? animateImage.delayTimesForIndexes[currentFrameIndex]
+        
+        if let frameDuration = delay {
             
             if let frame = animateImage.imageLazilyCachedAt(index: currentFrameIndex) {
                 
@@ -93,15 +119,9 @@ class NotGIFImageView: UIImageView {
                     needsDisplayWhenImageBecomesAvailable = false
                 }
                 
-                // 计算间隔时间
-                if #available(iOS 10.0, *) {
-                    accumulator += dpLink.duration * 60.0 / TimeInterval(dpLink.preferredFramesPerSecond)
-                } else {
-                    accumulator += dpLink.duration * TimeInterval(dpLink.frameInterval)
-                }
-                
-                while accumulator >= deleyTimeNumber {
-                    accumulator -= deleyTimeNumber
+                timeSinceLastFrameChange += dpLink.duration
+                while timeSinceLastFrameChange >= frameDuration {
+                    timeSinceLastFrameChange -= frameDuration
                     currentFrameIndex += 1
     
                     needsDisplayWhenImageBecomesAvailable = true
@@ -134,20 +154,8 @@ class NotGIFImageView: UIImageView {
         }
 
         if displayLink == nil {
-            // 用 weakProxy 打破 dpLink 与 self 间的强引用
             displayLink = CADisplayLink(target: NGWeakProxy(target: self), selector: #selector(displayDidRefresh(dpLink:)))
             displayLink?.add(to: RunLoop.main, forMode: runLoopMode)
-        }
-        
-        let kDisplayRefreshRate = 60    // 60Hz
-        
-        let divisor = frameDelayGreatestCommonDivisor
-        let fps = Int(1 / divisor)
-        
-        if #available(iOS 10.0, *) {
-            displayLink?.preferredFramesPerSecond = min(kDisplayRefreshRate, fps)
-        } else {
-            displayLink?.frameInterval = max(Int(divisor * Double(kDisplayRefreshRate)), 1)
         }
         
         displayLink?.isPaused = false

@@ -53,10 +53,13 @@ class PopDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             listCell.isInTransition = true
             listVC.shouldPlay = true
             listCell.isHidden = true
+            
             listCell.imageView.stopAnimating()
             
             container.addSubview(maskImageView)
         
+            detailVC.toolView.setHidden(true, animated: false)
+
             listVC.collectionView.alpha = 0
             detailVC.collectionView.alpha = 0
             
@@ -87,6 +90,11 @@ class PopDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                         self.maskImageView.frame = imageOriginFrame
                         detailCell.contentView.insertSubview(self.maskImageView, at: 0)
                         
+                        DispatchQueue.main.after(0.01, execute: {
+                            let isBarHidden = detailVC.isBarHidden
+                            detailVC.isBarHidden = isBarHidden
+                        })
+   
                     } else {
                         
                         listCell.isInTransition = false

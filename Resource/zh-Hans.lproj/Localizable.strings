@@ -68,3 +68,5 @@
 "title_prepareing" = "准备中...";
 "title_fetching" = "正在获取 GIF...";
 
+"prompt.tapToAddTag" = "点击添加标签";
+

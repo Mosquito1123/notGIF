@@ -11,29 +11,9 @@ import MessageUI
 import ReachabilitySwift
 import MobileCoreServices
 
-public enum ShareType: Int {
-    case more    = 23
-    case twitter
-    case weibo
-    case wechat
-    case message
-    case tag
-    
-    var iconCode: FontUnicode {
-        switch self {
-        case .more:     return .share
-        case .twitter:  return .twitter
-        case .weibo:    return .weibo
-        case .wechat:   return .wechat
-        case .message:  return .message
-        case .tag:      return .tag
-        }
-    }
-}
-
 class GIFShareManager {
     
-    class func shareGIF(of id: String, to type: ShareType) {
+    class func shareGIF(of id: String, to type: GIFActionType.ShareType) {
         guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else { return }
         
         HUD.show(.requestData)
@@ -55,7 +35,7 @@ class GIFShareManager {
                     return
                 }
                 
-                let composeVC = ComposeViewController(shareType: type, with: gifInfo)
+                let composeVC = ComposeViewController(type: type == .weibo ? .weibo : .twitter, with: gifInfo)
                 composeVC.modalPresentationStyle = .overCurrentContext
                 DispatchQueue.main.safeAsync {
                     rootVC.present(composeVC, animated: true) { HUD.hide() }
@@ -64,13 +44,6 @@ class GIFShareManager {
             case .wechat:
                 OpenShare.shareGIF(with: gifInfo, to: .wechat)
                 HUD.hide()
-                
-            case .more:
-                let activityVC = UIActivityViewController(activityItems: [gifInfo.data], applicationActivities: nil)
-                
-                DispatchQueue.main.safeAsync {
-                    rootVC.present(activityVC, animated: true) { HUD.hide() }
-                }
                 
             case .message:
                 if let messageVC = MessageComposeViewController(gifData: gifInfo.data) {
@@ -83,11 +56,14 @@ class GIFShareManager {
                     Alert.show(.messageUnsupport)
                 }
                 
-            default:
-                break
+                
+            case .more:
+                let activityVC = UIActivityViewController(activityItems: [gifInfo.data], applicationActivities: nil)
+                
+                DispatchQueue.main.safeAsync {
+                    rootVC.present(activityVC, animated: true) { HUD.hide() }
+                }
             }
-            
         }
     }
-    
 }

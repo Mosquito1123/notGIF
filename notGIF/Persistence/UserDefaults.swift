@@ -10,7 +10,7 @@ import Foundation
 
 private let have_fetch_gif_key          = "notGIF_have_fetched"
 private let last_select_tag_key         = "notGIF_last_select_tag_id"
-private let play_control_state_key      = "notGIF_play_control_state"
+private let should_auto_play_key        = "notGIF_should_auto_play"
 private let have_show_intro_key         = "notGIF_have_show_intro"
 
 final public class NGUserDefaults {
@@ -35,12 +35,12 @@ final public class NGUserDefaults {
         }
     }
     
-    static var shouldAutoPause: Bool {
+    static var shouldAutoPlay: Bool {
         set {
-            defaults.set(newValue, forKey: play_control_state_key)
+            defaults.set(newValue, forKey: should_auto_play_key)
         }
         get {
-            return defaults.bool(forKey: play_control_state_key)
+            return defaults.bool(forKey: should_auto_play_key)
         }
     }
     

@@ -23,10 +23,13 @@ final public class Config {
     }
 }
 
+// MARK: - Notification
 extension Notification.Name {
     static let didSelectTag = Notification.Name("Config.Notification.didSelectTag")
+    static let hideStatusBar = Notification.Name("Config.Notification.hideStatusBar")
 }
 
+// MARK: - Color
 extension UIColor {
     static let textTint     = UIColor.hex(0xfbfbfb)
     static let editYellow   = UIColor.hex(0xfe9402)
@@ -40,6 +43,7 @@ extension UIColor {
     static let bgColor      = UIColor.hex(0x181818)
 }
 
+// MARK: - Font
 extension UIFont {
     
     // nav title: /jif/
@@ -61,6 +65,7 @@ extension UIFont {
     }
 }
 
+// MARK: - Typealias
 public typealias CommonHandler = (() -> Void)
 public typealias CommonCompletion = () -> Void
 

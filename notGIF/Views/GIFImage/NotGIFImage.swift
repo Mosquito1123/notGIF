@@ -14,7 +14,7 @@ import CoreGraphics
 import MobileCoreServices
 
 // 每帧的最小间隔不得小于 0.03s（大多数浏览器的做法 ☞ http://nullsleep.tumblr.com/post/16524517190/animated-gif-minimum-frame-delay-browser-compatibility)
-public let kGIFDelayTimeIntervalMinium: TimeInterval = 0.03
+public let kGIFDelayTimeIntervalMinium: TimeInterval = 0.01
 
 // 默认间隔（当获取不到间隔时间时）
 private let kGIFDelayTimeIntervalDefault: TimeInterval = 0.1
@@ -145,7 +145,7 @@ public class NotGIFImage: NSObject {
                 let baseValue = kGIFDelayTimeIntervalMinium - Double.ulpOfOne
                 
                 if delayTime < baseValue {
-                    delayTime = kGIFDelayTimeIntervalDefault
+                    delayTime = kGIFDelayTimeIntervalMinium
                 }
                 
                 delayTimesForIndexesMutable[i] = delayTime

@@ -8,11 +8,11 @@
 
 import UIKit
 
-class LongPressPopShareView: UIView {
+class GIFListActionView: UIView {
 
     fileprivate var iconViews: [UIView] = []
     fileprivate var iconTriggerRects: [CGRect] = []
-    fileprivate var shareTypes: [ShareType] = [.more, .twitter, .weibo, .wechat, .tag]
+    fileprivate var shareTypes: [GIFActionType] = []
     fileprivate var hasChanged: Bool = false
     
     fileprivate var cellMaskRect: CGRect = .zero
@@ -26,9 +26,10 @@ class LongPressPopShareView: UIView {
         self.isForIntro = isForIntro
         
         cellMaskRect = cellRect
-
+        shareTypes = [.shareTo(.more), .shareTo(.twitter), .shareTo(.weibo), .shareTo(.wechat), .editTag]
+        
         if !OpenShare.canOpen(.wechat) {
-            shareTypes.remove(.wechat)
+            shareTypes.remove(.shareTo(.wechat))
         }
         
         let iconS: CGFloat = 36
@@ -52,9 +53,12 @@ class LongPressPopShareView: UIView {
         for i in 0..<count {
             
             let iconViewFrame = CGRect(x: beignOx, y: baseOriginY, width: iconS, height: iconS)
-            let fontSize: CGFloat = shareTypes[i] == .tag ? 25 : 28
-            let iconView = UILabel(iconCode: shareTypes[i].iconCode, color: UIColor.textTint, fontSize: fontSize)
-            iconView.frame = iconViewFrame
+            let imgSize: CGFloat = shareTypes[i] == .editTag ? 25 : 28
+            
+            let iconView = UIImageView(image: shareTypes[i].image(of: imgSize))
+            iconView.contentMode = .scaleAspectFit
+            iconView.tintColor = UIColor.textTint
+            iconView.frame = iconViewFrame.insetBy(dx: 3, dy: 3)
             beignOx += iconS + padding
             iconView.contentMode = .scaleAspectFit
             iconView.alpha = 0
@@ -141,7 +145,7 @@ class LongPressPopShareView: UIView {
         }, completion: nil)
     }
     
-    public func end(with offset: CGPoint) -> ShareType? {
+    public func end(with offset: CGPoint) -> GIFActionType? {
         UIView.animate(withDuration: 0.2, animations: { 
             self.alpha = 0
         }) { _ in

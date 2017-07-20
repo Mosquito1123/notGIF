@@ -17,9 +17,17 @@ class DrawerViewController: UIViewController {
 
     @IBOutlet var dissmisTapGes: UITapGestureRecognizer!
     @IBOutlet var sidePanGes: UIPanGestureRecognizer!
-    @IBOutlet weak var sideBarContainer: UIView!
-    @IBOutlet weak var mainContainer: UIView!
     
+    @IBOutlet weak var sideBarContainer: UIView!
+    @IBOutlet weak var mainContainer: UIView! {
+        didSet {
+            mainContainer.layer.shadowColor = UIColor.black.cgColor
+            mainContainer.layer.shadowOffset = CGSize(width: -2.0, height: -2.0)
+            mainContainer.layer.shadowOpacity = 0.33
+        }
+    }
+    
+    fileprivate var shouldHideStatusBar: Bool = false
     fileprivate var gesBeginOffsetX: CGFloat = 0
 
     fileprivate var isShowing: Bool = false {
@@ -30,18 +38,27 @@ class DrawerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        mainContainer.layer.shadowColor = UIColor.black.cgColor
-        mainContainer.layer.shadowOffset = CGSize(width: -2.0, height: -2.0)
-        mainContainer.layer.shadowOpacity = 0.33
+
+        NotificationCenter.default.addObserver(self, selector: #selector(DrawerViewController.setStatusBarHidden(noti:)), name: .hideStatusBar, object: nil)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Update Status Bar
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
     override var prefersStatusBarHidden: Bool {
-        return false
+        return shouldHideStatusBar
+    }
+    
+    func setStatusBarHidden(noti: Notification) {
+        guard let shouldHide = noti.object as? Bool else { return }
+        shouldHideStatusBar = shouldHide
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     // MARK: - Gesture Handler

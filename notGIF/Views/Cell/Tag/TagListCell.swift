@@ -21,8 +21,8 @@ class TagListCell: UITableViewCell {
     
     fileprivate var tagName: String = ""
     
-    fileprivate lazy var toolBar: CustomToolBar = {
-        return CustomToolBar(doneHandler: {
+    fileprivate lazy var toolBar: InputAccessoryToolBar = {
+        return InputAccessoryToolBar(doneHandler: {
             self.editDone()
         }, cancelHandler: {
             self.editCancel()

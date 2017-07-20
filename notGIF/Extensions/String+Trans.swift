@@ -98,6 +98,10 @@ extension String {
     static var trans_titleIntroShareMessage: String {
         return NSLocalizedString("title_intro_share_message", comment: "")
     }
+    
+    static var trans_promptTapToAddTag: String {
+        return NSLocalizedString("prompt.tapToAddTag", comment: "")
+    }
 }
 
 // MARK: - Toast

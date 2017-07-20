@@ -88,6 +88,10 @@ extension NotGIFImageView {
             }
         }
         
+        if task == nil {
+            activityIndicator?.stopAnimating()
+        }
+        
         setImageTask(task)
     }
     

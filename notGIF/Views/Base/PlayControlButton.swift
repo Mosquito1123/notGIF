@@ -8,11 +8,11 @@
 
 import UIKit
 
-fileprivate let outerCycleDia: CGFloat = 20
-fileprivate let lineWidth: CGFloat = 1.6
-fileprivate let lineLength: CGFloat = outerCycleDia*0.44
-fileprivate let strokeColor: UIColor = UIColor.textTint
-fileprivate let lineSpace: CGFloat = 0.6 * lineLength
+//fileprivate let outerCycleDia: CGFloat = 20
+//fileprivate let lineWidth: CGFloat = 1.6
+//fileprivate let lineLength: CGFloat = outerCycleDia*0.44
+//fileprivate let strokeColor: UIColor = UIColor.textTint
+//fileprivate let lineSpace: CGFloat = 0.6 * lineLength
 
 class PlayControlButton: UIButton {
     fileprivate var tapHandler: ((Bool) -> Void)?
@@ -25,8 +25,15 @@ class PlayControlButton: UIButton {
     fileprivate var showPlay: Bool = false
     fileprivate var throttleTimer: DispatchSourceTimer?
     
-    init(showPlay: Bool, tapHandler: @escaping (Bool) -> Void) {
+    init(showPlay: Bool, outerDia: CGFloat = 20, tapHandler: @escaping (Bool) -> Void) {
+        let outerCycleDia = outerDia
+        let lineWidth: CGFloat = 1.6
+        let lineLength: CGFloat = outerCycleDia*0.44
+        let strokeColor: UIColor = UIColor.textTint
+        let lineSpace: CGFloat = 0.6 * lineLength
+        
         let diameter = outerCycleDia+lineWidth
+
         super.init(frame: CGRect(x: 0, y: 0, width: diameter, height: diameter))
         
         self.showPlay = showPlay
@@ -113,7 +120,7 @@ class PlayControlButton: UIButton {
         didSet {            
             if !isHighlighted && isTouchInside {
                 ThrottleTimer.throttle(interval: 0.6, identifier: "play_button_animation") { [weak self] in
-                    self?.showStateChangeAnimation()
+                    self?.buttonClicked()
                 }
             }
         }
@@ -130,6 +137,20 @@ class PlayControlButton: UIButton {
         }
     }
     
+    fileprivate func buttonClicked() {
+        showPlay = !showPlay
+        tapHandler?(showPlay)
+        
+        showStateChangeAnimation()
+    }
+    
+    public func setPlayState(playing: Bool) {
+        guard !playing != showPlay else { return }
+        showPlay = !playing
+        showStateChangeAnimation()
+    }
+    
+    // MARK: - Animation
     fileprivate func showContainerScaleAnimation(tracking: Bool) {
         let transform = tracking ? CATransform3DMakeScale(0.88, 0.88, 1) : CATransform3DIdentity
         
@@ -143,9 +164,6 @@ class PlayControlButton: UIButton {
     }
     
     fileprivate func showStateChangeAnimation() {
-        showPlay = !showPlay
-        
-        tapHandler?(showPlay)
         
         let aPath = showPlay ? rightLinePaths[0] : rightLinePaths[2]
         let bPath = showPlay ? rightLinePaths[1] : rightLinePaths[3]

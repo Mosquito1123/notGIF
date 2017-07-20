@@ -16,40 +16,48 @@ typealias GIFDataInfo = (data: Data, thumbnail: UIImage)
 public typealias GIFRetrieveCompletion = (_ image: NotGIFImage, _ localID: String, _ withTransition: Bool) -> ()
 
 @objc enum NotGIFLibraryState: Int {
-    case startBgUpdate = 1
-    case fetchDoneFromPhotos
-    case bgUpdateDone
-    case accessDenied
     case preparing
+    case fetchDone
+    case accessDenied
+    case error
 }
 
 class NotGIFLibrary: NSObject {
     
     static let shared = NotGIFLibrary()
     
-    dynamic var stateStatus: Int = NotGIFLibraryState.preparing.rawValue
+    public var stateChangeHandler: ((NotGIFLibraryState) -> Void)?
     
-    fileprivate var state: NotGIFLibraryState = .preparing {
-        willSet { stateStatus = newValue.rawValue }
+    public var state: NotGIFLibraryState = .preparing {
+        didSet {
+            stateChangeHandler?(state)
+        }
     }
     
+    /// 用来存储所获取的 NotGIFImage
     fileprivate lazy var gifPool: [String: NotGIFImage] = [:]
+    
+    /// 用来存储 GIF 的 Asset
     fileprivate lazy var gifAssetPool: [String: PHAsset] = [:]
     
+    /// 相册中所有 Image 的 PHFetchResult
     fileprivate lazy var allImageFetchResult: PHFetchResult<PHAsset> = {
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         return PHAsset.fetchAssets(with: .image, options: fetchOptions)
     }()
     
+    /// 异步更新 GIF Library 的队列
     fileprivate lazy var bgFetchQueue: DispatchQueue = {    // TODO: - Concurrent
         return DispatchQueue(label: "com.notGIF.bgFetch", qos: .utility)
     }()
     
+    /// 获取 NotGIFImage 的串行队列池
     fileprivate lazy var queuePool: DispatchQueuePool = {
         return DispatchQueuePool(name: "com.notGIF.getGIF", qos: .utility, queueCount: 6)
     }()
-        
+    
+    /// 准备 GIF Library
     public func prepare() {
         guard PHPhotoLibrary.authorizationStatus() == .authorized else { return }
         
@@ -74,12 +82,11 @@ class NotGIFLibrary: NSObject {
                     realm.delete( notGIFs.filter { !tmpAllGIFIDs.contains($0.id) } )
                 }
                 
-                state = .startBgUpdate
+                state = .fetchDone
                 
                 // 后台更新 GIF Library
                 bgFetchQueue.async { [weak self] in
                     self?.updateGIFLibrary(with: Set<PHAsset>(tempAllGIFAessts))
-                    self?.state = .bgUpdateDone
                 }
                 
             } else {     // 从 Photos 中获取 GIF
@@ -98,28 +105,18 @@ class NotGIFLibrary: NSObject {
                 
                 try? realm.commitWrite()
                 
-                state = .fetchDoneFromPhotos
-                
+                state = .fetchDone
                 NGUserDefaults.haveFetched = true
             }
             
         } catch let err {
-            printLog("init Realm failed:\n\(err.localizedDescription)")
+            state = .error
+            printLog("init Realm failed: \n\(err.localizedDescription)")
         }
     }
     
-    fileprivate func fetchAllGIFAssetsFromPhotos() -> Set<PHAsset> {
-        var assetSet = Set<PHAsset>()
-        
-        allImageFetchResult.enumerateObjects(options: .concurrent, using: {(asset, _, _) in
-            if asset.isGIF {
-                assetSet.insert(asset)
-            }
-        })
-        
-        return assetSet
-    }
-    
+    /// 更新 GIF Library (后台异步)
+    /// - Parameter tempGIFAssetSet: 当前 GIFAsset 的集合
     fileprivate func updateGIFLibrary(with tempGIFAssetSet: Set<PHAsset>) {
         guard let realm = try? Realm() else { return }
         
@@ -152,19 +149,12 @@ class NotGIFLibrary: NSObject {
         try? realm.commitWrite()
     }
     
-    public func getAsset(with assetID: String) -> PHAsset? {
-        if let asset = gifAssetPool[assetID] {
-            return asset
-        } else {
-            return PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options: nil).firstObject
-        }
-    }
-        
-    public func getGIFInfoStr(of gif: NotGIF) -> String? {
-        return gifPool[gif.id]?.info ?? nil
-    }
-    
-    // retrieve gif to show
+    /// 获取 NotGIFImage
+    ///
+    /// - Parameters:
+    ///   - id: GIF id
+    ///   - completionHandler: 当成功获取 或 初始化 NotGIFImage 时调用
+    /// - Returns: 获取 Image 的 DispatchWorkItem，当不再需要展示时用来取消任务项
     public func retrieveGIF(with id: String, completionHandler: @escaping GIFRetrieveCompletion) -> DispatchWorkItem? {
         
         if let gif = gifPool[id] {
@@ -197,7 +187,11 @@ class NotGIFLibrary: NSObject {
         }
     }
     
-    // request data to share gif
+    /// 获取 GIF 元数据
+    ///
+    /// - Parameters:
+    ///   - gifID:  GIF id
+    ///   - completionHandler: 返回 (data: Data, thumbnail: UIImage)?
     public func requestGIFData(of gifID: String, completionHandler: @escaping (GIFDataInfo?) -> Void) {
         guard let gifAsset = gifAssetPool[gifID], let gif = gifPool[gifID] else {
             completionHandler(nil)
@@ -216,6 +210,45 @@ class NotGIFLibrary: NSObject {
                 completionHandler(nil)
             }
         }
+    }
+    
+    // MARK: - Helper Methods
+    
+    /// 从相册中获取所有 GIF 资源
+    /// - Returns: GIF 的 Asset 集合
+    fileprivate func fetchAllGIFAssetsFromPhotos() -> Set<PHAsset> {
+        var assetSet = Set<PHAsset>()
+        
+        allImageFetchResult.enumerateObjects(options: .concurrent, using: {(asset, _, _) in
+            if asset.isGIF {
+                assetSet.insert(asset)
+            }
+        })
+        
+        return assetSet
+    }
+    
+    /// 根据 assetID 获取 Asset
+    ///
+    /// - Parameter assetID: localIdentifier
+    /// - Returns: GIF 的 Asset
+    public func getAsset(with assetID: String) -> PHAsset? {
+        if let asset = gifAssetPool[assetID] {
+            return asset
+        } else {
+            return PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options: nil).firstObject
+        }
+    }
+    
+    /// 获取 GIF 信息
+    ///
+    /// - Parameter gif: GIF ID
+    /// - Returns: infoStr：帧数+时间+大小; averageSpeed: 平均速度
+    public func getGIFInfo(of gifID: String) -> (String, TimeInterval)? {
+        guard let gifImage = gifPool[gifID] else { return nil }
+        let infoStr = gifImage.info
+        let averageSpeed = gifImage.totalDelayTime / TimeInterval(gifImage.frameCount)
+        return (infoStr, averageSpeed)
     }
     
     // MARK: - Init
@@ -251,8 +284,6 @@ extension NotGIFLibrary: PHPhotoLibraryChangeObserver {
         guard !removedGIFIDs.isEmpty || !insertedGIFAssets.isEmpty,
             let realm = try? Realm() else { return }
         
-        state = .startBgUpdate
-        
         let toDeleteGIFs = realm.objects(NotGIF.self).filter{ removedGIFIDs.contains($0.id) }
         removedGIFIDs.forEach { gifID in
             gifAssetPool.removeValue(forKey: gifID)
@@ -273,11 +304,10 @@ extension NotGIFLibrary: PHPhotoLibraryChangeObserver {
                 defaultTag.gifs.append(objectsIn: toInsertGIFs)
             }
         }
-        
-        state = .bgUpdateDone
     }
 }
 
+// MARK: - Public Prepare GIF
 public func prepareGIFLibrary() {
     DispatchQueue.global().async {
         PHPhotoLibrary.requestAuthorization { status in

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CustomLabel: UILabel {
+class GIFInfoLabel: UILabel {
     
     fileprivate var aFont: UIFont
     fileprivate var bFont: UIFont

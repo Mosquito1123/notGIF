@@ -40,11 +40,9 @@ class MessagesViewController: MSMessagesAppViewController {
         prepareRealm()
         prepareGIFLibrary()
         
-        NotGIFLibrary.shared.addObserver(self, forKeyPath: #keyPath(NotGIFLibrary.stateStatus), options: [.initial, .new], context: &theContext)
-    }
-    
-    deinit {
-        removeObserver(self, forKeyPath: #keyPath(NotGIFLibrary.stateStatus))
+        NotGIFLibrary.shared.stateChangeHandler = { [weak self] state in
+            self?.updateUI(with: state)
+        }
     }
     
     // MARK: - Fetch GIF
@@ -77,34 +75,19 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
     
-    // MARK: - Observe
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        
-        guard context == &theContext, keyPath == #keyPath(NotGIFLibrary.stateStatus),
-            let stateRawValue = change?[.newKey] as? Int,
-            let state = NotGIFLibraryState(rawValue: stateRawValue) else { return }
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.updateUI(with: state)
-        }
-    }
-    
     fileprivate func updateUI(with state: NotGIFLibraryState) {
         switch state {
+            
         case .preparing:
             HUD.show(to: collectionView, .fetchGIF)
-
-        case .startBgUpdate, .fetchDoneFromPhotos:
+            
+        case .fetchDone:
             HUD.hide(in: collectionView)
             showAllGIF()
-
-        case .accessDenied:
+            
+        case .accessDenied, .error:
             HUD.hide(in: collectionView)
             collectionView.reloadData()
-             
-        case .bgUpdateDone:
-            break
         }
     }
 }

@@ -31,17 +31,22 @@ class GIFDetailViewController: UIViewController {
         }
     }
     
-    fileprivate var isBarHidden = false {
+    public var isBarHidden = false {
         didSet {
-            shareBar.isHidden = isBarHidden
+            toolView.setHidden(isBarHidden, animated: true)
             navigationController?.setNavigationBarHidden(isBarHidden, animated: true)
+            NotificationCenter.default.post(name: .hideStatusBar, object: isBarHidden)
         }
     }
     
     fileprivate let defaultInfo = "xxx Frames\n xx / xx"
-    fileprivate lazy var titleInfoLabel: CustomLabel = {
-        return CustomLabel(aFont: UIFont.menlo(ofSize: 16),
-                           bFont: UIFont.menlo(ofSize: 11))
+    fileprivate lazy var titleInfoLabel: GIFInfoLabel = {
+        return GIFInfoLabel(aFont: UIFont.menlo(ofSize: 16),
+                            bFont: UIFont.menlo(ofSize: 11))
+    }()
+    
+    public lazy var toolView: GIFDetailToolView = {
+        return GIFDetailToolView(delegate: self)
     }()
 
     @IBOutlet weak var collectionView: UICollectionView! {
@@ -56,14 +61,6 @@ class GIFDetailViewController: UIViewController {
             collectionView.panGestureRecognizer.addTarget(self, action: #selector(panToDismissHandler(ges:)))
         }
     }
-    
-    fileprivate lazy var shareBar: GIFShareBar = {
-        let bar = GIFShareBar()
-        bar.shareHandler = { [weak self] shareType in
-            self?.shareGIF(to: shareType)
-        }
-        return bar
-    }()
     
     // MARK: - Life Cycle
     
@@ -110,7 +107,7 @@ extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDat
         guard let cell = cell as? GIFDetailCell else { return }
         
         let gif = gifList[indexPath.item]
-        cell.imageView.setGIFImage(with: gif.id, shouldPlay: true) { _ in
+        cell.imageView.setGIFImage(with: gif.id, shouldPlay: true) {  _ in
 
         }
     }
@@ -118,6 +115,8 @@ extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? GIFDetailCell else { return }
         cell.imageView.cancelTask()
+        cell.imageView.stopAnimating()
+        cell.imageView.resetSpeed()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -125,10 +124,28 @@ extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDat
     }
 }
 
-// MARK: - Share GIF
-extension GIFDetailViewController {
-    fileprivate func shareGIF(to type: ShareType) {
-        GIFShareManager.shareGIF(of: gifList[currentIndex].id, to: type)
+// MARK: - Tool View Delegate
+extension GIFDetailViewController: GIFDetailToolViewDelegate {
+    func changePlayState(playing: Bool) {
+        guard let cell = collectionView.cellForItem(at: IndexPath(item: currentIndex, section: 0)) as? GIFDetailCell else { return }
+        cell.animating(enable: playing)
+    }
+    
+    func changePlaySpeed(_ speed: TimeInterval) {
+        guard let cell = collectionView.cellForItem(at: IndexPath(item: currentIndex, section: 0)) as? GIFDetailCell else { return }
+        cell.imageView.updateSpeed(speed)
+    }
+    
+    func addTag() {
+        
+    }
+    
+    func removeTagOrGIF() {
+        
+    }
+    
+    func showAllFrame() {
+        
     }
 }
 
@@ -141,11 +158,11 @@ extension GIFDetailViewController: UIScrollViewDelegate {
             collectionView.alwaysBounceVertical = true
         }
         
-        updateGIFInfoLabel()
+        updateGIFInfo()
     }
 }
 
-// MARK: - Navigation Delegate
+// MARK: - Transition
 
 extension GIFDetailViewController: UINavigationControllerDelegate {
     
@@ -178,7 +195,9 @@ extension GIFDetailViewController: UINavigationControllerDelegate {
             
             if canPanToPop {
                 percentDrivenTransition = UIPercentDrivenInteractiveTransition()
+                
                 navigationController?.setNavigationBarHidden(false, animated: false)
+                NotificationCenter.default.post(name: .hideStatusBar, object: false)
                 navigationController?.popViewController(animated: true)
                 
             } else {
@@ -238,7 +257,7 @@ extension GIFDetailViewController {
                 
             case .initial:
                 collectionView.reloadData()
-                self?.updateGIFInfoLabel()
+                self?.updateGIFInfo()
                 
             case .update(_, let deletions, let insertions, let modifications):
                 
@@ -248,7 +267,7 @@ extension GIFDetailViewController {
                     collectionView.reloadItems(at: modifications.map{ IndexPath(item: $0, section: 0) })
                 }, completion: nil)
                 
-                self?.updateGIFInfoLabel()
+                self?.updateGIFInfo()
 
             case .error(let err):
                 println(err.localizedDescription)
@@ -256,19 +275,25 @@ extension GIFDetailViewController {
         }
     }
     
-    public func showShareBarToWindow() {
-        UIApplication.shared.keyWindow?.addSubview(shareBar)
-        shareBar.animate()
-    }
-    
-    public func moveShareBarToView() {
-        shareBar.removeFromSuperview()
-        view.addSubview(shareBar)
-        view.bringSubview(toFront: shareBar)
-    }
-    
-    fileprivate func updateGIFInfoLabel() {
+    fileprivate func updateGIFInfo() {
         currentIndex = Int(collectionView.contentOffset.x / kScreenWidth)
-        titleInfoLabel.info = NotGIFLibrary.shared.getGIFInfoStr(of: gifList[currentIndex]) ?? defaultInfo
+        if let gifInfo = NotGIFLibrary.shared.getGIFInfo(of: gifList[currentIndex].id) {
+            titleInfoLabel.info = gifInfo.0
+            toolView.reset(withSpeed: gifInfo.1)
+        } else {
+            titleInfoLabel.info = defaultInfo
+            toolView.reset(withSpeed: 0)
+        }
+    }
+
+    // for push transition
+    public func showToolViewToWindow() {
+        UIApplication.shared.keyWindow?.addSubview(toolView)
+        toolView.animate()
+    }
+    
+    public func moveToolViewToView() {
+        view.addSubview(toolView)
+        view.bringSubview(toFront: toolView)
     }
 }

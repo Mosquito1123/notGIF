@@ -14,16 +14,21 @@ class ComposeViewController: SLComposeServiceViewController {
     public var accounts = [ACAccount]()
     public var selectedAccount: ACAccount? = nil
 
-    fileprivate var shareType: ShareType!
+    fileprivate var composeType: ComposeType!
     fileprivate var gifInfo: GIFDataInfo!
     
-    convenience init(shareType: ShareType, with dataInfo: GIFDataInfo) {
+    enum ComposeType {
+        case twitter
+        case weibo
+    }
+    
+    convenience init(type: ComposeType, with dataInfo: GIFDataInfo) {
         self.init()
         
-        self.shareType = shareType
+        self.composeType = type
         self.gifInfo = dataInfo
         
-        getAccounts(of: shareType)
+        getAccounts(of: composeType)
     }
     
     deinit {
@@ -78,7 +83,7 @@ class ComposeViewController: SLComposeServiceViewController {
     
     // MARK: - Get Account
     
-    private func getAccounts(of type: ShareType) {
+    private func getAccounts(of type: ComposeType) {
         
         let accountStore = ACAccountStore()
         var accountType = ACAccountType()

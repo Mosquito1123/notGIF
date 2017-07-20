@@ -12,8 +12,8 @@ class GIFListCell: GIFBaseCell {
     
     @IBOutlet weak var timeLabel: UILabel!
     
-    public var shareGIFHandler: ((ShareType) -> Void)?
-    fileprivate var popShareView: LongPressPopShareView?
+    public var actionHandler: ((GIFActionType) -> Void)?
+    fileprivate var popShareView: GIFListActionView?
     
     fileprivate var isChoosed: Bool = false
     
@@ -66,6 +66,8 @@ class GIFListCell: GIFBaseCell {
         }
     }
     
+    // MARK: - Gesture Handler
+    
     func longPressGesHandler(ges: UILongPressGestureRecognizer) {        
         let keyWindow = UIApplication.shared.keyWindow
         let location = ges.location(in: keyWindow)
@@ -73,7 +75,7 @@ class GIFListCell: GIFBaseCell {
         switch ges.state {
         case .began:
             if let cellFrame = superview?.convert(frame, to: keyWindow) {
-                popShareView = LongPressPopShareView(popOrigin: location, cellRect: cellFrame)
+                popShareView = GIFListActionView(popOrigin: location, cellRect: cellFrame)
                 keyWindow?.addSubview(popShareView!)
             }
             
@@ -84,9 +86,9 @@ class GIFListCell: GIFBaseCell {
         case .ended, .failed, .cancelled:
             
             if let type = popShareView?.end(with: location) {
-                shareGIFHandler?(type)
+                actionHandler?(type)
             }
-            
+
         default:
             break
         }

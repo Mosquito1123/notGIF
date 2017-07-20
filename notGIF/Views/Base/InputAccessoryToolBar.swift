@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CustomToolBar: UIToolbar {
+class InputAccessoryToolBar: UIToolbar {
     
     var doneButtonHandler: CommonHandler?
     var cancelButtonHandler: CommonHandler?
@@ -18,7 +18,7 @@ class CustomToolBar: UIToolbar {
         button.setTitle(String.trans_titleDone, for: .normal)
         button.setTitleColor(UIColor.darkText, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.addTarget(self, action: #selector(CustomToolBar.doneButtonClicked), for: .touchUpInside)
+        button.addTarget(self, action: #selector(InputAccessoryToolBar.doneButtonClicked), for: .touchUpInside)
         return button
     }()
     
@@ -27,7 +27,7 @@ class CustomToolBar: UIToolbar {
         button.setTitle(String.trans_titleCancel, for: .normal)
         button.setTitleColor(UIColor.darkText, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.addTarget(self, action: #selector(CustomToolBar.cancelButtonClicked), for: .touchUpInside)
+        button.addTarget(self, action: #selector(InputAccessoryToolBar.cancelButtonClicked), for: .touchUpInside)
         return button
     }()
     

@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import IQKeyboardManagerSwift
 
-class SideBarViewController: UIViewController {
+class SidebarTagListViewController: UIViewController {
     
     fileprivate var tagResult: Results<Tag>!
     fileprivate var notifiToken: NotificationToken?
@@ -28,7 +28,7 @@ class SideBarViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var addTagTextField: CustomTextField! {
+    @IBOutlet weak var addTagTextField: AddTagTextField! {
         didSet {
             addTagTextField.addTagHandler = { name in
                 self.addTag(with: name)
@@ -75,7 +75,7 @@ class SideBarViewController: UIViewController {
     }
 }
 
-extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
+extension SidebarTagListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tagResult == nil ? 0 : tagResult.count
@@ -136,7 +136,7 @@ extension SideBarViewController: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - Helper Method
 
-extension SideBarViewController {
+extension SidebarTagListViewController {
     
     fileprivate func beginEditTag(at indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TagListCell else { return }

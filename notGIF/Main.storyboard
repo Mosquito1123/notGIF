@@ -121,7 +121,7 @@
         <!--标签-->
         <scene sceneID="U7S-H0-3Uc">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Pbn-Pi-rmf" customClass="AddTagListViewController" customModule="notGIF" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Pbn-Pi-rmf" customClass="PopoverTagListViewController" customModule="notGIF" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uSd-cT-Lu8"/>
                         <viewControllerLayoutGuide type="bottom" id="nLd-Pq-qr6"/>
@@ -140,7 +140,7 @@
                                         <rect key="frame" x="0.0" y="28" width="300" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eAh-uM-Ood" id="jmN-mT-mNZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="261" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="261" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Funny" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HJ9-UJ-YCr">
@@ -241,6 +241,12 @@
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="368" height="591"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1KS-SC-UW0">
+                                                    <rect key="frame" x="95" y="262" width="200" height="110"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </stackView>
+                                            </subviews>
                                         </view>
                                     </collectionViewCell>
                                 </cells>
@@ -259,6 +265,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -364,10 +371,10 @@
             </objects>
             <point key="canvasLocation" x="-1004" y="-169.56521739130437"/>
         </scene>
-        <!--Side Bar View Controller-->
+        <!--Sidebar Tag List View Controller-->
         <scene sceneID="Nht-2u-AWW">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Iza-AK-gFD" customClass="SideBarViewController" customModule="notGIF" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Iza-AK-gFD" customClass="SidebarTagListViewController" customModule="notGIF" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qLB-Eu-Axd"/>
                         <viewControllerLayoutGuide type="bottom" id="KMx-YI-ibZ"/>
@@ -395,7 +402,7 @@
                                             <outlet property="delegate" destination="Iza-AK-gFD" id="ltE-If-qW8"/>
                                         </connections>
                                     </tableView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="标签" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Dqo-rq-Psi" customClass="CustomTextField" customModule="notGIF" customModuleProvider="target">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="标签" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Dqo-rq-Psi" customClass="AddTagTextField" customModule="notGIF" customModuleProvider="target">
                                         <rect key="frame" x="16" y="116" width="238" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>

@@ -46,6 +46,10 @@ extension UILabel {
 extension UIButton {
     public convenience init(iconCode: FontUnicode, color: UIColor, fontSize: CGFloat) {
         self.init()
+        setAwesomeIcon(iconCode: iconCode, color: color, fontSize: fontSize)
+    }
+    
+    public func setAwesomeIcon(iconCode: FontUnicode, color: UIColor, fontSize: CGFloat) {
         titleLabel?.textAlignment = .center
         titleLabel?.font = UIFont.awesomeFont(ofSize: fontSize)
         

@@ -62,14 +62,14 @@ class GIFListViewController: UIViewController {
     }
     
     fileprivate lazy var playControlItem: UIBarButtonItem = {
-        let conrolButton = PlayControlButton(showPlay: self.manualPaused) { showPlay in
-            self.manualPaused = showPlay
-            NGUserDefaults.shouldAutoPause = showPlay
+        let conrolButton = PlayControlButton(showPlay: self.manualPaused) { isPaused in
+            self.manualPaused = isPaused
+            NGUserDefaults.shouldAutoPlay = !isPaused
         }
         return UIBarButtonItem(customView: conrolButton)
     }()
     
-    fileprivate lazy var cancalEditGIFTagItem: UIBarButtonItem = {
+    fileprivate lazy var cancelEditItem: UIBarButtonItem = {
         let buttonItem = UIBarButtonItem(title: String.trans_titleCancel, style: .plain, target: self, action: #selector(GIFListViewController.endEditGIFsTag(noReload:)))
         let font = UIFont.localized(ofSize: 17)
         buttonItem.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
@@ -77,8 +77,12 @@ class GIFListViewController: UIViewController {
         return buttonItem
     }()
     
-    fileprivate lazy var titleView: LoadingTitleView = {
-        return LoadingTitleView()
+    fileprivate lazy var titleLabel: UILabel = {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: kScreenWidth*0.6, height: 40))
+        label.textAlignment = .center
+        label.textColor = UIColor.textTint
+        label.font = UIFont.menlo(ofSize: 19)
+        return label
     }()
     
     fileprivate lazy var sloganView: UIImageView = {
@@ -101,14 +105,23 @@ class GIFListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        navigationItem.titleView = titleView
+        navigationItem.titleView = titleLabel
+        titleLabel.text = lastSelectTag?.localNameStr
+        
         navigationController?.setToolbarHidden(true, animated: false)
         navigationController?.toolbar.isHidden = true
         
-        manualPaused = NGUserDefaults.shouldAutoPause
+        manualPaused = !NGUserDefaults.shouldAutoPlay
         navigationItem.rightBarButtonItem = playControlItem
-                
-        NotGIFLibrary.shared.addObserver(self, forKeyPath: #keyPath(NotGIFLibrary.stateStatus), options: [.initial, .new], context: &theContext)
+        
+        NotGIFLibrary.shared.stateChangeHandler = { [weak self] state in
+            DispatchQueue.main.async {
+                self?.updateUI(with: state)
+            }
+        }
+        
+        updateUI(with: NotGIFLibrary.shared.state)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(GIFListViewController.checkToUpdateGIFList(with:)), name: .didSelectTag, object: nil)
         
         #if DEBUG
@@ -124,11 +137,13 @@ class GIFListViewController: UIViewController {
         selectIndexPath = nil
         navigationController?.delegate = self
         
-        if #available(iOS 10.3, *) {
-            SKStoreReviewController.requestReview()
-        } else {
-            // Fallback on earlier versions
-        }
+        #if !DEBUG
+            if #available(iOS 10.3, *) {
+                SKStoreReviewController.requestReview()
+            } else {
+                // Fallback on earlier versions
+            }
+        #endif
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -142,7 +157,7 @@ class GIFListViewController: UIViewController {
             detailVC.gifList = gifList
             
         case "showAddTag":
-            guard let addTagVC = (segue.destination as? UINavigationController)?.topViewController as? AddTagListViewController ,
+            guard let addTagVC = (segue.destination as? UINavigationController)?.topViewController as? PopoverTagListViewController ,
                     let popover = segue.destination.popoverPresentationController else { return }
             
             addTagVC.fromTag = currentTag
@@ -157,7 +172,7 @@ class GIFListViewController: UIViewController {
             popover.delegate = self
             
         default:
-            break
+            fatalError("undefined identifier: \(identifier)")
         }
     }
     
@@ -165,7 +180,6 @@ class GIFListViewController: UIViewController {
         notifiToken?.stop()
         notifiToken = nil
         
-        removeObserver(self, forKeyPath: #keyPath(NotGIFLibrary.stateStatus))
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -212,7 +226,7 @@ extension GIFListViewController {
         shouldPlay = false
         
         removeTagItem.image = currentTag?.id == Config.defaultTagID ? #imageLiteral(resourceName: "icon_delete_gif") : #imageLiteral(resourceName: "icon_remove_tag")
-        navigationItem.rightBarButtonItem = cancalEditGIFTagItem
+        navigationItem.rightBarButtonItem = cancelEditItem
         navigationController?.toolbar.isHidden = false
         navigationController?.setToolbarHidden(false, animated: true)
     }
@@ -253,48 +267,6 @@ extension GIFListViewController {
                 self.endEditGIFsTag(noReload: isSuccess)
             }
         })
-            
-    }
-}
-
-// MARK: - Observe
-
-extension GIFListViewController {
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        
-        guard context == &theContext, keyPath == #keyPath(NotGIFLibrary.stateStatus),
-            let stateRawValue = change?[.newKey] as? Int,
-            let state = NotGIFLibraryState(rawValue: stateRawValue) else { return }
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.updateUI(with: state)
-        }
-    }
-    
-    fileprivate func updateUI(with state: NotGIFLibraryState) {
-        switch state {
-            
-        case .preparing:
-            HUD.show(.fetchGIF)
-            
-        case .startBgUpdate:
-            HUD.hide(in: navigationController?.view)
-            titleView.update(isLoading: true)
-            showGIFList()
-            
-        case .bgUpdateDone:
-            titleView.update(isLoading: false)
-            showGIFList()
-            
-        case .fetchDoneFromPhotos:
-            HUD.hide(in: navigationController?.view)
-            showGIFList()
-            
-        case .accessDenied:
-            HUD.hide(in: navigationController?.view)
-            collectionView.reloadData()
-        }
     }
 }
 
@@ -332,15 +304,19 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
         let cell: GIFListCell = collectionView.dequeueReusableCell(for: indexPath)
         cell.update(isChoosed: selectGIFIPs.contains(indexPath), animate: false)
         
-        cell.shareGIFHandler = { [weak self] type in
+        cell.actionHandler = { [weak self] type in
             guard let sSelf = self, let cellIP = collectionView.indexPath(for: cell) else { return }
             
-            if type == .tag {
+            switch type {
+            case .shareTo(let sType):
+                let gifID = sSelf.gifList[cellIP.item].id
+                GIFShareManager.shareGIF(of: gifID, to: sType)
+                
+            case .editTag:
                 sSelf.beginEditGIFsTag(from: cellIP)
                 
-            } else {
-                let gifID = sSelf.gifList[cellIP.item].id
-                GIFShareManager.shareGIF(of: gifID, to: type)
+            case .showAllFrame:
+                break
             }
         }
         
@@ -442,24 +418,10 @@ extension GIFListViewController: UIPopoverPresentationControllerDelegate {
 extension GIFListViewController {
     
     fileprivate func showGIFList(of tag: Tag? = nil) {
-        var theTag: Tag?
-        
-        if let tag = tag {
-            theTag = tag
-        } else {
-            guard let realm = try? Realm() else { return }
-            
-            if let lastSelectTag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTagID) {
-                theTag = lastSelectTag
-                
-            } else {
-                let defaultTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID)
-                NGUserDefaults.lastSelectTagID = Config.defaultTagID
-                theTag = defaultTag
-            }
-        }
-        
+        let theTag = tag ?? lastSelectTag
         guard let tag = theTag, tag.id != currentTag?.id else { return }
+        
+        titleLabel.text = tag.localNameStr
         
         notifiToken?.stop()
         notifiToken = nil
@@ -467,7 +429,7 @@ extension GIFListViewController {
         currentTag = tag
         gifList = tag.gifs.sorted(byKeyPath: "creationDate", ascending: false)
         
-        // observe gif objects
+        // observe gif list
         notifiToken = gifList.addNotificationBlock { [weak self] changes in
             guard let collectionView = self?.collectionView else { return }
             switch changes {
@@ -487,6 +449,35 @@ extension GIFListViewController {
             case .error(let err):
                 println(err.localizedDescription)
             }
+        }
+    }
+    
+    fileprivate var lastSelectTag: Tag? {
+        guard let realm = try? Realm() else { return nil }
+        
+        if let lastSelectTag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTagID) {
+            return lastSelectTag
+            
+        } else {
+            let defaultTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID)
+            NGUserDefaults.lastSelectTagID = Config.defaultTagID
+            return defaultTag
+        }
+    }
+    
+    fileprivate func updateUI(with state: NotGIFLibraryState) {
+        switch state {
+            
+        case .preparing:
+            HUD.show(to: navigationController?.view, .fetchGIF)
+            
+        case .fetchDone:
+            HUD.hide(in: navigationController?.view)
+            showGIFList()
+            
+        case .accessDenied, .error:
+            HUD.hide(in: navigationController?.view)
+            collectionView.reloadData()
         }
     }
     

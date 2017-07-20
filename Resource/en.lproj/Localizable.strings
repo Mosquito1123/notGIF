@@ -67,3 +67,5 @@
 
 "title_prepareing" = "preparing...";
 "title_fetching" = "fetching GIFs...";
+
+"prompt.tapToAddTag" = "Tap to add tag";

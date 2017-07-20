@@ -14,9 +14,9 @@ class AddTagTextfieldHeader: UIView, UITextFieldDelegate {
     fileprivate var couldEndEdit: Bool = false
     fileprivate var addTagHandler: ((String) -> Void)?
     
-    fileprivate lazy var textField: AddTagTextField = {
-        let textField = AddTagTextField()
-        textField.placeholder = "点击添加标签"
+    fileprivate lazy var textField: CustomTextField = {
+        let textField = CustomTextField()
+        textField.placeholder = String.trans_promptTapToAddTag
         textField.font = UIFont.menlo(ofSize: 17)
         textField.borderStyle = .none
         textField.textAlignment = .left
@@ -26,8 +26,8 @@ class AddTagTextfieldHeader: UIView, UITextFieldDelegate {
         return textField
     }()
     
-    fileprivate lazy var toolBar: CustomToolBar = {
-        return CustomToolBar(doneHandler: {
+    fileprivate lazy var toolBar: InputAccessoryToolBar = {
+        return InputAccessoryToolBar(doneHandler: {
             self.editDone()
         }, cancelHandler: { 
             self.editCancel()
@@ -85,7 +85,7 @@ class AddTagTextfieldHeader: UIView, UITextFieldDelegate {
     }
 }
 
-fileprivate class AddTagTextField: UITextField {
+fileprivate class CustomTextField: UITextField {
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.insetBy(dx: 15, dy: 6)
     }
