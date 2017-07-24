@@ -102,6 +102,22 @@ extension String {
     static var trans_promptTapToAddTag: String {
         return NSLocalizedString("prompt.tapToAddTag", comment: "")
     }
+    
+    static var trans_promptNoGIF: String {
+        return NSLocalizedString("prompt.noGIF", comment: "")
+    }
+    
+    static var trans_titleAllFrame: String {
+        return NSLocalizedString("title_allFrame", comment: "")
+    }
+    
+    static var trans_titleSaveImage: String {
+        return NSLocalizedString("title_saveImage", comment: "")
+    }
+    
+    static var trans_titleSaveSuccess: String {
+        return NSLocalizedString("title_saveSuccess", comment: "")
+    }
 }
 
 // MARK: - Toast

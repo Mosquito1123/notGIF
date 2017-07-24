@@ -13,6 +13,7 @@ protocol GIFDetailToolViewDelegate: class {
     func changePlayState(playing: Bool)
     func removeTagOrGIF()
     func showAllFrame()
+    func shareTo(_ type: GIFActionType.ShareType)
     func addTag()
 }
 
@@ -75,6 +76,12 @@ class GIFDetailToolView: UIView {
         return slider
     }()
     
+    fileprivate lazy var shareBar: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.barTint
+        return view
+    }()
+    
     init(delegate: GIFDetailToolViewDelegate) {
         super.init(frame: CGRect(x: 0, y: kScreenHeight, width: kScreenWidth, height: height))
         makeUI()
@@ -111,9 +118,22 @@ class GIFDetailToolView: UIView {
             delegate?.removeTagOrGIF()
         case .showAllFrame:
             delegate?.showAllFrame()
+        case .share:
+            showShareBar()
         default:
             break
         }
+    }
+    
+    func shareButtonClicked(button: UIButton) {
+        guard let shareType = GIFActionType.ShareType(rawValue: button.tag) else { return }
+        delegate?.shareTo(shareType)
+    }
+    
+    func hideShareBarButtonClicked() {
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: -0.2, options: [.curveEaseInOut], animations: {
+            self.shareBar.transform = CGAffineTransform(translationX: 0, y: self.height)
+        }, completion: nil)
     }
     
     func sliderValueChanged(sender: UISlider) {
@@ -125,7 +145,7 @@ class GIFDetailToolView: UIView {
     
     fileprivate func makeUI() {
         let sliderH: CGFloat = height * 0.4
-        backgroundColor = UIColor.black
+        backgroundColor = UIColor.barTint
         
         // tool buttons
         let toolButtonStackView = UIStackView()
@@ -180,6 +200,60 @@ class GIFDetailToolView: UIView {
             make.centerX.equalTo(self)
             make.centerY.equalTo(playButton)
         }
+    }
+    
+    fileprivate func setShareBar() {
+        var shareTypes: [GIFActionType.ShareType] = [.more, .twitter, .weibo, .wechat, .message]
+        if !OpenShare.canOpen(.wechat) {
+            shareTypes.remove(.wechat)
+        }
+        
+        let hideButton = UIButton(type: .system)
+        hideButton.setImage(#imageLiteral(resourceName: "icon_slide_down"), for: .normal)
+        hideButton.tintColor = UIColor.textTint.withAlphaComponent(0.8)
+        hideButton.addTarget(self, action: #selector(GIFDetailToolView.hideShareBarButtonClicked), for: [.touchUpInside])
+        
+        let stackView = UIStackView()
+        stackView.distribution = .fillEqually
+        
+        for item in shareTypes {
+            let button = UIButton(iconCode: item.iconCode, color: UIColor.textTint, fontSize: 30)
+            button.tag = item.rawValue
+            button.backgroundColor = UIColor.barTint
+            
+            button.addTarget(self, action: #selector(GIFDetailToolView.shareButtonClicked(button:)), for: .touchUpInside)
+            stackView.addArrangedSubview(button)
+        }
+        
+        shareBar.addSubview(hideButton)
+        shareBar.addSubview(stackView)
+        addSubview(shareBar)
+        
+        hideButton.snp.makeConstraints { make in
+            make.right.left.top.equalTo(shareBar)
+            make.height.equalTo(30)
+        }
+        
+        stackView.snp.makeConstraints { make in
+            make.right.left.equalTo(shareBar)
+            make.height.equalTo(height*0.5)
+            make.bottom.equalTo(-height*0.2)
+        }
+        
+        shareBar.snp.makeConstraints { make in
+            make.edges.equalTo(self)
+        }
+    }
+    
+    fileprivate func showShareBar() {
+        if !shareBar.isDescendant(of: self) {
+            shareBar.transform = CGAffineTransform(translationX: 0, y: height)
+            setShareBar()
+        }
+        
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.6, options: [], animations: {
+            self.shareBar.transform = .identity
+        }, completion: nil)
     }
     
     // MARK: - Animation

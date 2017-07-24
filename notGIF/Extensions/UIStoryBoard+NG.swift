@@ -21,4 +21,8 @@ extension UIStoryboard {
     static var main: DrawerViewController {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DrawerViewController") as! DrawerViewController
     }
+    
+    static var frameDetail: FrameDetailViewController {
+        return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FrameDetailViewController") as! FrameDetailViewController
+    }
 }

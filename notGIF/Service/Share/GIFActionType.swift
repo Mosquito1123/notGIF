@@ -13,28 +13,6 @@ public enum GIFActionType: Hashable, Equatable {
     case showAllFrame
     case editTag
     
-    public var hashValue: Int {
-        switch self {
-        case .shareTo(let sType):
-            return sType.rawValue
-        case .editTag:
-            return 99
-        case .showAllFrame:
-            return 233
-        }
-    }
-    
-    func image(of size: CGFloat, color: UIColor = UIColor.textTint) -> UIImage {
-        switch self {
-        case .shareTo(let sType):
-            return UIImage.iCon(ofCode: sType.iconCode, size: .init(width: size, height: size), color: color)
-        case .showAllFrame:
-            return #imageLiteral(resourceName: "icon_show_frame")
-        case .editTag:
-            return UIImage.iCon(ofCode: FontUnicode.tag, size: .init(width: size*1.2, height: size), color: color)
-        }
-    }
-    
     public enum ShareType: Int {
         case more
         case twitter
@@ -50,6 +28,34 @@ public enum GIFActionType: Hashable, Equatable {
             case .wechat:   return .wechat
             case .message:  return .message
             }
+        }
+    }
+    
+    // MARK: - Helper
+    func image(of size: CGFloat, color: UIColor = UIColor.textTint) -> UIImage {
+        switch self {
+        case .shareTo(let sType):
+            var iconSize = CGSize(width: size, height: size)
+            if sType == .wechat {
+                iconSize = CGSize(width: size*0.9, height: size*0.78)
+            }
+            return UIImage.iCon(ofCode: sType.iconCode, size: iconSize, color: color)
+        case .showAllFrame:
+            return #imageLiteral(resourceName: "icon_show_frame")
+        case .editTag:
+            return UIImage.iCon(ofCode: FontUnicode.tag, size: .init(width: size*0.9, height: size*0.8), color: color)
+        }
+    }
+    
+    // MARK: - Hash
+    public var hashValue: Int {
+        switch self {
+        case .shareTo(let sType):
+            return sType.rawValue
+        case .editTag:
+            return 99
+        case .showAllFrame:
+            return 233
         }
     }
 }

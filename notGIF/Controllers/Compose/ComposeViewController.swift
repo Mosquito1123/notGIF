@@ -96,13 +96,6 @@ class ComposeViewController: SLComposeServiceViewController {
         case .weibo:
             accountType = accountStore.accountType(withAccountTypeIdentifier: ACAccountTypeIdentifierSinaWeibo)
             title = String.trans_titleWeibo
-            
-        default:
-            title = String.trans_titleUnknowType
-            Alert.show(.unknowType, in: self, withConfirmAction: {
-                self.dismiss(animated: true, completion: nil)
-            })
-            break
         }
         
         accountStore.requestAccessToAccounts(with: accountType, options: nil) {granted, error in

@@ -40,7 +40,7 @@ class GIFListCell: GIFBaseCell {
         printLog("deinited")
     }
     
-    public func update(isChoosed: Bool, animate: Bool) {
+    public func setChoosed(_ isChoosed: Bool, animate: Bool) {
         
         guard self.isChoosed != isChoosed else { return }
         self.isChoosed = isChoosed

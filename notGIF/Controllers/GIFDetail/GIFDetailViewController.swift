@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 import MessageUI
 import RealmSwift
 import MBProgressHUD
@@ -39,14 +40,18 @@ class GIFDetailViewController: UIViewController {
         }
     }
     
+    public lazy var toolView: GIFDetailToolView = {
+        return GIFDetailToolView(delegate: self)
+    }()
+    
     fileprivate let defaultInfo = "xxx Frames\n xx / xx"
     fileprivate lazy var titleInfoLabel: GIFInfoLabel = {
         return GIFInfoLabel(aFont: UIFont.menlo(ofSize: 16),
                             bFont: UIFont.menlo(ofSize: 11))
     }()
     
-    public lazy var toolView: GIFDetailToolView = {
-        return GIFDetailToolView(delegate: self)
+    fileprivate lazy var defaultView: GIFDetailDefaultView = {
+        return GIFDetailDefaultView()
     }()
 
     @IBOutlet weak var collectionView: UICollectionView! {
@@ -56,8 +61,8 @@ class GIFDetailViewController: UIViewController {
             layout.minimumLineSpacing = 0
             layout.minimumInteritemSpacing = 0
             layout.scrollDirection = .horizontal
-            
             collectionView.setCollectionViewLayout(layout, animated: true)
+            
             collectionView.panGestureRecognizer.addTarget(self, action: #selector(panToDismissHandler(ges:)))
         }
     }
@@ -67,7 +72,7 @@ class GIFDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.titleView = titleInfoLabel
+        navigationItem.titleView = titleInfoLabel        
         setNotificationToken()
     }
     
@@ -79,7 +84,33 @@ class GIFDetailViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        guard gifList != nil, !gifList.isEmpty else { return }
         collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .left, animated: false)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let identifier = segue.identifier else { return }
+        
+        switch identifier {
+        case "showAddTag":
+            guard let addTagVC = (segue.destination as? UINavigationController)?.topViewController as? PopoverTagListViewController ,
+                let popover = segue.destination.popoverPresentationController else { return }
+            
+            addTagVC.toAddGIFs = [sender as! NotGIF]
+            popover.sourceView = view
+            popover.sourceRect = view.bounds
+            popover.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
+            popover.delegate = self
+            
+        case "showFrameList":
+            guard let nav = segue.destination as? UINavigationController,
+                    let frameListVC = nav.topViewController as? FrameListViewController else { return }
+
+            frameListVC.gifID = sender as! String
+            
+        default:
+            fatalError("undefined identifier: \(identifier)")
+        }
     }
     
     deinit {
@@ -94,11 +125,18 @@ class GIFDetailViewController: UIViewController {
 extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gifList != nil ? gifList.count : 0
+        if gifList != nil {
+            if gifList.isEmpty {
+                defaultView.addTo(view)
+                toolView.setHidden(true, animated: false)
+            }
+            return gifList.count
+        } else {
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let cell: GIFDetailCell = collectionView.dequeueReusableCell(for: indexPath)
         return cell
     }
@@ -137,15 +175,44 @@ extension GIFDetailViewController: GIFDetailToolViewDelegate {
     }
     
     func addTag() {
-        
+        performSegue(withIdentifier: "showAddTag", sender: gifList[currentIndex])
     }
     
     func removeTagOrGIF() {
+        let gifObject = gifList[currentIndex]
         
+        func deleteGIF() {
+            let assets = PHAsset.fetchAssets(withLocalIdentifiers: [gifObject.id], options: nil)
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetChangeRequest.deleteAssets(assets)
+            }, completionHandler: nil)
+        }
+        
+        if NGUserDefaults.lastSelectTagID == Config.defaultTagID {
+            // remove GIF
+            Alert.show(.confirmDeleteGIF(1), in: self) {
+                deleteGIF()
+            }
+            
+        } else {
+            // remove from tag
+            guard let realm = try? Realm(),
+                let currentTag = realm.object(ofType: Tag.self, forPrimaryKey: NGUserDefaults.lastSelectTagID) else { return }
+            
+            Alert.show(.confirmRemoveGIF(1, currentTag.localNameStr), in: self) {
+                try? realm.write {
+                    currentTag.gifs.remove(gifObject)
+                }
+            }
+        }
+    }
+    
+    func shareTo(_ type: GIFActionType.ShareType) {
+        GIFShareManager.shareGIF(of: gifList[currentIndex].id, to: type)
     }
     
     func showAllFrame() {
-        
+        performSegue(withIdentifier: "showFrameList", sender: gifList[currentIndex].id)
     }
 }
 
@@ -243,6 +310,20 @@ extension GIFDetailViewController: MFMessageComposeViewControllerDelegate {
     }
 }
 
+// MARK: - Popover Delegate
+
+extension GIFDetailViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    
+    func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        return false
+    }
+}
+
+
 // MARK: - Helper Method 
 
 extension GIFDetailViewController {
@@ -277,6 +358,9 @@ extension GIFDetailViewController {
     
     fileprivate func updateGIFInfo() {
         currentIndex = Int(collectionView.contentOffset.x / kScreenWidth)
+
+        guard gifList != nil, !gifList.isEmpty else { return }
+
         if let gifInfo = NotGIFLibrary.shared.getGIFInfo(of: gifList[currentIndex].id) {
             titleInfoLabel.info = gifInfo.0
             toolView.reset(withSpeed: gifInfo.1)

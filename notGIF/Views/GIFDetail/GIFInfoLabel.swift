@@ -25,13 +25,14 @@ class GIFInfoLabel: UILabel {
             attString.addAttribute(NSFontAttributeName, value: bFont, range: bRange)
             
             attributedText = attString
+//            sizeToFit()
         }
     }
 
     init(aFont: UIFont, bFont: UIFont) {
         self.aFont = aFont
         self.bFont = bFont
-        super.init(frame: CGRect(x: 0, y: 0, width: kScreenWidth - 100, height: 40))
+        super.init(frame: CGRect(x: 0, y: 0, width: kScreenWidth*0.5, height: 40))
         
         textColor = .textTint
         textAlignment = .center

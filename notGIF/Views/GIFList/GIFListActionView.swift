@@ -12,10 +12,11 @@ class GIFListActionView: UIView {
 
     fileprivate var iconViews: [UIView] = []
     fileprivate var iconTriggerRects: [CGRect] = []
-    fileprivate var shareTypes: [GIFActionType] = []
+    fileprivate var actionTypes: [GIFActionType] = []
     fileprivate var hasChanged: Bool = false
     
     fileprivate var cellMaskRect: CGRect = .zero
+    
     fileprivate var isForIntro: Bool = false
     
     init(popOrigin: CGPoint, cellRect: CGRect, frame: CGRect = UIScreen.main.bounds, isForIntro: Bool = false) {
@@ -26,16 +27,16 @@ class GIFListActionView: UIView {
         self.isForIntro = isForIntro
         
         cellMaskRect = cellRect
-        shareTypes = [.shareTo(.more), .shareTo(.twitter), .shareTo(.weibo), .shareTo(.wechat), .editTag]
+        actionTypes = [.shareTo(.more), .shareTo(.twitter), .shareTo(.weibo), .shareTo(.wechat), .editTag, .showAllFrame]
         
         if !OpenShare.canOpen(.wechat) {
-            shareTypes.remove(.shareTo(.wechat))
+//            actionTypes.remove(.shareTo(.wechat))
         }
         
         let iconS: CGFloat = 36
         let padding: CGFloat = 16
         let spaceV: CGFloat = 12
-        let count = shareTypes.count
+        let count = actionTypes.count
         let totalW = CGFloat(count) * iconS + CGFloat(count - 1) * padding
         
         var beignOx: CGFloat
@@ -53,14 +54,13 @@ class GIFListActionView: UIView {
         for i in 0..<count {
             
             let iconViewFrame = CGRect(x: beignOx, y: baseOriginY, width: iconS, height: iconS)
-            let imgSize: CGFloat = shareTypes[i] == .editTag ? 25 : 28
             
-            let iconView = UIImageView(image: shareTypes[i].image(of: imgSize))
+            let iconView = UIImageView(image: actionTypes[i].image(of: 24))
             iconView.contentMode = .scaleAspectFit
             iconView.tintColor = UIColor.textTint
+            
             iconView.frame = iconViewFrame.insetBy(dx: 3, dy: 3)
             beignOx += iconS + padding
-            iconView.contentMode = .scaleAspectFit
             iconView.alpha = 0
                         
             let iconTriggerRect = CGRect(x: iconViewFrame.minX - padding/2, y: baseOriginY, width: iconS+padding, height: cellRect.maxY - iconViewFrame.minY)
@@ -155,7 +155,7 @@ class GIFListActionView: UIView {
         guard hasChanged else { return nil }
         
         if let index = iconTriggerRects.index(where: { $0.contains(offset) }) {
-            return shareTypes[index]
+            return actionTypes[index]
         } else {
             return nil
         }

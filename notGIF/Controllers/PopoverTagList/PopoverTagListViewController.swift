@@ -15,7 +15,6 @@ private let width = kScreenWidth * 0.8
 class PopoverTagListViewController: UIViewController {
 
     public var toAddGIFs: [NotGIF] = []
-    public var fromTag: Tag!
     
     public var addGIFTagCompletion: CommonCompletion?
     
@@ -50,6 +49,7 @@ class PopoverTagListViewController: UIViewController {
     override func awakeFromNib() {
         super.awakeFromNib()
         preferredContentSize = CGSize(width: width, height: kScreenHeight * 0.6)
+        title = String.trans_tag
         cancelItem.title = " " + String.trans_titleCancel
         addItem.title = String.trans_titleAdd + " "
         

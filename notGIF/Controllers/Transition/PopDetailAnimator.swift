@@ -40,6 +40,7 @@ class PopDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         let currentIndex = detailVC.currentIndex
         let currentIP = IndexPath(row: currentIndex, section: 0)
         
+        printLog(currentIndex)
         if let detailCell = detailVC.collectionView.cellForItem(at: currentIP) as? GIFDetailCell,
             let listCell = listVC.collectionView.cellForItem(at: currentIP) as? GIFListCell {
             
@@ -47,8 +48,8 @@ class PopDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             self.detailView = detailView
             
             let imageOriginFrame = maskImageView.frame
-            imageBeginFrame = imageOriginFrame
             let imageFinalFrame = listVC.collectionView.convert(listCell.frame, to: UIApplication.shared.keyWindow)
+            imageBeginFrame = imageOriginFrame
             
             listCell.isInTransition = true
             listVC.shouldPlay = true

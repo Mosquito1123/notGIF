@@ -52,12 +52,13 @@ class HUD {
         MBProgressHUD.hide(for: superView, animated: true)
     }
     
-    class func show(to view: UIView? = nil, text: String, delay: TimeInterval = 1) {
+    class func show(to view: UIView? = nil, text: String, showCompletionIcon: Bool = true, delay: TimeInterval = 1) {
         guard let superView = view ?? UIApplication.shared.keyWindow else { return }
         
         let hud = MBProgressHUD.showAdded(to: superView, animated: true)
-        hud.mode = .text
-        hud.margin = 10
+        hud.mode = showCompletionIcon ? .customView : .text
+        hud.customView = UILabel(iconCode: .checkO, color: UIColor.textTint, fontSize: 32)
+        hud.margin = 18
         hud.contentColor = .textTint
         hud.bezelView.color = .bgColor
         hud.label.text = text

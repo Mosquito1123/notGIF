@@ -32,6 +32,8 @@ extension Notification.Name {
 // MARK: - Color
 extension UIColor {
     static let textTint     = UIColor.hex(0xfbfbfb)
+    static let barTint      = UIColor.black
+    
     static let editYellow   = UIColor.hex(0xfe9402)
     static let deleteRed    = UIColor.hex(0xe74c3c)     // #f8523a
     
@@ -61,7 +63,7 @@ extension UIFont {
     }
     
     class func localized(ofSize size: CGFloat) -> UIFont {
-        return Config.isChinese ? UIFont.systemFont(ofSize: size, weight: 20) : menlo(ofSize: size)
+        return Config.isChinese ? UIFont.systemFont(ofSize: size, weight: 16) : menlo(ofSize: size)
     }
 }
 

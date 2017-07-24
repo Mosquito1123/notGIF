@@ -77,12 +77,8 @@ class GIFListViewController: UIViewController {
         return buttonItem
     }()
     
-    fileprivate lazy var titleLabel: UILabel = {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: kScreenWidth*0.6, height: 40))
-        label.textAlignment = .center
-        label.textColor = UIColor.textTint
-        label.font = UIFont.menlo(ofSize: 19)
-        return label
+    fileprivate lazy var titleLabel: NavigationTitleLabel = {
+        return NavigationTitleLabel(title: self.lastSelectTag?.localNameStr)
     }()
     
     fileprivate lazy var sloganView: UIImageView = {
@@ -104,9 +100,8 @@ class GIFListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         navigationItem.titleView = titleLabel
-        titleLabel.text = lastSelectTag?.localNameStr
         
         navigationController?.setToolbarHidden(true, animated: false)
         navigationController?.toolbar.isHidden = true
@@ -160,7 +155,6 @@ class GIFListViewController: UIViewController {
             guard let addTagVC = (segue.destination as? UINavigationController)?.topViewController as? PopoverTagListViewController ,
                     let popover = segue.destination.popoverPresentationController else { return }
             
-            addTagVC.fromTag = currentTag
             addTagVC.toAddGIFs = sender as! [NotGIF]
             addTagVC.addGIFTagCompletion = { [weak self] in
                 self?.endEditGIFsTag(noReload: false)
@@ -170,6 +164,12 @@ class GIFListViewController: UIViewController {
             popover.sourceRect = view.bounds
             popover.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
             popover.delegate = self
+            
+        case "showFrameList":
+            guard let nav = segue.destination as? UINavigationController,
+                let frameListVC = nav.topViewController as? FrameListViewController else { return }
+            
+            frameListVC.gifID = sender as! String
             
         default:
             fatalError("undefined identifier: \(identifier)")
@@ -219,7 +219,7 @@ extension GIFListViewController {
     
     fileprivate func beginEditGIFsTag(from beginIP: IndexPath) {
         let cell = collectionView.cellForItem(at: beginIP) as? GIFListCell
-        cell?.update(isChoosed: true, animate: true)
+        cell?.setChoosed(true, animate: true)
         
         isEditingGIFsTag = true
         selectGIFIPs.insert(beginIP)
@@ -302,7 +302,7 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: GIFListCell = collectionView.dequeueReusableCell(for: indexPath)
-        cell.update(isChoosed: selectGIFIPs.contains(indexPath), animate: false)
+        cell.setChoosed(selectGIFIPs.contains(indexPath), animate: false)
         
         cell.actionHandler = { [weak self] type in
             guard let sSelf = self, let cellIP = collectionView.indexPath(for: cell) else { return }
@@ -316,7 +316,7 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
                 sSelf.beginEditGIFsTag(from: cellIP)
                 
             case .showAllFrame:
-                break
+                sSelf.performSegue(withIdentifier: "showFrameList", sender: sSelf.gifList[cellIP.item].id)
             }
         }
         
@@ -342,15 +342,16 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
             collectionView.deselectItem(at: indexPath, animated: true)
         }
         
+        guard let cell = collectionView.cellForItem(at: indexPath) as? GIFListCell,
+                cell.imageView.animateImage != nil else { return }
+        
         if isEditingGIFsTag {
-            guard let cell = collectionView.cellForItem(at: indexPath) as? GIFListCell else { return }
-            
             if selectGIFIPs.contains(indexPath) {
                 selectGIFIPs.remove(indexPath)
-                cell.update(isChoosed: false, animate: true)
+                cell.setChoosed(false, animate: true)
             } else {
                 selectGIFIPs.insert(indexPath)
-                cell.update(isChoosed: true, animate: true)
+                cell.setChoosed(true, animate: true)
             }
             
         } else {
@@ -422,6 +423,7 @@ extension GIFListViewController {
         guard let tag = theTag, tag.id != currentTag?.id else { return }
         
         titleLabel.text = tag.localNameStr
+        titleLabel.sizeToFit()
         
         notifiToken?.stop()
         notifiToken = nil
@@ -446,6 +448,8 @@ extension GIFListViewController {
                     collectionView.reloadItems(at: modifications.map{ IndexPath(item: $0, section: 0) })
                 }, completion: nil)
                 
+                self?.updateFooter()
+            
             case .error(let err):
                 println(err.localizedDescription)
             }
@@ -482,7 +486,6 @@ extension GIFListViewController {
     }
     
     fileprivate func updateFooter() {
-        
         guard let footerIP = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionFooter).first,
             let footer = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionFooter, at: footerIP) as? GIFListFooter
         else { return }
@@ -501,6 +504,8 @@ extension GIFListViewController {
     public func scrollToShowCell(at index: Int) {
         if let lastSelectIP = selectIndexPath {
             collectionView.cellForItem(at: lastSelectIP)?.isHidden = false
+            collectionView.reloadItems(at: [lastSelectIP])
+            selectIndexPath = nil
         }
         
         let toShowIP = IndexPath(item: index, section: 0)

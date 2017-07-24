@@ -203,7 +203,6 @@ class NotGIFLibrary: NSObject {
         requestOptions.version = .unadjusted
         
         PHImageManager.default().requestImageData(for: gifAsset, options: requestOptions) { (gifData, _, _, _) in
-            
             if let gifData = gifData {
                 completionHandler((gifData, gif.posterImage))
             } else {
@@ -249,6 +248,10 @@ class NotGIFLibrary: NSObject {
         let infoStr = gifImage.info
         let averageSpeed = gifImage.totalDelayTime / TimeInterval(gifImage.frameCount)
         return (infoStr, averageSpeed)
+    }
+    
+    public subscript(gifID: String) -> NotGIFImage? {
+        return gifPool[gifID]
     }
     
     // MARK: - Init
@@ -321,5 +324,17 @@ public func prepareGIFLibrary() {
                 NotGIFLibrary.shared.prepare()
             }
         }
+    }
+}
+
+// MARK: - PHAsset
+extension PHAsset {
+    var isGIF: Bool {
+        guard let assetSource = PHAssetResource.assetResources(for: self).first else {
+            return false
+        }
+        
+        let uti = assetSource.uniformTypeIdentifier as CFString
+        return UTTypeConformsTo(uti, kUTTypeGIF)
     }
 }

@@ -69,3 +69,9 @@
 "title_fetching" = "fetching GIFs...";
 
 "prompt.tapToAddTag" = "Tap to add tag";
+"prompt.noGIF" = "Ouch ~ no GIF";
+
+"title_allFrame" = "All Frames";
+
+"title_saveImage" = "Save Picture";
+"title_saveSuccess" = "Save Successfully";

@@ -21,6 +21,8 @@ public enum AlertShowScene {
     case confirmRemoveGIF(Int, String)
     
     case confirmDeleteGIF(Int)
+    
+    case saveImage
 }
 
 typealias Completion = (() -> Void)
@@ -30,10 +32,11 @@ final class Alert {
     class func show(_ scene: AlertShowScene, in viewController: UIViewController? = nil, withConfirmAction confirmAction: Completion? = nil) {
         guard let vc = viewController ?? UIApplication.shared.keyWindow?.rootViewController else { return }
         
-        var title = "", message: String? = nil
+        var title: String? = nil, message: String? = nil
         var confirmTitle = String.trans_promptGetIt
         var showCancel: Bool = false
         var style: UIAlertControllerStyle = .alert
+        var isDestructive: Bool = true
         
         switch scene {
         case .badNetwork:
@@ -71,12 +74,18 @@ final class Alert {
             confirmTitle = String.trans_titleDeleteGIF(count)
             style = .actionSheet
             showCancel = true
+            
+        case .saveImage:
+            confirmTitle = String.trans_titleSaveImage
+            style = .actionSheet
+            showCancel = true
+            isDestructive = false
         }
         
-        alert(title: title, message: message, style: style, confirmTitle: confirmTitle, in: vc, showCancel: showCancel, confirmAction: confirmAction)
+        alert(title: title, message: message, style: style, confirmTitle: confirmTitle, isDestructive: isDestructive, in: vc, showCancel: showCancel, confirmAction: confirmAction)
     }
     
-    class func alert(title: String, message: String?, style: UIAlertControllerStyle, confirmTitle: String, in viewController: UIViewController?, showCancel: Bool = false, confirmAction: Completion?) {
+    fileprivate class func alert(title: String?, message: String?, style: UIAlertControllerStyle, confirmTitle: String, isDestructive: Bool = true, in viewController: UIViewController?, showCancel: Bool = false, confirmAction: Completion?) {
         
         DispatchQueue.main.safeAsync {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
@@ -88,7 +97,7 @@ final class Alert {
                 alertController.addAction(action)
             }
             
-            let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: style == .actionSheet ? .destructive : .default) { action in
+            let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: isDestructive ? .destructive : .default) { action in
                 confirmAction?()
             }
             

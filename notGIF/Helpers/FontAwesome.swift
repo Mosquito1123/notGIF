@@ -20,6 +20,8 @@ public enum FontUnicode: String {
     case tag     = "\u{f02c}"
     
     case checkO  = "\u{f05d}"   // f058
+    case doubleDown = "\u{f103}"
+    case singleDown = "\u{f107}"
     
     var string: String {
         return rawValue.substring(to: rawValue.characters.index(rawValue.startIndex, offsetBy: 1))
@@ -45,7 +47,7 @@ extension UILabel {
 
 extension UIButton {
     public convenience init(iconCode: FontUnicode, color: UIColor, fontSize: CGFloat) {
-        self.init()
+        self.init(type: .system)
         setAwesomeIcon(iconCode: iconCode, color: color, fontSize: fontSize)
     }
     

@@ -55,7 +55,7 @@ class PushDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 
                 detailView.alpha = 1
                 listVC.collectionView.alpha = 0
-                listCell.imageView.frame = imageFinalRect
+                imageView.frame = imageFinalRect
                 
             }, completion: { _ in
                 
@@ -67,6 +67,7 @@ class PushDetailAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 imageView.frame = imageOriginFrame
                 listCell.contentView.insertSubview(imageView, at: 0)
                 listCell.isInTransition = false
+//                listCell.isHidden = false
                 
                 detailVC.moveToolViewToView()
                 
