@@ -26,6 +26,7 @@
 		98FD09771EE7A6880078DEB0 /* UICollectionView+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FD09761EE7A6880078DEB0 /* UICollectionView+NG.swift */; };
 		98FD09781EE7A6880078DEB0 /* UICollectionView+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FD09761EE7A6880078DEB0 /* UICollectionView+NG.swift */; };
 		C90D1AD21EEC234500862CF5 /* CGGeometry+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90D1AD11EEC234500862CF5 /* CGGeometry+NG.swift */; };
+		C9133A7D1F293ABF00781270 /* SpeedSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9133A7C1F293ABF00781270 /* SpeedSettingCell.swift */; };
 		C91E0FA41EE4697700F56737 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E0FA31EE4697700F56737 /* RealmConfig.swift */; };
 		C920D7351F212330008D30D5 /* GIFDetailDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920D7341F212330008D30D5 /* GIFDetailDefaultView.swift */; };
 		C920D7591F21E808008D30D5 /* FrameListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C920D7581F21E808008D30D5 /* FrameListViewController.swift */; };
@@ -76,6 +77,13 @@
 		C947E0901DAA279900625B72 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C947E08F1DAA279900625B72 /* AppDelegate.swift */; };
 		C94D68101EED8C85004B8E5A /* StatusBarToast+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94D680F1EED8C85004B8E5A /* StatusBarToast+NG.swift */; };
 		C95B7AD91EE75EC1008E20BB /* String+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95B7AD81EE75EC1008E20BB /* String+NG.swift */; };
+		C95E67321F2632EE00FFC5FB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95E67311F2632EE00FFC5FB /* SettingsViewController.swift */; };
+		C95E67351F2710F200FFC5FB /* SelectActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95E67341F2710F200FFC5FB /* SelectActionCell.swift */; };
+		C95E67361F27232C00FFC5FB /* GIFActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94774C41F1F36D800277B89 /* GIFActionType.swift */; };
+		C95E67371F27233800FFC5FB /* OpenShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3F0CE1EED31BD0018943C /* OpenShare.swift */; };
+		C95E67381F27234B00FFC5FB /* Array+NG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9875BA81EF58315001ABCF4 /* Array+NG.swift */; };
+		C95E673C1F275D6800FFC5FB /* SettingsCommonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95E673B1F275D6800FFC5FB /* SettingsCommonCell.swift */; };
+		C95E673E1F27CA7500FFC5FB /* IntroDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95E673D1F27CA7500FFC5FB /* IntroDetailView.swift */; };
 		C962685E1EFE592500930A89 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962685D1EFE592500930A89 /* NibLoadable.swift */; };
 		C962685F1EFE5AE500930A89 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C962685D1EFE592500930A89 /* NibLoadable.swift */; };
 		C96268651EFFA91800930A89 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C96268641EFFA91800930A89 /* Launch Screen.storyboard */; };
@@ -172,6 +180,7 @@
 		99390F0FC548DA7E562C6B7B /* Pods-notGIF.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notGIF.debug.xcconfig"; path = "Pods/Target Support Files/Pods-notGIF/Pods-notGIF.debug.xcconfig"; sourceTree = "<group>"; };
 		B7989C9163A7614ED2EDFD44 /* Pods_notGIF.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notGIF.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C90D1AD11EEC234500862CF5 /* CGGeometry+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGGeometry+NG.swift"; sourceTree = "<group>"; };
+		C9133A7C1F293ABF00781270 /* SpeedSettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeedSettingCell.swift; sourceTree = "<group>"; };
 		C91E0FA31EE4697700F56737 /* RealmConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmConfig.swift; sourceTree = "<group>"; };
 		C920D7341F212330008D30D5 /* GIFDetailDefaultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GIFDetailDefaultView.swift; sourceTree = "<group>"; };
 		C920D7581F21E808008D30D5 /* FrameListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameListViewController.swift; sourceTree = "<group>"; };
@@ -221,6 +230,10 @@
 		C947E09B1DAA279900625B72 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C94D680F1EED8C85004B8E5A /* StatusBarToast+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StatusBarToast+NG.swift"; sourceTree = "<group>"; };
 		C95B7AD81EE75EC1008E20BB /* String+NG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+NG.swift"; sourceTree = "<group>"; };
+		C95E67311F2632EE00FFC5FB /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		C95E67341F2710F200FFC5FB /* SelectActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectActionCell.swift; sourceTree = "<group>"; };
+		C95E673B1F275D6800FFC5FB /* SettingsCommonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCommonCell.swift; sourceTree = "<group>"; };
+		C95E673D1F27CA7500FFC5FB /* IntroDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroDetailView.swift; sourceTree = "<group>"; };
 		C962685D1EFE592500930A89 /* NibLoadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibLoadable.swift; sourceTree = "<group>"; };
 		C96268641EFFA91800930A89 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C963F77D1ED85044004405EB /* NotGIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotGIF.swift; sourceTree = "<group>"; };
@@ -299,7 +312,6 @@
 			children = (
 				9811341A1EDE76FF00D4097D /* Main.storyboard */,
 				C94775101F1F4DDE00277B89 /* Base */,
-				C947751D1F1F4DDF00277B89 /* Intro */,
 				C94775161F1F4DDF00277B89 /* Drawer */,
 				C947751A1F1F4DDF00277B89 /* GIFList */,
 				C94775181F1F4DDF00277B89 /* GIFDetail */,
@@ -307,7 +319,9 @@
 				C920D7561F21E7EE008D30D5 /* FrameDetail */,
 				C94775221F1F4DDF00277B89 /* SidebarTagList */,
 				C94775201F1F4DDF00277B89 /* PopoverTagList */,
+				C95E67301F2632D900FFC5FB /* Settings */,
 				C94775121F1F4DDF00277B89 /* Compose */,
+				C947751D1F1F4DDF00277B89 /* Intro */,
 				C94775241F1F4DDF00277B89 /* Transition */,
 			);
 			path = Controllers;
@@ -400,6 +414,7 @@
 				C920D75C1F21E95A008D30D5 /* Frame */,
 				C94774D31F1F4BCA00277B89 /* GIF */,
 				C94774D71F1F4BCA00277B89 /* Tag */,
+				C95E67331F2710D200FFC5FB /* Settings */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -463,9 +478,10 @@
 		C94774E81F1F4BCA00277B89 /* Intro */ = {
 			isa = PBXGroup;
 			children = (
+				C94774EB1F1F4BCA00277B89 /* IntroView.swift */,
 				C94774E91F1F4BCA00277B89 /* IntroShareView.swift */,
 				C94774EA1F1F4BCA00277B89 /* IntroTagView.swift */,
-				C94774EB1F1F4BCA00277B89 /* IntroView.swift */,
+				C95E673D1F27CA7500FFC5FB /* IntroDetailView.swift */,
 			);
 			path = Intro;
 			sourceTree = "<group>";
@@ -505,9 +521,9 @@
 		C94775121F1F4DDF00277B89 /* Compose */ = {
 			isa = PBXGroup;
 			children = (
-				C94775131F1F4DDF00277B89 /* AccountTableViewController.swift */,
-				C94775141F1F4DDF00277B89 /* ComposeViewController.swift */,
 				C94775151F1F4DDF00277B89 /* MessageComposeViewController.swift */,
+				C94775141F1F4DDF00277B89 /* ComposeViewController.swift */,
+				C94775131F1F4DDF00277B89 /* AccountTableViewController.swift */,
 			);
 			path = Compose;
 			sourceTree = "<group>";
@@ -540,8 +556,8 @@
 		C947751D1F1F4DDF00277B89 /* Intro */ = {
 			isa = PBXGroup;
 			children = (
-				C947751E1F1F4DDF00277B89 /* Intro.storyboard */,
 				C947751F1F1F4DDF00277B89 /* IntroViewController.swift */,
+				C947751E1F1F4DDF00277B89 /* Intro.storyboard */,
 			);
 			path = Intro;
 			sourceTree = "<group>";
@@ -619,6 +635,24 @@
 				C947E09B1DAA279900625B72 /* Info.plist */,
 			);
 			name = Supporthings;
+			sourceTree = "<group>";
+		};
+		C95E67301F2632D900FFC5FB /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C95E67311F2632EE00FFC5FB /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		C95E67331F2710D200FFC5FB /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C95E67341F2710F200FFC5FB /* SelectActionCell.swift */,
+				C95E673B1F275D6800FFC5FB /* SettingsCommonCell.swift */,
+				C9133A7C1F293ABF00781270 /* SpeedSettingCell.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		C963F77B1ED85008004405EB /* Persistence */ = {
@@ -966,8 +1000,11 @@
 				98FD09711EE7A1160078DEB0 /* Reusable.swift in Sources */,
 				C94775001F1F4BCA00277B89 /* GIFListFooter.swift in Sources */,
 				C947E0901DAA279900625B72 /* AppDelegate.swift in Sources */,
+				C95E673E1F27CA7500FFC5FB /* IntroDetailView.swift in Sources */,
+				C9133A7D1F293ABF00781270 /* SpeedSettingCell.swift in Sources */,
 				C95B7AD91EE75EC1008E20BB /* String+NG.swift in Sources */,
 				C920D75B1F21E81C008D30D5 /* FrameDetailViewController.swift in Sources */,
+				C95E673C1F275D6800FFC5FB /* SettingsCommonCell.swift in Sources */,
 				C94775291F1F4DDF00277B89 /* ComposeViewController.swift in Sources */,
 				C9E3F1161EED41C40018943C /* GIFShareManager.swift in Sources */,
 				C94775341F1F4DDF00277B89 /* PushDetailAnimator.swift in Sources */,
@@ -994,6 +1031,7 @@
 				C94775091F1F4BCA00277B89 /* StatusBarToast.swift in Sources */,
 				C94775281F1F4DDF00277B89 /* AccountTableViewController.swift in Sources */,
 				C94775311F1F4DDF00277B89 /* PopoverTagListViewController.swift in Sources */,
+				C95E67321F2632EE00FFC5FB /* SettingsViewController.swift in Sources */,
 				C94775321F1F4DDF00277B89 /* SidebarTagListViewController.swift in Sources */,
 				C94774F51F1F4BCA00277B89 /* GIFDetailCell.swift in Sources */,
 				C94774FD1F1F4BCA00277B89 /* NotGIFImage.swift in Sources */,
@@ -1003,6 +1041,7 @@
 				C97FF6931F24C80800B75DC3 /* FrameDetailLayout.swift in Sources */,
 				C9BDEC911EE2FBC300EF99A8 /* FontAwesome.swift in Sources */,
 				C947752A1F1F4DDF00277B89 /* MessageComposeViewController.swift in Sources */,
+				C95E67351F2710F200FFC5FB /* SelectActionCell.swift in Sources */,
 				98540F481EF7DABB002EC443 /* ThrottleTimer.swift in Sources */,
 				C9D091191F247DE4006D2FB1 /* NavigationTitleLabel.swift in Sources */,
 				C947752C1F1F4DDF00277B89 /* GIFDetailViewController.swift in Sources */,
@@ -1036,6 +1075,7 @@
 				C994D9A71EDD7FAD00A0D6A8 /* ThreadHelper.swift in Sources */,
 				C9F861A91DBD1046006B1221 /* MGIFLisViewCell.swift in Sources */,
 				98A9FD6E1EE68DF1001A761D /* NotGIFLibrary.swift in Sources */,
+				C95E67371F27233800FFC5FB /* OpenShare.swift in Sources */,
 				C962685F1EFE5AE500930A89 /* NibLoadable.swift in Sources */,
 				C9C7DC321EE3FDDE002B26A0 /* ScreenSize.swift in Sources */,
 				98AFCB551ED928F500D64FBE /* UserDefaults.swift in Sources */,
@@ -1047,10 +1087,12 @@
 				98FD09721EE7A1160078DEB0 /* Reusable.swift in Sources */,
 				98AFCB561ED92A5000D64FBE /* Config.swift in Sources */,
 				C9E3F11D1EED69140018943C /* UIImage+NG.swift in Sources */,
+				C95E67361F27232C00FFC5FB /* GIFActionType.swift in Sources */,
 				C9E3F1141EED392A0018943C /* String+Trans.swift in Sources */,
 				C947750D1F1F4C3600277B89 /* HUD.swift in Sources */,
 				C947750A1F1F4C0500277B89 /* NotGIFImage.swift in Sources */,
 				98A9FD6F1EE68DF4001A761D /* NotGIFImageView+Load.swift in Sources */,
+				C95E67381F27234B00FFC5FB /* Array+NG.swift in Sources */,
 				9850BE321EEA50DE00D6CE88 /* String+NG.swift in Sources */,
 				C947750B1F1F4C0500277B89 /* NotGIFImageView.swift in Sources */,
 				98FD09751EE7A1D30078DEB0 /* UITableView+NG.swift in Sources */,

@@ -8,15 +8,14 @@
 
 import UIKit
 
+extension String {
+    var isUseful: Bool {
+        return !trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+}
+
 extension TimeInterval {
     var timeStr: String {
-//        if self >= 60 {
-//            let time = Int(floor(self))
-//            let minute = time / 60
-//            let second = time % 60
-//            return minute.str + ":" + second.str
-//        }
-        
         return String(format: "%.2f", self)
     }
 }

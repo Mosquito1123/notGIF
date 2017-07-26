@@ -27,10 +27,15 @@ class GIFListActionView: UIView {
         self.isForIntro = isForIntro
         
         cellMaskRect = cellRect
-        actionTypes = [.shareTo(.more), .shareTo(.twitter), .shareTo(.weibo), .shareTo(.wechat), .editTag, .showAllFrame]
         
-        if !OpenShare.canOpen(.wechat) {
-//            actionTypes.remove(.shareTo(.wechat))
+        if isForIntro {
+            actionTypes = GIFActionType.defaultActions
+        } else {
+            actionTypes = NGUserDefaults.customActions
+            
+            if !OpenShare.canOpen(.wechat) {
+                actionTypes.remove(.shareTo(.wechat))
+            }
         }
         
         let iconS: CGFloat = 36
@@ -55,7 +60,7 @@ class GIFListActionView: UIView {
             
             let iconViewFrame = CGRect(x: beignOx, y: baseOriginY, width: iconS, height: iconS)
             
-            let iconView = UIImageView(image: actionTypes[i].image(of: 24))
+            let iconView = UIImageView(image: actionTypes[i].icon)
             iconView.contentMode = .scaleAspectFit
             iconView.tintColor = UIColor.textTint
             

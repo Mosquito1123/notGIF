@@ -52,6 +52,7 @@ class NotGIFImageView: UIImageView {
                 
             } else {
                 stopAnimating()
+                currentFrame = nil
                 super.image = nil
                 layer.contents = nil
             }
@@ -78,8 +79,10 @@ class NotGIFImageView: UIImageView {
     }
     
     // MARK: - Change Speed
-    public func updateSpeed(_ speed: TimeInterval) {
-        guard manualSpeed != speed else { return }
+    public func updateSpeed(_ speed: TimeInterval?) {
+        guard let speed = speed else { manualSpeed = nil; return }
+        guard speed != manualSpeed else { return }
+        
         if #available(iOS 10.0, *) {
             displayLink?.preferredFramesPerSecond = speed < 0.02 ? 200 : 60
         } else {
@@ -138,7 +141,11 @@ class NotGIFImageView: UIImageView {
     }
     
     override func display(_ layer: CALayer) {
-        layer.contents = currentFrame.cgImage
+        if animateImage == nil {
+            layer.contents = nil
+        } else {
+            layer.contents = currentFrame.cgImage
+        }
     }
     
     override func startAnimating() {

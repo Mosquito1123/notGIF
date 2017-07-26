@@ -54,7 +54,7 @@ class PopoverTagListViewController: UIViewController {
         addItem.title = String.trans_titleAdd + " "
         
         cancelItem.setTitleTextAttributes([NSFontAttributeName: UIFont.menlo(ofSize: 16)], for: .normal)
-        addItem.setTitleTextAttributes([NSFontAttributeName: UIFont.menlo(ofSize: 16)], for: .normal)
+        addItem.setTitleTextAttributes([NSFontAttributeName: UIFont.menlo(ofSize: 16)], for: .normal)        
     }
     
     override func viewDidLoad() {

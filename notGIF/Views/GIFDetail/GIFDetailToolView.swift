@@ -82,7 +82,7 @@ class GIFDetailToolView: UIView {
         return view
     }()
     
-    init(delegate: GIFDetailToolViewDelegate) {
+    init(delegate: GIFDetailToolViewDelegate? = nil) {
         super.init(frame: CGRect(x: 0, y: kScreenHeight, width: kScreenWidth, height: height))
         makeUI()
         self.delegate = delegate
@@ -127,6 +127,7 @@ class GIFDetailToolView: UIView {
     
     func shareButtonClicked(button: UIButton) {
         guard let shareType = GIFActionType.ShareType(rawValue: button.tag) else { return }
+        hideShareBarButtonClicked()
         delegate?.shareTo(shareType)
     }
     
@@ -163,7 +164,7 @@ class GIFDetailToolView: UIView {
             case .share:
                 toolButton.setAwesomeIcon(iconCode: .share, color: UIColor.textTint, fontSize: 22)
             case .showAllFrame:
-                toolButton.setImage(#imageLiteral(resourceName: "icon_show_frame"), for: .normal)
+                toolButton.setImage(#imageLiteral(resourceName: "icon_all_frame"), for: .normal)
             default:
                 break
             }

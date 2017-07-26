@@ -20,6 +20,14 @@ class SidebarTagListViewController: UIViewController {
         return IQKeyboardManager.sharedManager().keyboardShowing
     }
 
+    @IBOutlet weak var settingButton: UIButton! {
+        didSet {
+            settingButton.tintColor = UIColor.textTint.withAlphaComponent(0.8)
+            settingButton.setTitleColor(UIColor.textTint.withAlphaComponent(0.8), for: .normal)
+            settingButton.setTitle(String.trans_titleSettings, for: .normal)
+        }
+    }
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.registerNibOf(TagListCell.self)
@@ -36,8 +44,16 @@ class SidebarTagListViewController: UIViewController {
         }
     }
     
+    @IBAction func showSettings(_ sender: Any) {
+        present(UIStoryboard.settingNav, animated: true) {
+            let drawer = self.parent as? DrawerViewController
+            drawer?.showOrDissmissSideBar()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.sideBarBg
         
         guard let realm = try? Realm() else { return }
         

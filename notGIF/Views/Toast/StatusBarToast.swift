@@ -26,7 +26,7 @@ final class StatusBarToast {
     
     static var textFont:            UIFont          = UIFont.systemFont(ofSize: 12)
     static var textColor:           UIColor         = UIColor.textTint
-    static var backgroundColor:     UIColor         = UIColor.bgColor
+    static var backgroundColor:     UIColor         = UIColor.commonBg
     static var duration:            TimeInterval    = 3
     static var animationDuration:   TimeInterval    = 0.4
     

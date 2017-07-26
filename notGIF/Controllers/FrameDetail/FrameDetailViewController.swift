@@ -37,7 +37,7 @@ class FrameDetailViewController: UIViewController {
         didSet {
             collectionView.setCollectionViewLayout(collectionLayout, animated: true)
             collectionView.decelerationRate = UIScrollViewDecelerationRateFast
-            collectionView.backgroundColor = UIColor.bgColor
+            collectionView.backgroundColor = UIColor.commonBg
         }
     }
     

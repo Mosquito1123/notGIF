@@ -87,6 +87,7 @@ class IntroTagView: UIView, Intro, UITableViewDelegate, UITableViewDataSource {
         makeUI()
     }
     
+    // MARK: - Intro Protocol
     func animate() {
         guard !animated else { return }
         animated = true
@@ -140,6 +141,7 @@ class IntroTagView: UIView, Intro, UITableViewDelegate, UITableViewDataSource {
         alpha = 0
     }
     
+    // MARK: - Helper
     fileprivate func makeUI() {
         
         // 750 * 1334

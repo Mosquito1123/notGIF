@@ -16,7 +16,7 @@ import MobileCoreServices
 
 class GIFDetailViewController: UIViewController {
     
-    public var gifList: Results<NotGIF>!
+    public var gifResults: Results<NotGIF>!
     fileprivate var notifiToken: NotificationToken?
     
     fileprivate var canPanToPop: Bool = false
@@ -71,7 +71,8 @@ class GIFDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = UIColor.commonBg
+        
         navigationItem.titleView = titleInfoLabel        
         setNotificationToken()
     }
@@ -84,7 +85,7 @@ class GIFDetailViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        guard gifList != nil, !gifList.isEmpty else { return }
+        guard gifResults != nil, !gifResults.isEmpty else { return }
         collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .left, animated: false)
     }
     
@@ -125,12 +126,12 @@ class GIFDetailViewController: UIViewController {
 extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if gifList != nil {
-            if gifList.isEmpty {
+        if gifResults != nil {
+            if gifResults.isEmpty {
                 defaultView.addTo(view)
                 toolView.setHidden(true, animated: false)
             }
-            return gifList.count
+            return gifResults.count
         } else {
             return 0
         }
@@ -144,7 +145,7 @@ extension GIFDetailViewController: UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? GIFDetailCell else { return }
         
-        let gif = gifList[indexPath.item]
+        let gif = gifResults[indexPath.item]
         cell.imageView.setGIFImage(with: gif.id, shouldPlay: true) {  _ in
 
         }
@@ -175,11 +176,11 @@ extension GIFDetailViewController: GIFDetailToolViewDelegate {
     }
     
     func addTag() {
-        performSegue(withIdentifier: "showAddTag", sender: gifList[currentIndex])
+        performSegue(withIdentifier: "showAddTag", sender: gifResults[currentIndex])
     }
     
     func removeTagOrGIF() {
-        let gifObject = gifList[currentIndex]
+        let gifObject = gifResults[currentIndex]
         
         func deleteGIF() {
             let assets = PHAsset.fetchAssets(withLocalIdentifiers: [gifObject.id], options: nil)
@@ -208,11 +209,11 @@ extension GIFDetailViewController: GIFDetailToolViewDelegate {
     }
     
     func shareTo(_ type: GIFActionType.ShareType) {
-        GIFShareManager.shareGIF(of: gifList[currentIndex].id, to: type)
+        GIFShareManager.shareGIF(of: gifResults[currentIndex].id, to: type)
     }
     
     func showAllFrame() {
-        performSegue(withIdentifier: "showFrameList", sender: gifList[currentIndex].id)
+        performSegue(withIdentifier: "showFrameList", sender: gifResults[currentIndex].id)
     }
 }
 
@@ -329,16 +330,16 @@ extension GIFDetailViewController: UIPopoverPresentationControllerDelegate {
 extension GIFDetailViewController {
     
     fileprivate func setNotificationToken() {
-        guard gifList != nil else { printLog("invaild gifList result"); return }
+        guard gifResults != nil else { printLog("invaild gifList result"); return }
         
-        notifiToken = gifList.addNotificationBlock { [weak self] changes in
+        notifiToken = gifResults.addNotificationBlock { [weak self] changes in
             guard let collectionView = self?.collectionView else { return }
             
             switch changes {
                 
             case .initial:
                 collectionView.reloadData()
-                self?.updateGIFInfo()
+                self?.updateGIFInfo(forceUpdate: true)
                 
             case .update(_, let deletions, let insertions, let modifications):
                 
@@ -356,12 +357,15 @@ extension GIFDetailViewController {
         }
     }
     
-    fileprivate func updateGIFInfo() {
-        currentIndex = Int(collectionView.contentOffset.x / kScreenWidth)
+    fileprivate func updateGIFInfo(forceUpdate: Bool = false) {
+        let index = Int(collectionView.contentOffset.x / kScreenWidth)
 
-        guard gifList != nil, !gifList.isEmpty else { return }
+        guard gifResults != nil, !gifResults.isEmpty,
+                 forceUpdate || index != currentIndex else { return }
+                
+        currentIndex = index
 
-        if let gifInfo = NotGIFLibrary.shared.getGIFInfo(of: gifList[currentIndex].id) {
+        if let gifInfo = NotGIFLibrary.shared.getGIFInfo(of: gifResults[currentIndex].id) {
             titleInfoLabel.info = gifInfo.0
             toolView.reset(withSpeed: gifInfo.1)
         } else {

@@ -40,6 +40,8 @@ class ComposeViewController: SLComposeServiceViewController {
         
         textView.tintColor = .black
         navigationController?.navigationBar.tintColor = .black
+        
+        validateContent()
     }
     
     // MARK: - Override SLComposeService
@@ -63,9 +65,13 @@ class ComposeViewController: SLComposeServiceViewController {
     }
     
     override func isContentValid() -> Bool {
-        let remainingCount = 140 - contentText.characters.count
-        charactersRemaining =  NSNumber(value: remainingCount)
-        return remainingCount < 0 ? false : true
+        if composeType == .weibo, !contentText.isUseful {
+            return false
+        } else {
+            let remainingCount = 140 - contentText.characters.count
+            charactersRemaining =  NSNumber(value: remainingCount)
+            return remainingCount < 0 ? false : true
+        }
     }
     
     override func didSelectCancel() {
@@ -76,7 +82,7 @@ class ComposeViewController: SLComposeServiceViewController {
         guard let account = selectedAccount else {
             return
         }
-
+        
         SLRequestManager.shareGIF(with: gifInfo.data, and: contentText, to: account)
         dismiss(animated: true, completion: nil)
     }

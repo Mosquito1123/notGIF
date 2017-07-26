@@ -10,17 +10,24 @@ import UIKit
 
 class IntroViewController: UIViewController {
 
+    static var isFromHelp: Bool = false
+    
     fileprivate var currentIndex = 0
     
     @IBOutlet var rightSwipeGes: UISwipeGestureRecognizer!
     @IBOutlet var leftSwipeGes: UISwipeGestureRecognizer!
     
+    @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var sloganView: IntroView!
     
     fileprivate var introViews: [Intro] = []
     
+    @IBAction func backButtonClicked(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
+    
     @IBAction func leftSwipeGesHandler(_ sender: UISwipeGestureRecognizer) {
-        guard currentIndex < 2 else { return }
+        guard currentIndex < introViews.count - 1 else { return }
         view.isUserInteractionEnabled = false
 
         let toShowView = introViews[currentIndex+1]
@@ -68,25 +75,53 @@ class IntroViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.barTint
+        
+        if !IntroViewController.isFromHelp {
+            backButton.isHidden = true
+        }
+        
         let introTagView = IntroTagView()
+        let introDetailView = IntroDetailView()
         let introShareView = IntroShareView()
         
         introTagView.transform = CGAffineTransform(translationX: kScreenWidth, y: 0)
         introTagView.alpha = 0.3
         
+        introDetailView.transform = CGAffineTransform(translationX: kScreenWidth, y: 0)
+        introDetailView.alpha = 0.3
+        
         introShareView.transform = CGAffineTransform(translationX: kScreenWidth, y: 0)
         introShareView.alpha = 0.3
         
-        introShareView.goMainHandler = {
-            NGUserDefaults.haveShowIntro = true
-            
-            UIApplication.shared.keyWindow?.set(rootViewController: UIStoryboard.main)
+        introShareView.goMainHandler = { [weak self] in
+            if IntroViewController.isFromHelp {
+                self?.navigationController?.popViewController(animated: true)
+            } else {
+                NGUserDefaults.haveShowIntro = true
+                UIApplication.shared.keyWindow?.set(rootViewController: UIStoryboard.main)
+            }
         }
         
         view.addSubview(introTagView)
+        view.addSubview(introDetailView)
         view.addSubview(introShareView)
         
-        introViews = [sloganView, introTagView, introShareView]
+        view.bringSubview(toFront: backButton)
+        
+        introViews = [sloganView, introTagView, introDetailView, introShareView]
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     deinit {

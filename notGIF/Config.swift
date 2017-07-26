@@ -16,23 +16,58 @@ final public class Config {
     
     static let urlScheme    = "notGIF://"
     
+    static let appleID      = "1069688631"
+    
+    static let appStoreCommentURL = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=\(Config.appleID)&pageNumber=0&sortOrdering=2&mt=8"
+    
     static let sideBarWidth = 0.72 * kScreenWidth    // -> Main.storybord
+    
+    static let maxCustomActionCount: Int = 5
     
     static var isChinese: Bool {
         return Locale.current.languageCode == "zh"
+    }
+    
+    static var version: String {
+        let info = Bundle.main.infoDictionary
+        return info?["CFBundleShortVersionString"] as? String ?? "Unknown"   // kCFBundleVersionKey
     }
 }
 
 // MARK: - Notification
 extension Notification.Name {
-    static let didSelectTag = Notification.Name("Config.Notification.didSelectTag")
-    static let hideStatusBar = Notification.Name("Config.Notification.hideStatusBar")
+    static let didSelectTag     = Notification.Name("Config.Notification.didSelectTag")
+    static let hideStatusBar    = Notification.Name("Config.Notification.hideStatusBar")
+    static let playSpeedChanged = Notification.Name("Config.Notification.playSpeedChanged")
+}
+
+// MARK: - Enum
+public enum PlaySpeedInList: Int, CustomStringConvertible {
+    case normal
+    case slow
+    
+    var value: TimeInterval? {
+        switch self {
+        case .normal:   return nil
+        case .slow:     return 0.2
+        }
+    }
+    
+    public var description: String {
+        switch self {
+        case .normal:   return String.trans_titleNormal
+        case .slow:     return String.trans_titleSlow
+        }
+    }
 }
 
 // MARK: - Color
 extension UIColor {
     static let textTint     = UIColor.hex(0xfbfbfb)
-    static let barTint      = UIColor.black
+    static let barTint      = UIColor.hex(0x010101)
+    
+    static let sideBarBg    = UIColor.hex(0x0d0d0d)
+    static let commonBg     = UIColor.hex(0x080808)     // 0x181818
     
     static let editYellow   = UIColor.hex(0xfe9402)
     static let deleteRed    = UIColor.hex(0xe74c3c)     // #f8523a
@@ -42,7 +77,6 @@ extension UIColor {
     
     static let darkText     = UIColor.hex(0x666666)
     static let lightText    = UIColor.hex(0x999999)     // 0x7f8c8d
-    static let bgColor      = UIColor.hex(0x181818)
 }
 
 // MARK: - Font

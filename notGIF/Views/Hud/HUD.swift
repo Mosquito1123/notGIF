@@ -60,7 +60,7 @@ class HUD {
         hud.customView = UILabel(iconCode: .checkO, color: UIColor.textTint, fontSize: 32)
         hud.margin = 18
         hud.contentColor = .textTint
-        hud.bezelView.color = .bgColor
+        hud.bezelView.color = .commonBg
         hud.label.text = text
         hud.label.font = UIFont.menlo(ofSize: 15)
         

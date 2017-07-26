@@ -59,7 +59,7 @@ extension NotGIFImageView {
         let task = NotGIFLibrary.shared.retrieveGIF(with: gifID) {[weak self] (gif, retrievedID, withTransition) in
             
             guard let sSelf = self, retrievedID == sSelf.localID
-                else { activityIndicator?.stopAnimating(); return }
+                else { activityIndicator?.stopAnimationAndHide(); return }
             
             sSelf.setImageTask(nil)
             
@@ -71,9 +71,9 @@ extension NotGIFImageView {
             DispatchQueue.main.safeAsync {
                 if withTransition {
                     UIView.transition(with: sSelf, duration: 0.0, options: [], animations: {
-                        activityIndicator?.stopAnimating()
+                        activityIndicator?.stopAnimationAndHide()
                     }, completion: { _ in
-                        UIView.transition(with: sSelf, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                        UIView.transition(with: sSelf, duration: 0.4, options: .transitionCrossDissolve, animations: {
                             setImage()
                         }, completion: { _ in
                             completionHandler?(gif)
@@ -81,7 +81,7 @@ extension NotGIFImageView {
                     })
                     
                 } else {
-                    activityIndicator?.stopAnimating()
+                    activityIndicator?.stopAnimationAndHide()
                     setImage()
                     completionHandler?(gif)
                 }
@@ -89,7 +89,7 @@ extension NotGIFImageView {
         }
         
         if task == nil {
-            activityIndicator?.stopAnimating()
+            activityIndicator?.stopAnimationAndHide()
         }
         
         setImageTask(task)
@@ -97,5 +97,12 @@ extension NotGIFImageView {
     
     public func cancelTask() {
         imageTask?.cancel()
+    }
+}
+
+fileprivate extension UIActivityIndicatorView {
+    func stopAnimationAndHide() {
+        stopAnimating()
+        isHidden = true
     }
 }

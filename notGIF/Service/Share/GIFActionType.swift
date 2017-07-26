@@ -20,30 +20,24 @@ public enum GIFActionType: Hashable, Equatable {
         case wechat
         case message
         
-        var iconCode: FontUnicode {
+        var icon: UIImage {
             switch self {
-            case .more:     return .share
-            case .twitter:  return .twitter
-            case .weibo:    return .weibo
-            case .wechat:   return .wechat
-            case .message:  return .message
+            case .more:     return #imageLiteral(resourceName: "icon_share")
+            case .twitter:  return #imageLiteral(resourceName: "icon_twitter")
+            case .weibo:    return #imageLiteral(resourceName: "icon_weibo")
+            case .wechat:   return #imageLiteral(resourceName: "icon_wechat")
+            case .message:  return #imageLiteral(resourceName: "icon_message")
             }
         }
-    }
-    
-    // MARK: - Helper
-    func image(of size: CGFloat, color: UIColor = UIColor.textTint) -> UIImage {
-        switch self {
-        case .shareTo(let sType):
-            var iconSize = CGSize(width: size, height: size)
-            if sType == .wechat {
-                iconSize = CGSize(width: size*0.9, height: size*0.78)
+        
+        var iconCode: FontUnicode {
+            switch self {
+                case .more:     return .share
+                case .twitter:  return .twitter
+                case .weibo:    return .weibo
+                case .wechat:   return .wechat
+                case .message:  return .message
             }
-            return UIImage.iCon(ofCode: sType.iconCode, size: iconSize, color: color)
-        case .showAllFrame:
-            return #imageLiteral(resourceName: "icon_show_frame")
-        case .editTag:
-            return UIImage.iCon(ofCode: FontUnicode.tag, size: .init(width: size*0.9, height: size*0.8), color: color)
         }
     }
     
@@ -53,9 +47,55 @@ public enum GIFActionType: Hashable, Equatable {
         case .shareTo(let sType):
             return sType.rawValue
         case .editTag:
-            return 99
+            return 111
         case .showAllFrame:
-            return 233
+            return 222
+        }
+    }
+    
+    // MARK: - Init
+    static func initWith(_ rawValue: Int) -> GIFActionType? {
+        switch rawValue {
+        case 0...4:
+            guard let shareType = ShareType(rawValue: rawValue) else { return nil }
+            return .shareTo(shareType)
+            
+        case 111:
+            return .editTag
+            
+        case 222:
+            return .showAllFrame
+            
+        default:
+            return nil
+        }
+    }
+    
+    static var defaultActions: [GIFActionType] {
+        var actions: [GIFActionType] = [
+            .shareTo(.more), .shareTo(.twitter), .shareTo(.weibo), .shareTo(.wechat),
+            .editTag, .showAllFrame
+        ]
+        
+        if OpenShare.canOpen(.wechat) {
+            actions.remove(.shareTo(.twitter))
+        } else {
+            actions.remove(.shareTo(.wechat))
+        }
+        
+        return actions
+    }
+    
+    static var allActionValues: [Int] {
+        return [0, 1, 2, 3, 4, 111, 222]
+    }
+    
+    // MARK: - Helper    
+    var icon: UIImage {
+        switch self {
+        case .shareTo(let sType):   return sType.icon
+        case .showAllFrame:         return #imageLiteral(resourceName: "icon_all_frame")
+        case .editTag:              return #imageLiteral(resourceName: "icon_tag")
         }
     }
 }

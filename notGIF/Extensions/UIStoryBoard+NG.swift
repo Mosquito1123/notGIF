@@ -25,4 +25,8 @@ extension UIStoryboard {
     static var frameDetail: FrameDetailViewController {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FrameDetailViewController") as! FrameDetailViewController
     }
+    
+    static var settingNav: BaseNavigationController {
+        return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingNavigationController") as! BaseNavigationController
+    }
 }

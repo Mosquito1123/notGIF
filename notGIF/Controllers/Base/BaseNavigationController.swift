@@ -15,6 +15,11 @@ class BaseNavigationController: UINavigationController {
         
         let bottmLine = getBottomLineView(in: navigationBar)
         bottmLine?.isHidden = true
+        
+        navigationBar.barTintColor = UIColor.barTint
+        navigationBar.isTranslucent = false
+        toolbar.barTintColor = UIColor.barTint
+        toolbar.isTranslucent = false
     }
         
     func getBottomLineView(in view: UIView) -> UIImageView? {

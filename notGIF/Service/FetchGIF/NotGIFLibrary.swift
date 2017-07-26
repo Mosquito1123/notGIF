@@ -90,7 +90,8 @@ class NotGIFLibrary: NSObject {
                 }
                 
             } else {     // 从 Photos 中获取 GIF
-                
+                NGUserDefaults.shouldAutoPlay = true  // 默认自动播放
+
                 let allGIFAssets = fetchAllGIFAssetsFromPhotos()
                 let defaultTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID)
                 
@@ -312,6 +313,8 @@ extension NotGIFLibrary: PHPhotoLibraryChangeObserver {
 
 // MARK: - Public Prepare GIF
 public func prepareGIFLibrary() {
+    setDefaultActions()
+    
     DispatchQueue.global().async {
         PHPhotoLibrary.requestAuthorization { status in
             guard status == .authorized else {
@@ -324,6 +327,14 @@ public func prepareGIFLibrary() {
                 NotGIFLibrary.shared.prepare()
             }
         }
+    }
+}
+
+/// 设置默认的动作列表
+fileprivate func setDefaultActions() {
+    if !NGUserDefaults.haveSetDefaultActions {
+        NGUserDefaults.customActions = GIFActionType.defaultActions
+        NGUserDefaults.haveSetDefaultActions = true
     }
 }
 

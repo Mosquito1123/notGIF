@@ -118,6 +118,58 @@ extension String {
     static var trans_titleSaveSuccess: String {
         return NSLocalizedString("title_saveSuccess", comment: "")
     }
+    
+    static var trans_titleSettings: String {
+        return NSLocalizedString("title_settings", comment: "")
+    }
+    
+    static var trans_titleTapToRemoveAction: String {
+        return NSLocalizedString("title_tap_to_remove_action", comment: "")
+    }
+    
+    static var trans_titleTapToAddAction: String {
+        return NSLocalizedString("title_tap_to_add_action", comment: "")
+    }
+    
+    static var trans_titleRateAppStore: String {
+        return NSLocalizedString("title_comment_app_store", comment: "")
+    }
+    
+    static var trans_titleHelp: String {
+        return NSLocalizedString("title_help", comment: "")
+    }
+    
+    static var trans_titleCustomAction: String {
+        return NSLocalizedString("title_customAction", comment: "")
+    }
+    
+    static var trans_introDetail: String {
+        return NSLocalizedString("title_intro_detail", comment: "")
+    }
+    
+    static var trans_introDetailMessage: String {
+        return NSLocalizedString("title_intro_detail_message", comment: "")
+    }
+    
+    static var trans_promptContentIsEmpty: String {
+        return NSLocalizedString("prompt_content_cannot_be_empty", comment: "")
+    }
+    
+    static var trans_titlePlaySpeedInList: String {
+        return NSLocalizedString("title_gif_play_speed_inlist", comment: "")
+    }
+    
+    static var trans_titleNormal: String {
+        return NSLocalizedString("title_normal", comment: "")
+    }
+    
+    static var trans_titleSlow: String {
+        return NSLocalizedString("title_slow", comment: "")
+    }
+    
+    static var trans_promptPlaySpeed: String {
+        return NSLocalizedString("prompt_gif_play_speed", comment: "")
+    }
 }
 
 // MARK: - Toast

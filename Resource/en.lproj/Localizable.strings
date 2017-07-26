@@ -59,11 +59,14 @@
 "title.add" = "Add";
 "title.add_done" = "Add done";
 
-"title_intro_tag" = "Look Up & Tag GIF";
+"title_intro_tag" = "Tag GIF";
 "title_intro_tag_messge" = "Automatic Updates from Photos";
 
-"title_intro_share" = "Play & Share GIF";
+"title_intro_share" = "Share GIF";
 "title_intro_share_message" = "Never worry about Dead GIF";
+
+"title_intro_detail" = "Play GIF";
+"title_intro_detail_message" = "Never miss every touching frame";
 
 "title_prepareing" = "preparing...";
 "title_fetching" = "fetching GIFs...";
@@ -75,3 +78,20 @@
 
 "title_saveImage" = "Save Picture";
 "title_saveSuccess" = "Save Successfully";
+
+"title_settings" = "Settings";
+
+"title_tap_to_remove_action" = "Tap to remove Action";
+"title_tap_to_add_action" = "Tap to add Action";
+
+"title_comment_app_store" = "Rate on App Store";
+"title_help" = "Help";
+"title_customAction" = "Custom quick action list";
+
+"prompt_content_cannot_be_empty" = "Content can't be Empty !";
+
+"title_gif_play_speed_inlist" = "Play speed in list";
+"prompt_gif_play_speed" = "Play speed of the GIF in the main interface list";
+"title_normal" = "Normal";
+"title_slow" = "Slow";
+

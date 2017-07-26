@@ -90,6 +90,8 @@ class IntroShareView: UIView, Intro {
         goMainHandler?()
     }
     
+    // MARK: - Intro Protocol
+    
     func animate() {
         guard !animated else { return }
         animated = true

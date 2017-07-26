@@ -14,6 +14,7 @@ public enum ToastShowScene {
     case postFailed(String)
     case requestFailed
     case gifNotPrepared
+    case contentIsEmpty
     case sthError
 }
 
@@ -29,7 +30,7 @@ extension StatusBarToast {
         case .posting:
             message = String.trans_sending
             duration = 60
-            StatusBarToast.backgroundColor = UIColor.bgColor
+            StatusBarToast.backgroundColor = UIColor.commonBg
             
         case .postSuccess:
             message = String.trans_postSuccess
@@ -50,6 +51,11 @@ extension StatusBarToast {
         case .gifNotPrepared:
             message = String.trans_gifNotPrepared
             StatusBarToast.backgroundColor = UIColor.failRed
+            
+        case .contentIsEmpty:
+            message = String.trans_promptContentIsEmpty
+            StatusBarToast.backgroundColor = UIColor.failRed
+            duration = 3.0
         }
         
         DispatchQueue.main.async {

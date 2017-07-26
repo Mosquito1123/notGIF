@@ -17,7 +17,6 @@ fileprivate var theContext: Void?
 
 class GIFListViewController: UIViewController {
     
-    public var gifList: Results<NotGIF>!
     public var selectIndexPath: IndexPath?
     
     public var shouldPlay: Bool {
@@ -39,10 +38,19 @@ class GIFListViewController: UIViewController {
         didSet { shouldPlay = !manualPaused }
     }
     
+    // data source
     fileprivate var currentTag: Tag?
+    fileprivate var gifResults: Results<NotGIF>!
     fileprivate var notifiToken: NotificationToken?
     fileprivate var couldShowList: Bool = false
     
+    // speed control
+    fileprivate lazy var lastDate = Date()
+    fileprivate var lastOffsetY: CGFloat = 0
+    fileprivate var controlSpeed: TimeInterval?
+    fileprivate var playSpeed: PlaySpeedInList = NGUserDefaults.playSpeedInList
+    
+    // edit tag
     fileprivate var isEditingGIFsTag: Bool = false
     fileprivate var selectGIFIPs: Set<IndexPath> = [] {
         didSet {
@@ -52,6 +60,7 @@ class GIFListViewController: UIViewController {
         }
     }
     
+    // subviews
     @IBOutlet weak var addTagItem: UIBarButtonItem!
     @IBOutlet weak var removeTagItem: UIBarButtonItem!
     
@@ -101,6 +110,9 @@ class GIFListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // set UI
+        view.backgroundColor = UIColor.commonBg
+        
         navigationItem.titleView = titleLabel
         
         navigationController?.setToolbarHidden(true, animated: false)
@@ -109,6 +121,7 @@ class GIFListViewController: UIViewController {
         manualPaused = !NGUserDefaults.shouldAutoPlay
         navigationItem.rightBarButtonItem = playControlItem
         
+        // observe data source
         NotGIFLibrary.shared.stateChangeHandler = { [weak self] state in
             DispatchQueue.main.async {
                 self?.updateUI(with: state)
@@ -117,7 +130,16 @@ class GIFListViewController: UIViewController {
         
         updateUI(with: NotGIFLibrary.shared.state)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(GIFListViewController.checkToUpdateGIFList(with:)), name: .didSelectTag, object: nil)
+        // add obersver
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(checkToUpdateGIFList(with:)),
+                                               name: .didSelectTag,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updatePlaySpeed(with:)),
+                                               name: .playSpeedChanged,
+                                               object: nil)
         
         #if DEBUG
             view.addSubview(FPSLabel())
@@ -149,7 +171,7 @@ class GIFListViewController: UIViewController {
             guard let detailVC = segue.destination as? GIFDetailViewController,
                     let selectIP = sender as? IndexPath else { return }
             detailVC.currentIndex = selectIP.item
-            detailVC.gifList = gifList
+            detailVC.gifResults = gifResults
             
         case "showAddTag":
             guard let addTagVC = (segue.destination as? UINavigationController)?.topViewController as? PopoverTagListViewController ,
@@ -194,7 +216,7 @@ class GIFListViewController: UIViewController {
     @IBAction func addTagItemClicked(_ sender: UIBarButtonItem) {
         guard !selectGIFIPs.isEmpty else { return }
         
-        let selectGIFs = selectGIFIPs.map{ gifList[$0.item] }
+        let selectGIFs = selectGIFIPs.map{ gifResults[$0.item] }
         performSegue(withIdentifier: "showAddTag", sender: selectGIFs)
     }
     
@@ -246,7 +268,7 @@ extension GIFListViewController {
     }
     
     fileprivate func removeChoosedGIF() {
-        let gifs = selectGIFIPs.map{ gifList[$0.item] }
+        let gifs = selectGIFIPs.map{ gifResults[$0.item] }
         
         try? Realm().write {
             currentTag?.gifs.remove(objectsIn: gifs)
@@ -257,7 +279,7 @@ extension GIFListViewController {
     }
     
     fileprivate func deleteChoosedGIF() {
-        let assetIDs = selectGIFIPs.map { gifList[$0.item].id }
+        let assetIDs = selectGIFIPs.map { gifResults[$0.item].id }
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: assetIDs, options: nil)
         
         PHPhotoLibrary.shared().performChanges({
@@ -288,13 +310,23 @@ extension GIFListViewController {
         NGUserDefaults.lastSelectTagID = selectTag.id
         showGIFList(of: selectTag)
     }
+    
+    func updatePlaySpeed(with noti: Notification) {
+        guard let newSpeed = noti.object as? PlaySpeedInList,
+                playSpeed != newSpeed else { return }
+        
+        playSpeed = newSpeed
+        collectionView.visibleCells
+            .flatMap { $0 as? GIFListCell }
+            .forEach { $0.imageView.updateSpeed(newSpeed.value) }
+    }
 }
 
 // MARK: - Collection Delegate
 extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if PHPhotoLibrary.authorizationStatus() == .authorized {
-            return (gifList == nil || !couldShowList) ? 0 : gifList.count
+            return (gifResults == nil || !couldShowList) ? 0 : gifResults.count
         } else {
             return 0
         }
@@ -302,21 +334,20 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: GIFListCell = collectionView.dequeueReusableCell(for: indexPath)
-        cell.setChoosed(selectGIFIPs.contains(indexPath), animate: false)
         
         cell.actionHandler = { [weak self] type in
             guard let sSelf = self, let cellIP = collectionView.indexPath(for: cell) else { return }
             
             switch type {
             case .shareTo(let sType):
-                let gifID = sSelf.gifList[cellIP.item].id
+                let gifID = sSelf.gifResults[cellIP.item].id
                 GIFShareManager.shareGIF(of: gifID, to: sType)
                 
             case .editTag:
                 sSelf.beginEditGIFsTag(from: cellIP)
                 
             case .showAllFrame:
-                sSelf.performSegue(withIdentifier: "showFrameList", sender: sSelf.gifList[cellIP.item].id)
+                sSelf.performSegue(withIdentifier: "showFrameList", sender: sSelf.gifResults[cellIP.item].id)
             }
         }
         
@@ -325,8 +356,11 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? GIFListCell else { return }
-                
-        cell.imageView.setGIFImage(with: gifList[indexPath.item].id, shouldPlay: shouldPlay) { gif in
+        let speed = playSpeed == .normal ? controlSpeed : playSpeed.value
+        
+        cell.setChoosed(selectGIFIPs.contains(indexPath), animate: false)
+        cell.imageView.setGIFImage(with: gifResults[indexPath.item].id, shouldPlay: shouldPlay) { gif in
+            cell.imageView.updateSpeed(speed)
             cell.timeLabel.text = gif.totalDelayTime.timeStr
         }
     }
@@ -379,11 +413,11 @@ extension GIFListViewController: UICollectionViewDelegate, UICollectionViewDataS
 extension GIFListViewController: GIFListLayoutDelegate {
     
     func ratioForImageAtIndexPath(indexPath: IndexPath) -> CGFloat {
-        return gifList[indexPath.item].ratio
+        return gifResults[indexPath.item].ratio
     }
 }
 
-// MARK: - Navigation Delegate
+// MARK: - Transition
 
 extension GIFListViewController: UINavigationControllerDelegate {
     
@@ -414,6 +448,32 @@ extension GIFListViewController: UIPopoverPresentationControllerDelegate {
     }
 }
 
+// MARK: - ScrollView Delegate
+extension GIFListViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard playSpeed == .normal else { return }
+        
+        let currentDate = Date()
+        let dateDiff = currentDate.timeIntervalSince(lastDate)
+        let offsetDiff = scrollView.contentOffset.y - lastOffsetY
+        
+        lastDate = currentDate
+        lastOffsetY = scrollView.contentOffset.y
+        
+        let speed = offsetDiff/CGFloat(dateDiff)
+
+        if fabs(speed) > 80 {
+            controlSpeed = 0.2
+        } else {
+            guard controlSpeed != nil else { return }
+            controlSpeed = nil
+            collectionView.visibleCells
+                .flatMap { $0 as? GIFListCell }
+                .forEach { $0.imageView.updateSpeed(nil) }
+        }
+    }
+}
+
 // MARK: - Helper Method
 
 extension GIFListViewController {
@@ -429,10 +489,10 @@ extension GIFListViewController {
         notifiToken = nil
                     
         currentTag = tag
-        gifList = tag.gifs.sorted(byKeyPath: "creationDate", ascending: false)
+        gifResults = tag.gifs.sorted(byKeyPath: "creationDate", ascending: false)
         
         // observe gif list
-        notifiToken = gifList.addNotificationBlock { [weak self] changes in
+        notifiToken = gifResults.addNotificationBlock { [weak self] changes in
             guard let collectionView = self?.collectionView else { return }
             switch changes {
                 
