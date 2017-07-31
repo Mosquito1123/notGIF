@@ -20,6 +20,12 @@ class MessagesViewController: MSMessagesAppViewController {
     fileprivate var notifiToken: NotificationToken?
     fileprivate var couldShowList: Bool = false
     
+    // speed control
+    fileprivate lazy var lastDate = Date()
+    fileprivate var lastOffsetY: CGFloat = 0
+    fileprivate var controlSpeed: TimeInterval?
+    fileprivate var playSpeed: PlaySpeedInList = NGUserDefaults.playSpeedInList
+    
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             let layout = UICollectionViewFlowLayout()
@@ -41,8 +47,12 @@ class MessagesViewController: MSMessagesAppViewController {
         prepareGIFLibrary()
         
         NotGIFLibrary.shared.stateChangeHandler = { [weak self] state in
-            self?.updateUI(with: state)
+            DispatchQueue.main.async {
+                self?.updateUI(with: state)
+            }
         }
+        
+        updateUI(with: NotGIFLibrary.shared.state)
     }
     
     // MARK: - Fetch GIF
@@ -50,7 +60,7 @@ class MessagesViewController: MSMessagesAppViewController {
     fileprivate func showAllGIF() {
         guard let realm = try? Realm() else { return }
         
-        gifList = realm.objects(NotGIF.self).sorted(byKeyPath: "creationDate", ascending: true)
+        gifList = realm.objects(NotGIF.self).sorted(byKeyPath: "creationDate", ascending: false)
         allTag = realm.object(ofType: Tag.self, forPrimaryKey: Config.defaultTagID)
         
         notifiToken = gifList.addNotificationBlock { [weak self] changes in
@@ -86,7 +96,7 @@ class MessagesViewController: MSMessagesAppViewController {
             showAllGIF()
             
         case .accessDenied, .error:
-            HUD.hide(in: collectionView)
+            HUD.hide(in: self.collectionView)
             collectionView.reloadData()
         }
     }
@@ -105,6 +115,22 @@ extension MessagesViewController: UICollectionViewDelegate, UICollectionViewData
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard let cell = cell as? MGIFListViewCell else { return }
+        
+        let speed = playSpeed == .normal ? controlSpeed : playSpeed.value
+        cell.imageView.setGIFImage(with: gifList[indexPath.item].id, shouldPlay: true) {
+            _ in
+            cell.imageView.updateSpeed(speed)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? MGIFListViewCell else { return }
+        cell.imageView.cancelTask()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let footer: GIFListFooter = collectionView.dequeueReusableFooter(for: indexPath)
         let authorizationStatus = PHPhotoLibrary.authorizationStatus()
@@ -116,18 +142,7 @@ extension MessagesViewController: UICollectionViewDelegate, UICollectionViewData
         
         return footer
     }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-        guard let cell = cell as? MGIFListViewCell else { return }
-        cell.imageView.setGIFImage(with: gifList[indexPath.item].id, shouldPlay: true) 
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? MGIFListViewCell else { return }
-        cell.imageView.cancelTask()
-    }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let conversation = activeConversation,
             let asset = NotGIFLibrary.shared.getAsset(with: gifList[indexPath.item].id) else { return }
@@ -142,6 +157,31 @@ extension MessagesViewController: UICollectionViewDelegate, UICollectionViewData
                     self.requestPresentationStyle(.compact)
                 }
             }
+        }
+    }
+}
+
+extension MessagesViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard playSpeed == .normal else { return }
+        
+        let currentDate = Date()
+        let dateDiff = currentDate.timeIntervalSince(lastDate)
+        let offsetDiff = scrollView.contentOffset.y - lastOffsetY
+        
+        lastDate = currentDate
+        lastOffsetY = scrollView.contentOffset.y
+        
+        let speed = offsetDiff/CGFloat(dateDiff)
+        
+        if fabs(speed) > 80 {
+            controlSpeed = 0.2
+        } else {
+            guard controlSpeed != nil else { return }
+            controlSpeed = nil
+            collectionView.visibleCells
+                .flatMap { $0 as? MGIFListViewCell }
+                .forEach { $0.imageView.updateSpeed(nil) }
         }
     }
 }
