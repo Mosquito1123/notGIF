@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import Buglife
 import RealmSwift
 import IQKeyboardManagerSwift
 
@@ -18,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+        setBuglife()
         setIQKeyboardManager()
         
         prepareRealm()
@@ -38,6 +39,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = false
         IQKeyboardManager.sharedManager().keyboardDistanceFromTextField = 20
         IQKeyboardManager.sharedManager().shouldShowTextFieldPlaceholder = false
+    }
+    
+    fileprivate func setBuglife() {
+        Buglife.shared().start(withEmail: Config.reportEmail)
+        Buglife.shared().appearance.barTintColor = UIColor.barTint
+        Buglife.shared().appearance.tintColor = UIColor.textTint
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

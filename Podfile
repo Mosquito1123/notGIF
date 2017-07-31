@@ -4,16 +4,17 @@ use_frameworks!
 
 def groupPods
     
-    pod 'MBProgressHUD'
-    pod 'RealmSwift'
+    pod 'MBProgressHUD', '~> 1.0'
+    pod 'RealmSwift', '~> 2.9'
 
 end
 
 def mainPods
 	
-    pod 'SnapKit'
-    pod 'ReachabilitySwift'
-	pod 'IQKeyboardManagerSwift', '~> 4.0.8'
+    pod 'SnapKit', '~> 3.2'
+    pod 'ReachabilitySwift', '~> 3.0'
+	pod 'IQKeyboardManagerSwift', '~> 4.0'
+    pod 'Buglife',  '~> 1.6'
 
 end
 

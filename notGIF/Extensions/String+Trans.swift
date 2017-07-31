@@ -170,6 +170,10 @@ extension String {
     static var trans_promptPlaySpeed: String {
         return NSLocalizedString("prompt_gif_play_speed", comment: "")
     }
+    
+    static var trans_titleReport: String {
+        return NSLocalizedString("title_report", comment: "")
+    }
 }
 
 // MARK: - Toast

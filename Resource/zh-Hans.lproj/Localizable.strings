@@ -93,3 +93,6 @@
 "prompt_gif_play_speed" = "主界面列表中 GIF 的播放速度";
 "title_normal" = "正常";
 "title_slow" = "慢速";
+
+"title_report" = "发送反馈";
+

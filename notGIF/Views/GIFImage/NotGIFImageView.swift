@@ -13,7 +13,7 @@ import UIKit
 class NotGIFImageView: UIImageView {
     
     public var shouldUpdateImmediately: Bool = true
-    public var currentFrame: UIImage!
+    public var currentFrame: UIImage?
     
     public var currentFrameIndex: Int {
         set {
@@ -55,6 +55,7 @@ class NotGIFImageView: UIImageView {
                 currentFrame = nil
                 super.image = nil
                 layer.contents = nil
+                layer.setNeedsDisplay()
             }
         }
     }
@@ -144,7 +145,7 @@ class NotGIFImageView: UIImageView {
         if animateImage == nil {
             layer.contents = nil
         } else {
-            layer.contents = currentFrame.cgImage
+            layer.contents = currentFrame?.cgImage
         }
     }
     

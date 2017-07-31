@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Buglife
 
 class SettingsViewController: UIViewController {
     
@@ -14,10 +15,10 @@ class SettingsViewController: UIViewController {
         case selectAction   = 0
         case setSpeed       = 10
         case help           = 20
-        case comment        = 30
+        case report         = 21
+        case comment        = 22
         
-        static let count = 4
-        static let rowCounts = [1, 1, 1, 1]
+        static let rowCounts = [1, 1, 3]
         
         init?(ip: IndexPath) {
             self.init(rawValue: ip.section*10 + ip.item)
@@ -29,8 +30,8 @@ class SettingsViewController: UIViewController {
         
         var description: String {
             switch self {
-            case .selectAction: return ""
-            case .setSpeed:     return ""
+            case .selectAction, .setSpeed: return ""
+            case .report:       return String.trans_titleReport
             case .comment:      return String.trans_titleRateAppStore
             case .help:         return String.trans_titleHelp
             }
@@ -75,7 +76,7 @@ class SettingsViewController: UIViewController {
 // MARK: - TableView Delegate
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Section.count
+        return Section.rowCounts.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -95,9 +96,10 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             cell.speedLabel.text = NGUserDefaults.playSpeedInList.description
             return cell
             
-        case .comment, .help:
+        case .comment, .report, .help:
             let cell: SettingsCommonCell = tableView.dequeueReusableCell()
-            cell.configureWith(section.description)
+            let hideSeparator = indexPath.item == tableView.numberOfRows(inSection: indexPath.section) - 1
+            cell.configureWith(section.description, hideSeparator: hideSeparator)
             return cell
         }
     }
@@ -118,6 +120,9 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             IntroViewController.isFromHelp = true
             performSegue(withIdentifier: "showHelp", sender: nil)
             
+        case .report:
+            Buglife.shared().presentReporter()
+            
         case .selectAction:
             break
         }
@@ -129,7 +134,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         switch section {
         case .selectAction:
             return SelectActionCell.height
-        case .setSpeed, .comment, .help:
+        case .setSpeed, .comment, .report, .help:
             return 50
         }
     }

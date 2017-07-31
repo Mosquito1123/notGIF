@@ -49,7 +49,6 @@ class SelectActionCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.backgroundColor = UIColor.commonBg
-        separatorInset = UIEdgeInsets(top: 0, left: kScreenWidth, bottom: 0, right: 0)
         selectionStyle = .none
         
         currentActions = NGUserDefaults.customActions

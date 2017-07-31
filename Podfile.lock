@@ -1,29 +1,32 @@
 PODS:
-  - IQKeyboardManagerSwift (4.0.9)
+  - Buglife (1.7.4)
+  - IQKeyboardManagerSwift (4.0.11)
   - MBProgressHUD (1.0.0)
   - ReachabilitySwift (3)
-  - Realm (2.6.2):
-    - Realm/Headers (= 2.6.2)
-  - Realm/Headers (2.6.2)
-  - RealmSwift (2.6.2):
-    - Realm (= 2.6.2)
+  - Realm (2.9.0):
+    - Realm/Headers (= 2.9.0)
+  - Realm/Headers (2.9.0)
+  - RealmSwift (2.9.0):
+    - Realm (= 2.9.0)
   - SnapKit (3.2.0)
 
 DEPENDENCIES:
-  - IQKeyboardManagerSwift (~> 4.0.8)
-  - MBProgressHUD
-  - ReachabilitySwift
-  - RealmSwift
-  - SnapKit
+  - Buglife (~> 1.6)
+  - IQKeyboardManagerSwift (~> 4.0)
+  - MBProgressHUD (~> 1.0)
+  - ReachabilitySwift (~> 3.0)
+  - RealmSwift (~> 2.9)
+  - SnapKit (~> 3.2)
 
 SPEC CHECKSUMS:
-  IQKeyboardManagerSwift: 2eefe6c429b86aa08bfbc1b5c891164d754adf91
+  Buglife: 91ddd56582bc74c0ffdeb56922f5be4d870ee343
+  IQKeyboardManagerSwift: 10f0a6b8ea2904c8943c0e1a116c99f5b8ad83af
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
-  Realm: 29222766425b9f831228f81b63f0e38a97a4d700
-  RealmSwift: d161a80f96cb91ae88391a7d5a9cf08024a7bc8e
+  Realm: f14ab1673502559cb16592ddb8f383c474c13e05
+  RealmSwift: 16ad2c187042c4934f49750375582fe508627dcb
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
 
-PODFILE CHECKSUM: 974f0805df093a24e29866d1a4cb454526a93b3e
+PODFILE CHECKSUM: 5b77817867fd820f1197aa2205acf6d101b65b13
 
 COCOAPODS: 1.2.0.beta.1

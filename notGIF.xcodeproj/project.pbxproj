@@ -649,8 +649,8 @@
 			isa = PBXGroup;
 			children = (
 				C95E67341F2710F200FFC5FB /* SelectActionCell.swift */,
-				C95E673B1F275D6800FFC5FB /* SettingsCommonCell.swift */,
 				C9133A7C1F293ABF00781270 /* SpeedSettingCell.swift */,
+				C95E673B1F275D6800FFC5FB /* SettingsCommonCell.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";

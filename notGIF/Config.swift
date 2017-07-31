@@ -10,7 +10,7 @@ import UIKit
 
 final public class Config {
 
-    static let appGroupID = "group.xyz.atuo.notGIF"
+    static let appGroupID   = "group.xyz.atuo.notGIF"
     
     static let defaultTagID = "not.all.gif.tagId"
     
@@ -19,6 +19,8 @@ final public class Config {
     static let appleID      = "1069688631"
     
     static let appStoreCommentURL = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=\(Config.appleID)&pageNumber=0&sortOrdering=2&mt=8"
+    
+    static let reportEmail  = "aaatuooo@gmail.com"
     
     static let sideBarWidth = 0.72 * kScreenWidth    // -> Main.storybord
     

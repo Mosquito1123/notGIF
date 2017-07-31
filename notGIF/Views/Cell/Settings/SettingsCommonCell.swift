@@ -16,6 +16,12 @@ class SettingsCommonCell: UITableViewCell {
         label.font = UIFont.menlo(ofSize: 16)
         return label
     }()
+    
+    fileprivate lazy var separator: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.hex(0xececec).withAlphaComponent(0.5)
+        return view
+    }()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -28,8 +34,9 @@ class SettingsCommonCell: UITableViewCell {
         makeUI()
     }
     
-    public func configureWith(_ text: String) {
+    public func configureWith(_ text: String, hideSeparator: Bool) {
         titleLabel.text = text
+        separator.isHidden = hideSeparator
         accessoryType = .disclosureIndicator
     }
     
@@ -38,10 +45,18 @@ class SettingsCommonCell: UITableViewCell {
     }
     
     fileprivate func makeUI() {
+        addSubview(separator)
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.left.equalTo(18)
             make.centerY.equalTo(contentView)
+        }
+        
+        separator.snp.makeConstraints { make in
+            make.left.equalTo(15)
+            make.right.equalTo(-15)
+            make.height.equalTo(0.5)
+            make.bottom.equalTo(0)
         }
     }
 }
